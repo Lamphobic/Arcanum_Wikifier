@@ -1,0 +1,111 @@
+[
+
+	{
+		"id":"nettle",
+		"name":"stinging nettle",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"icethorn",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"nightshade",
+		"tags":"herb,reagent,poison",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"blackrot",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"kingsfoil",
+		"name":"king's foil",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"belladonna",
+		"tags":"herb,reagent,poison",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"grimwort",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"manabell",
+		"desc":"the faintly glowing bulbs grow from ponds near ley-lines.",
+		"flavor":""
+	},
+	{
+		"id":"foxfire",
+		"desc":"",
+		"flavor":""
+	},
+	{
+
+		"id":"milkweed",
+		"tags":"herb,reagent,poison",
+		"desc":""
+	},
+	{
+		"id":"vikaroot",
+		"name":"vika root",
+		"desc":"legend holds there is only a single vika plant, its buried roots spanning hundreds of thousands of miles.",
+		"flavor":""
+	},
+	{
+		"id":"bloodgrass",
+		"name":"blood grass",
+		"desc":"cuts from its razor sharp blades provide the only sustenance it requires."
+
+	},
+	{
+		"id":"firethistle",
+		"name":"fire thistle",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":"it burns"
+	},
+	{
+		"id":"goldfel",
+		"name":"goldfel",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"lavender",
+		"tags":"herb,reagent",
+		"desc":"",
+		"flavor":"noone actually knows what lavender does."
+	},
+	{
+		"id":"oleander",
+		"tags":"herb,reagent,poison",
+		"desc":"",
+		"flavor":""
+	},
+	{
+		"id":"eyeofnewt",
+		"tags":"reagent",
+		"name":"eye of newt"
+	},
+	{
+		"id":"dragonscale",
+		"tags":"reagent",
+		"name":"dragon scales",
+		"desc":"plucked from a living dragon.",
+		"flavor":"the plucker might not still be living."
+	}
+]
