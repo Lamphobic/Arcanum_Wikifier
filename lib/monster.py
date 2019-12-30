@@ -150,6 +150,42 @@ def get_full_monster_list():
 		monster_list.append(monster_info(json_value))
 	return monster_list
 
+def monster_csv():
+	result_list = lib.get_json("data/", "monsters")
+	with open("monsters.csv", "w", encoding="UTF-8") as csv_dump:
+		csv_dump.write('Name;Notes;Level;HP;Defense bonus;Regen bonus;Tohit bonus;Speed bonus;Attack damage range;Immunity\n')
+		for json_value in result_list:
+			monster_json = monster_info(json_value)
+			csv_dump.write(str(monster_json['name']) +';;')
+			csv_dump.write(str(monster_json['level']) +';')
+			csv_dump.write(str(monster_json['hp']) +';')
+			csv_dump.write(str(monster_json['defense']) +';')
+			csv_dump.write(str(monster_json['regen']) +';')
+			csv_dump.write(str(monster_json['tohit']) +';')
+			csv_dump.write(str(monster_json['speed']) +';')
+			'''
+			if isinstance(monster_json['attack'], str):
+				csv_dump.write(str(monster_json['attack']))
+			else:
+				#if more than 1 attack
+				if isinstance(monster_json['attack'], list):
+					for attack_json in monster_json['attack']:
+						csv_dump.write(get_attack_info(attack_json))
+						csv_dump.write(',')
+				#if 1 attack
+				elif isinstance(monster_json['attack'], dict):
+					csv_dump.write(get_attack_info(monster_json['attack']))
+			'''
+			csv_dump.write(';')
+			if isinstance(monster_json['immunity'],str):
+				csv_dump.write(monster_json['immunity'])
+			else:
+				for immunity_name in monster_json['immunity']:
+					csv_dump.write(str(immunity_name) + ',')
+			csv_dump.write(';')
+
+
+			csv_dump.write('\n')
 
 
 def monster_wiki():

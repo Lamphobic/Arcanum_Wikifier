@@ -29,3 +29,8 @@ Locales
 Homes
 Potions
 '''
+
+'''
+TMP
+'''
+monster.monster_csv()
