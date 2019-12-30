@@ -5,25 +5,25 @@ List of the main schools of Theory of Magic
 |-
 ! Name !! Description !! tags !! Cost !! Consumption !! Stat Bonus !! Reward !! Requirement !! Need !! Level Scaling
 |-
-| <span id="lore">[[lore]]</span> || nothing is more important to a wizard than the depth of their lore. || t_school<br/> || research: 20<br/> || stamina: 0.2<br/> || research.max: 5<br/>spelllist.max: 0.5<br/>arcana.max: 1<br/> || arcana: 1<br/> || Nothing ||  || 1
+| <span id="lore">[[Lore]]</span> || nothing is more important to a wizard than the depth of their lore. || t_school<br/> || research: 20<br/> || stamina: 0.2<br/> || research max: 5<br/>spelllist max: 0.5<br/>arcana max: 1<br/> || arcana: 1<br/> || Nothing ||  || 1
 |-
-| <span id="lightlore">[[lumenology]]</span> || study of pure light || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>light.max: 1<br/>light.rate: 0.01<br/> ||  || Nothing || lightsource || 2
+| <span id="lightlore">[[Lumenology]]</span> || study of pure light || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>light max: 1<br/>light rate: 0.01<br/> ||  || Nothing || lightsource || 2
 |-
-| <span id="shadowlore">[[shadowlore]]</span> || None || t_school<br/> ||  || stamina: 0.5<br/> || research.max: 1<br/>shadow.max: 1<br/>shadow.rate: 0.01<br/> ||  || g.dissection>=3<br/>OR<br/>g.evil>0 || shadowsource || 2
+| <span id="shadowlore">[[Shadowlore]]</span> || None || t_school<br/> ||  || stamina: 0.5<br/> || research max: 1<br/>shadow max: 1<br/>shadow rate: 0.01<br/> ||  || g.dissection>=3<br/>OR<br/>g.evil>0 || shadowsource || 2
 |-
-| <span id="spiritlore">[[spirit lore]]</span> || seeing the unseen || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>spirit.max: 1<br/>spirit.rate: 0.01<br/> ||  || g.lore>=6 || spiritsource || 2
+| <span id="spiritlore">[[Spirit lore]]</span> || seeing the unseen || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>spirit max: 1<br/>spirit rate: 0.01<br/> ||  || g.lore>=6 || spiritsource || 2
 |-
-| <span id="firelore">[[pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research.max: 1<br/>fire.max: 1<br/>fire.rate: 0.01<br/> ||  || Nothing || firesource || 2
+| <span id="firelore">[[Pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research max: 1<br/>fire max: 1<br/>fire rate: 0.01<br/> ||  || Nothing || firesource || 2
 |-
-| <span id="earthlore">[[geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
+| <span id="earthlore">[[Geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
 |-
-| <span id="waterlore">[[water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
+| <span id="waterlore">[[Water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
 |-
-| <span id="airlore">[[wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research.max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
+| <span id="airlore">[[Wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
 |-
-| <span id="naturelore">[[nature lore]]</span> || None || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>nature: {'max': 1, 'rate': 0.01}<br/> ||  || g.herbalism>=3 ||  || 2
+| <span id="naturelore">[[Nature lore]]</span> || None || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>nature: {'max': 1, 'rate': 0.01}<br/> ||  || g.herbalism>=3 ||  || 2
 |-
-| <span id="chronomancy">[[chronomancy]]</span> || There must be a way... || t_school<br/> || sp: 5<br/> || stamina: 0.3<br/>research: 1<br/>mana: 1<br/> || tempus.max: 1<br/>tempus.rate: 0.001<br/> ||  || tier3 || timesource || 9
+| <span id="chronomancy">[[Chronomancy]]</span> || There must be a way... || t_school<br/> || sp: 5<br/> || stamina: 0.3<br/>research: 1<br/>mana: 1<br/> || tempus max: 1<br/>tempus rate: 0.001<br/> ||  || tier3 || timesource || 9
 |-
 |}
 ==Elemental School==
@@ -32,13 +32,13 @@ List of the elemental schools of Theory of Magic
 |-
 ! Name !! Description !! tags !! Cost !! Consumption !! Stat Bonus !! Reward !! Requirement !! Need !! Level Scaling
 |-
-| <span id="firelore">[[pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research.max: 1<br/>fire.max: 1<br/>fire.rate: 0.01<br/> ||  || Nothing || firesource || 2
+| <span id="firelore">[[Pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research max: 1<br/>fire max: 1<br/>fire rate: 0.01<br/> ||  || Nothing || firesource || 2
 |-
-| <span id="earthlore">[[geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
+| <span id="earthlore">[[Geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
 |-
-| <span id="waterlore">[[water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
+| <span id="waterlore">[[Water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
 |-
-| <span id="airlore">[[wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research.max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
+| <span id="airlore">[[Wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
 |-
 |}
 ==Evil only==
@@ -47,9 +47,9 @@ List of skill who need you to be evil
 |-
 ! Name !! Description !! tags !! Cost !! Consumption !! Stat Bonus !! Reward !! Requirement !! Need !! Level Scaling
 |-
-| <span id="reanimation">[[reanimation]]</span> || None ||  ||  || stamina: 0.5<br/>shadow: 0.1<br/> || shadow.rate: 0.01<br/>minions.maxAllies: 0.2<br/>necromancy.rate: 1%<br/> || sp: 0.05<br/> || g.evil>0<br/>g.embalming>=3 ||  || 1
+| <span id="reanimation">[[Reanimation]]</span> || None ||  ||  || stamina: 0.5<br/>shadow: 0.1<br/> || shadow rate: 0.01<br/>minions maxAllies: 0.2<br/>necromancy rate: 1%<br/> || sp: 0.05<br/> || g.evil>0<br/>g.embalming>=3 ||  || 1
 |-
-| <span id="necromancy">[[necromancy]]</span> || forbidden death magic. ||  || sp: 3<br/> || stamina: 0.4<br/>shadow: 0.5<br/> || reanimation.rate: 2%<br/>shadow.rate: 0.01<br/> || sp: 0.05<br/> || g.evil>0<br/>g.reanimation>=7<br/>g.souls.max>3 ||  || 1
+| <span id="necromancy">[[Necromancy]]</span> || forbidden death magic. ||  || sp: 3<br/> || stamina: 0.4<br/>shadow: 0.5<br/> || reanimation rate: 2%<br/>shadow rate: 0.01<br/> || sp: 0.05<br/> || g.evil>0<br/>g.reanimation>=7<br/>g.souls max>3 ||  || 1
 |-
 |}
 ==Good only==
@@ -64,122 +64,122 @@ List of skill who need you to be good
 |-
 ! Name !! Description !! tags !! Cost !! Consumption !! Stat Bonus !! Reward !! Requirement !! Need !! Level Scaling
 |-
-| <span id="hammerlore">[[hammerlore]]</span> || The anvil or the skull, it makes no difference. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.blunt: 1<br/>player.hits.blunt: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0<br/>OR<br/>g.titan>0 || armssource || 3
+| <span id="hammerlore">[[Hammerlore]]</span> || The anvil or the skull, it makes no difference. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.blunt: 1<br/>player.hits.blunt: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0<br/>OR<br/>g.titan>0 || armssource || 3
 |-
-| <span id="geosculpting">[[geosculpting]]</span> || Shape the earth to your will. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.defense: 1<br/>player.dodge: -1<br/>earthspire.mod.space.max: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0 ||  || 3
+| <span id="geosculpting">[[Geosculpting]]</span> || Shape the earth to your will. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.defense: 1<br/>player.dodge: -1<br/>earthspire.mod.space max: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0 ||  || 3
 |-
-| <span id="winterlore">❄️[[winter lore]]</span> || Study of winter legends ||  || research: 100<br/> ||  || livingsnow.max: 1<br/>snowman.max: 0.35<br/>research.max: 5<br/> ||  || evt_w_legend ||  || 1
+| <span id="winterlore">❄️[[Winter lore]]</span> || Study of winter legends ||  || research: 100<br/> ||  || livingsnow max: 1<br/>snowman max: 0.35<br/>research max: 5<br/> ||  || evt_w_legend ||  || 1
 |-
-| <span id="icelore">❄️[[cryomancy]]</span> || The study of cold incarnate. ||  || livingsnow: 10<br/> || stamina: 0.5<br/> || livingsnow.max: 2<br/>snowman.max: 1<br/>ice.max: 1<br/>ice.rate: 0.1<br/>frost.rate: 0.2<br/> || sp: 0.1<br/> || g.emblemofice>=1 ||  || 1
+| <span id="icelore">❄️[[Cryomancy]]</span> || The study of cold incarnate. ||  || livingsnow: 10<br/> || stamina: 0.5<br/> || livingsnow max: 2<br/>snowman max: 1<br/>ice max: 1<br/>ice rate: 0.1<br/>frost rate: 0.2<br/> || sp: 0.1<br/> || g.emblemofice>=1 ||  || 1
 |-
-| <span id="crafting">[[crafting]]</span> || an absolutely vital skill for a wizard to craft arcane items. ||  || research: 20<br/> || stamina: 0.5<br/> || research.max: 1<br/> || sp: 0.1<br/> || Nothing || workspace || 1
+| <span id="crafting">[[Crafting]]</span> || an absolutely vital skill for a wizard to craft arcane items. ||  || research: 20<br/> || stamina: 0.5<br/> || research max: 1<br/> || sp: 0.1<br/> || Nothing || workspace || 1
 |-
-| <span id="lore">[[lore]]</span> || nothing is more important to a wizard than the depth of their lore. || t_school<br/> || research: 20<br/> || stamina: 0.2<br/> || research.max: 5<br/>spelllist.max: 0.5<br/>arcana.max: 1<br/> || arcana: 1<br/> || Nothing ||  || 1
+| <span id="lore">[[Lore]]</span> || nothing is more important to a wizard than the depth of their lore. || t_school<br/> || research: 20<br/> || stamina: 0.2<br/> || research max: 5<br/>spelllist max: 0.5<br/>arcana max: 1<br/> || arcana: 1<br/> || Nothing ||  || 1
 |-
-| <span id="spellcraft">[[spellcraft]]</span> || the ability to build greater spells from lesser is what separates a practitioner from a master. ||  || sp: 5<br/> || stamina: 0.2<br/>research: 5<br/> || research.max: 5<br/>scraft: 1<br/>userSpells.max: 0.7<br/> ||  || g.tier2>0<br/>g.lore>=15 ||  || 8
+| <span id="spellcraft">[[Spellcraft]]</span> || the ability to build greater spells from lesser is what separates a practitioner from a master. ||  || sp: 5<br/> || stamina: 0.2<br/>research: 5<br/> || research max: 5<br/>scraft: 1<br/>userSpells max: 0.7<br/> ||  || g.tier2>0<br/>g.lore>=15 ||  || 8
 |-
-| <span id="concentrate">[[concentration]]</span> || keep your mind and nerves sharp under pressure. ||  ||  || stamina: 0.2<br/> || history.rate: 1%<br/>stress.max: 1<br/> ||  || (g.mustylibrary+g.loc_spring)>=2 ||  || 1
+| <span id="concentrate">[[Concentration]]</span> || keep your mind and nerves sharp under pressure. ||  ||  || stamina: 0.2<br/> || history rate: 1%<br/>stress max: 1<br/> ||  || (g.mustylibrary+g.loc_spring)>=2 ||  || 1
 |-
-| <span id="composure">[[composure]]</span> || remain unfazed under strain. ||  ||  || stamina: 0.3<br/> || stress.rate: -0.1<br/> ||  || g.concentrate>=4 ||  || 3
+| <span id="composure">[[Composure]]</span> || remain unfazed under strain. ||  ||  || stamina: 0.3<br/> || stress rate: -0.1<br/> ||  || g.concentrate>=4 ||  || 3
 |-
-| <span id="trickery">[[trickery]]</span> || None ||  || sp: 2<br/> || stamina: 0.2<br/>gold: 1<br/> || luck: 0.4<br/>dodge: 0.4<br/> || sp: 0.15<br/>arcana: 0.1<br/> || g.prestidigitation>25 ||  || 1
+| <span id="trickery">[[Trickery]]</span> || None ||  || sp: 2<br/> || stamina: 0.2<br/>gold: 1<br/> || luck: 0.4<br/>dodge: 0.4<br/> || sp: 0.15<br/>arcana: 0.1<br/> || g.prestidigitation>25 ||  || 1
 |-
-| <span id="conjuration">[[conjuration]]</span> ||  ||  ||  || stamina: 0.2<br/>spirit: 0.2<br/> || research.max: 1<br/>summoning.max: 0.2<br/>summoning.rate: 0.1<br/> || arcana: 0.2<br/>sp: 0.05<br/> || g.lore>=7<br/>g.divination>3 ||  || 1
+| <span id="conjuration">[[Conjuration]]</span> ||  ||  ||  || stamina: 0.2<br/>spirit: 0.2<br/> || research max: 1<br/>summoning max: 0.2<br/>summoning rate: 0.1<br/> || arcana: 0.2<br/>sp: 0.05<br/> || g.lore>=7<br/>g.divination>3 ||  || 1
 |-
-| <span id="runelore">[[runic lore]]</span> || study ancient dhrunic runes. ||  || sp: 3<br/> || stamina: 0.2<br/>research: 1<br/> || research.max: 5<br/>languages.rate: 0.1+2%<br/>languages.max: 0.2<br/>lore.rate: 0.1<br/>lore.max: 0.2<br/> || arcana: 0.1<br/>sp: 0.05<br/> || g.tier2>0<br/>g.dwarfbook>0 ||  || 7
+| <span id="runelore">[[Runic lore]]</span> || study ancient dhrunic runes. ||  || sp: 3<br/> || stamina: 0.2<br/>research: 1<br/> || research max: 5<br/>languages rate: 0.1+2%<br/>languages max: 0.2<br/>lore rate: 0.1<br/>lore max: 0.2<br/> || arcana: 0.1<br/>sp: 0.05<br/> || g.tier2>0<br/>g.dwarfbook>0 ||  || 7
 |-
-| <span id="animals">[[animal handling]]</span> || None ||  ||  || stamina: 0.5<br/> || research.max: 1<br/> || sp: 0.05<br/>research: 5<br/> || Nothing || t_pets || 1
+| <span id="animals">[[Animal handling]]</span> || None ||  ||  || stamina: 0.5<br/> || research max: 1<br/> || sp: 0.05<br/>research: 5<br/> || Nothing || t_pets || 1
 |-
-| <span id="magicbeasts">[[magic beasts]]</span> ||  ||  ||  || stamina: 0.7<br/> || animals.rate: 1%<br/>minions.maxAllies: 0.25<br/>research.max: 5<br/> || sp: 0.05<br/> || g.animals>=7<br/>g.naturelore>=5 ||  || 3
+| <span id="magicbeasts">[[Magic beasts]]</span> ||  ||  ||  || stamina: 0.7<br/> || animals rate: 1%<br/>minions maxAllies: 0.25<br/>research max: 5<br/> || sp: 0.05<br/> || g.animals>=7<br/>g.naturelore>=5 ||  || 3
 |-
-| <span id="charms">[[charms]]</span> || None ||  ||  || stamina: 0.3<br/> || research.max: 1<br/>minions.max: 10%<br/>minions.maxAllies: 1<br/> || sp: 0.05<br/> || g.enchanting>=5<br/>g.lore>=10 ||  || 3
+| <span id="charms">[[Charms]]</span> || None ||  ||  || stamina: 0.3<br/> || research max: 1<br/>minions max: 10%<br/>minions maxAllies: 1<br/> || sp: 0.05<br/> || g.enchanting>=5<br/>g.lore>=10 ||  || 3
 |-
-| <span id="herbalism">[[herbalism]]</span> || None ||  || research: 25<br/> || stamina: 0.25<br/> || research.max: 2<br/>herbs.max: 2<br/> || sp: 0.01<br/> || lore || plantsource || 1
+| <span id="herbalism">[[Herbalism]]</span> || None ||  || research: 25<br/> || stamina: 0.25<br/> || research max: 2<br/>herbs max: 2<br/> || sp: 0.01<br/> || lore || plantsource || 1
 |-
-| <span id="weaving">[[weaving]]</span> || None ||  ||  || stamina: 0.5<br/> || crafting.max: 0.2<br/>crafting.rate: 0.1+1%<br/> || sp: 0.05<br/> || Nothing || loom || 1
+| <span id="weaving">[[Weaving]]</span> || None ||  ||  || stamina: 0.5<br/> || crafting max: 0.2<br/>crafting rate: 0.1+1%<br/> || sp: 0.05<br/> || Nothing || loom || 1
 |-
-| <span id="languages">[[languages]]</span> || books and scrolls are written in many obscure languages. learn as many as possible. ||  || research: 10<br/> || stamina: 0.2<br/> || research.max: 5<br/>lore.rate: 0.1<br/> || sp: 0.05<br/> || lore ||  || 1
+| <span id="languages">[[Languages]]</span> || books and scrolls are written in many obscure languages. learn as many as possible. ||  || research: 10<br/> || stamina: 0.2<br/> || research max: 5<br/>lore rate: 0.1<br/> || sp: 0.05<br/> || lore ||  || 1
 |-
-| <span id="history">[[world lore]]</span> || the knowledge of what has come before reveals what is yet possible. ||  ||  || stamina: 0.2<br/> || research.max: 10<br/>arcana.max: 0.1<br/>languages.rate: 1%<br/> || sp: 0.05<br/> || g.languages>=7 ||  || 1
+| <span id="history">[[World lore]]</span> || the knowledge of what has come before reveals what is yet possible. ||  ||  || stamina: 0.2<br/> || research max: 10<br/>arcana max: 0.1<br/>languages rate: 1%<br/> || sp: 0.05<br/> || g.languages>=7 ||  || 1
 |-
-| <span id="anatomy">[[anatomy]]</span> || the study of physical form. ||  ||  || stamina: 0.5<br/> || research.max: 1<br/>hp.max: 1<br/>hp.rate: 0.1<br/> || sp: 0.05<br/> || g.neophyte>=0<br/>g.lore>=6 ||  || 2
+| <span id="anatomy">[[Anatomy]]</span> || the study of physical form. ||  ||  || stamina: 0.5<br/> || research max: 1<br/>hp max: 1<br/>hp rate: 0.1<br/> || sp: 0.05<br/> || g.neophyte>=0<br/>g.lore>=6 ||  || 2
 |-
-| <span id="dissection">[[dissection]]</span> || None ||  ||  || stamina: 0.5<br/> || research.max: 1<br/> || sp: 0.1<br/>bones: 1<br/> || Nothing || g.anatomy>=3 || 1
+| <span id="dissection">[[Dissection]]</span> || None ||  ||  || stamina: 0.5<br/> || research max: 1<br/> || sp: 0.1<br/>bones: 1<br/> || Nothing || g.anatomy>=3 || 1
 |-
-| <span id="embalming">[[embalming]]</span> || None ||  ||  || stamina: 0.5<br/> || research.max: 1<br/>shadow.rate: 0.01<br/> || sp: 0.05<br/> || g.dissection>=3 ||  || 1
+| <span id="embalming">[[Embalming]]</span> || None ||  ||  || stamina: 0.5<br/> || research max: 1<br/>shadow rate: 0.01<br/> || sp: 0.05<br/> || g.dissection>=3 ||  || 1
 |-
-| <span id="summoning">[[summoning]]</span> || None ||  || sp: 2<br/> || stamina: 0.7<br/> || minions.maxAllies: 1<br/>research.max: 5<br/>minions.max: 0.5<br/> ||  || g.tier1>0 ||  || 4
+| <span id="summoning">[[Summoning]]</span> || None ||  || sp: 2<br/> || stamina: 0.7<br/> || minions maxAllies: 1<br/>research max: 5<br/>minions max: 0.5<br/> ||  || g.tier1>0 ||  || 4
 |-
-| <span id="bloodlore">[[blood magic]]</span> || None ||  || sp: 3<br/> || stamina: 1<br/>hp: 1<br/> || anatomy.rate: 1%<br/>hp.max: 10<br/>hp.rate: 0.1<br/> ||  || (g.bloodmage+g.thanophage+g.alchemist)>0 ||  || 5
+| <span id="bloodlore">[[Blood magic]]</span> || None ||  || sp: 3<br/> || stamina: 1<br/>hp: 1<br/> || anatomy rate: 1%<br/>hp max: 10<br/>hp rate: 0.1<br/> ||  || (g.bloodmage+g.thanophage+g.alchemist)>0 ||  || 5
 |-
-| <span id="bladelore">[[bladelore]]</span> || Incorporate martial weapons into your magic. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.slash: 1<br/>player.bonuses.pierce: 1<br/>player.hits.slash: 1<br/>player.hits.pierce: 1<br/> || sp: 0.05<br/> || g.spellblade>0<br/>OR<br/>g.battlemage>0<br/>OR<br/>g.dreadlord>0 || armssource || 3
+| <span id="bladelore">[[Bladelore]]</span> || Incorporate martial weapons into your magic. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.slash: 1<br/>player.bonuses.pierce: 1<br/>player.hits.slash: 1<br/>player.hits.pierce: 1<br/> || sp: 0.05<br/> || g.spellblade>0<br/>OR<br/>g.battlemage>0<br/>OR<br/>g.dreadlord>0 || armssource || 3
 |-
-| <span id="divination">[[divination]]</span> || the art of foretelling ||  ||  || stamina: 0.4<br/> || research.max: 1<br/>spirit.rate: 0.01<br/> || sp: 0.05<br/> || g.spiritlore>=6<br/>OR<br/>g.mysticism>=5 || spiritsource || 1
+| <span id="divination">[[Divination]]</span> || the art of foretelling ||  ||  || stamina: 0.4<br/> || research max: 1<br/>spirit rate: 0.01<br/> || sp: 0.05<br/> || g.spiritlore>=6<br/>OR<br/>g.mysticism>=5 || spiritsource || 1
 |-
-| <span id="lightlore">[[lumenology]]</span> || study of pure light || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>light.max: 1<br/>light.rate: 0.01<br/> ||  || Nothing || lightsource || 2
+| <span id="lightlore">[[Lumenology]]</span> || study of pure light || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>light max: 1<br/>light rate: 0.01<br/> ||  || Nothing || lightsource || 2
 |-
-| <span id="shadowlore">[[shadowlore]]</span> || None || t_school<br/> ||  || stamina: 0.5<br/> || research.max: 1<br/>shadow.max: 1<br/>shadow.rate: 0.01<br/> ||  || g.dissection>=3<br/>OR<br/>g.evil>0 || shadowsource || 2
+| <span id="shadowlore">[[Shadowlore]]</span> || None || t_school<br/> ||  || stamina: 0.5<br/> || research max: 1<br/>shadow max: 1<br/>shadow rate: 0.01<br/> ||  || g.dissection>=3<br/>OR<br/>g.evil>0 || shadowsource || 2
 |-
-| <span id="spiritlore">[[spirit lore]]</span> || seeing the unseen || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>spirit.max: 1<br/>spirit.rate: 0.01<br/> ||  || g.lore>=6 || spiritsource || 2
+| <span id="spiritlore">[[Spirit lore]]</span> || seeing the unseen || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>spirit max: 1<br/>spirit rate: 0.01<br/> ||  || g.lore>=6 || spiritsource || 2
 |-
-| <span id="firelore">[[pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research.max: 1<br/>fire.max: 1<br/>fire.rate: 0.01<br/> ||  || Nothing || firesource || 2
+| <span id="firelore">[[Pyromancy]]</span> || the investigation of fire || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/>hp: 0.2<br/> || research max: 1<br/>fire max: 1<br/>fire rate: 0.01<br/> ||  || Nothing || firesource || 2
 |-
-| <span id="earthlore">[[geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
+| <span id="earthlore">[[Geomancy]]</span> || None || t_school<br/>elemental<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>earth: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || earthsource || 2
 |-
-| <span id="waterlore">[[water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
+| <span id="waterlore">[[Water lore]]</span> || the study of water || elemental<br/>t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>water: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || watersource || 2
 |-
-| <span id="airlore">[[wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research.max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
+| <span id="airlore">[[Wind lore]]</span> || the study of air || elemental<br/>t_school<br/> ||  || stamina: 0.3<br/> || research max: 1<br/>air: {'max': 1, 'rate': 0.01}<br/> ||  || Nothing || airsource || 2
 |-
-| <span id="naturelore">[[nature lore]]</span> || None || t_school<br/> ||  || stamina: 0.4<br/> || research.max: 1<br/>nature: {'max': 1, 'rate': 0.01}<br/> ||  || g.herbalism>=3 ||  || 2
+| <span id="naturelore">[[Nature lore]]</span> || None || t_school<br/> ||  || stamina: 0.4<br/> || research max: 1<br/>nature: {'max': 1, 'rate': 0.01}<br/> ||  || g.herbalism>=3 ||  || 2
 |-
-| <span id="firelore2">[[fire mastery]]</span> || a mastery of fire ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>fire: 0.5<br/> || firerune.max: 2<br/>fire.max: 1<br/>fire.rate: 1%<br/>player.bonuses.fire: 1<br/>player.hits.fire: 1<br/> ||  || g.firelore>=10 ||  || 10
+| <span id="firelore2">[[Fire mastery]]</span> || a mastery of fire ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>fire: 0.5<br/> || firerune max: 2<br/>fire max: 1<br/>fire rate: 1%<br/>player.bonuses.fire: 1<br/>player.hits.fire: 1<br/> ||  || g.firelore>=10 ||  || 10
 |-
-| <span id="waterlore2">[[water mastery]]</span> || a mastery of water ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>water: 0.5<br/> || waterrune.max: 2<br/>water.max: 1<br/>water.rate: 1%<br/>player.bonuses.water: 1<br/>player.hits.water: 1<br/> ||  || g.waterlore>=10 ||  || 10
+| <span id="waterlore2">[[Water mastery]]</span> || a mastery of water ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>water: 0.5<br/> || waterrune max: 2<br/>water max: 1<br/>water rate: 1%<br/>player.bonuses.water: 1<br/>player.hits.water: 1<br/> ||  || g.waterlore>=10 ||  || 10
 |-
-| <span id="airlore2">[[air mastery]]</span> || a mastery of air ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>air: 0.5<br/> || airrune.max: 2<br/>air.max: 1<br/>air.rate: 1%<br/>player.bonuses.air: 1<br/>player.hits.air: 1<br/> ||  || g.airlore>=10 ||  || 10
+| <span id="airlore2">[[Air mastery]]</span> || a mastery of air ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>air: 0.5<br/> || airrune max: 2<br/>air max: 1<br/>air rate: 1%<br/>player.bonuses.air: 1<br/>player.hits.air: 1<br/> ||  || g.airlore>=10 ||  || 10
 |-
-| <span id="hammerlore">[[hammerlore]]</span> || The anvil or the skull, it makes no difference. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.blunt: 1<br/>player.hits.blunt: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0<br/>OR<br/>g.titan>0 || armssource || 3
+| <span id="hammerlore">[[Hammerlore]]</span> || The anvil or the skull, it makes no difference. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.bonuses.blunt: 1<br/>player.hits.blunt: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0<br/>OR<br/>g.titan>0 || armssource || 3
 |-
-| <span id="geosculpting">[[geosculpting]]</span> || Bend the earth to your will. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.defense: 1<br/>player.dodge: -1<br/>earthspire.mod.space.max: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0 ||  || 3
+| <span id="geosculpting">[[Geosculpting]]</span> || Bend the earth to your will. ||  || sp: 2<br/> || stamina: 0.6<br/> || player.defense: 1<br/>player.dodge: -1<br/>earthspire.mod.space max: 1<br/> || sp: 0.05<br/> || g.geomancer>0<br/>OR<br/>g.earthshaker>0 ||  || 3
 |-
-| <span id="wizlore">[[Wizard Lore]]</span> || Many ask 'how?' Few think to ask, 'why?' ||  ||  || stamina: 1<br/>research: 50<br/>arcana: 0.5<br/> || lore.rate: 5%<br/>mana.rate: 3%<br/>research.rate: 2%<br/>arcana.rate: 1%<br/> ||  || (g.mage+g.highmage+g.wizard+g.wizard2+g.wizard3)>=2 ||  || 5
+| <span id="wizlore">[[Wizard lore]]</span> || Many ask 'how?' Few think to ask, 'why?' ||  ||  || stamina: 1<br/>research: 50<br/>arcana: 0.5<br/> || lore rate: 5%<br/>mana rate: 3%<br/>research rate: 2%<br/>arcana rate: 1%<br/> ||  || (g.mage+g.highmage+g.wizard+g.wizard2+g.wizard3)>=2 ||  || 5
 |-
-| <span id="earthlore2">[[earth mastery]]</span> || a mastery of earth ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>earth: 0.5<br/> || earthrune.max: 2<br/>earth.max: 1<br/>earth.rate: 1%<br/>player.bonuses.earth: 1<br/>player.hits.earth: 1<br/> ||  || g.earthlore>=10 ||  || 10
+| <span id="earthlore2">[[Earth mastery]]</span> || a mastery of earth ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>earth: 0.5<br/> || earthrune max: 2<br/>earth max: 1<br/>earth rate: 1%<br/>player.bonuses.earth: 1<br/>player.hits.earth: 1<br/> ||  || g.earthlore>=10 ||  || 10
 |-
-| <span id="shadowlore2">[[shadow mastery]]</span> || a mastery of shadow ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>shadow: 0.5<br/> || shadow.max: 1<br/>shadow.rate: 1%<br/>player.bonuses.shadow: 1<br/>player.hits.shadow: 1<br/> ||  || g.shadowlore>=10 ||  || 10
+| <span id="shadowlore2">[[Shadow mastery]]</span> || a mastery of shadow ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>shadow: 0.5<br/> || shadow max: 1<br/>shadow rate: 1%<br/>player.bonuses.shadow: 1<br/>player.hits.shadow: 1<br/> ||  || g.shadowlore>=10 ||  || 10
 |-
-| <span id="lightlore2">[[light mastery]]</span> || a mastery of light ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>light: 0.5<br/> || light.max: 1<br/>light.rate: 1%<br/>player.bonuses.light: 1<br/>player.hits.light: 1<br/> ||  || g.lightlore>=10 ||  || 10
+| <span id="lightlore2">[[Light mastery]]</span> || a mastery of light ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>light: 0.5<br/> || light max: 1<br/>light rate: 1%<br/>player.bonuses.light: 1<br/>player.hits.light: 1<br/> ||  || g.lightlore>=10 ||  || 10
 |-
-| <span id="spiritlore2">[[spirit mastery]]</span> || a mastery of spirit ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>spirit: 0.5<br/> || spirit.max: 1<br/>spirit.rate: 1%<br/>player.bonuses.spirit: 1<br/>player.hits.spirit: 1<br/> ||  || g.spiritlore>=10 ||  || 10
+| <span id="spiritlore2">[[Spirit mastery]]</span> || a mastery of spirit ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>spirit: 0.5<br/> || spirit max: 1<br/>spirit rate: 1%<br/>player.bonuses.spirit: 1<br/>player.hits.spirit: 1<br/> ||  || g.spiritlore>=10 ||  || 10
 |-
-| <span id="manalore2">[[arcane mastery]]</span> || a mastery of pure magic ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>mana: 0.5<br/> || mana.max: 1<br/>mana.rate: 1%<br/>player.bonuses.mana: 1<br/>player.hits.mana: 1<br/> ||  || g.lore>=20 ||  || 10
+| <span id="manalore2">[[Arcane mastery]]</span> || a mastery of pure magic ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>mana: 0.5<br/> || mana max: 1<br/>mana rate: 1%<br/>player.bonuses.mana: 1<br/>player.hits.mana: 1<br/> ||  || g.lore>=20 ||  || 10
 |-
-| <span id="naturelore2">[[nature mastery]]</span> || a mastery of nature ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>nature: 0.5<br/> || nature.max: 1<br/>nature.rate: 1%<br/>player.bonuses.nature: 1<br/>player.hits.nature: 1<br/> ||  || g.naturelore>=10 ||  || 10
+| <span id="naturelore2">[[Nature mastery]]</span> || a mastery of nature ||  || sp: 5<br/>tomes: 30<br/>runestones: 10<br/> || stamina: 1<br/>nature: 0.5<br/> || nature max: 1<br/>nature rate: 1%<br/>player.bonuses.nature: 1<br/>player.hits.nature: 1<br/> ||  || g.naturelore>=10 ||  || 10
 |-
-| <span id="demonology">[[demonology]]</span> || None ||  || sp: 2<br/> || stamina: 0.4<br/>hp: 1<br/> || arcana.max: 0.1<br/>lore.rate: 0.2<br/>research.max: 1<br/> || sp: 0.1<br/> || tier1 ||  || 4
+| <span id="demonology">[[Demonology]]</span> || None ||  || sp: 2<br/> || stamina: 0.4<br/>hp: 1<br/> || arcana max: 0.1<br/>lore rate: 0.2<br/>research max: 1<br/> || sp: 0.1<br/> || tier1 ||  || 4
 |-
-| <span id="reanimation">[[reanimation]]</span> || None ||  ||  || stamina: 0.5<br/>shadow: 0.1<br/> || shadow.rate: 0.01<br/>minions.maxAllies: 0.2<br/>necromancy.rate: 1%<br/> || sp: 0.05<br/> || g.evil>0<br/>g.embalming>=3 ||  || 1
+| <span id="reanimation">[[Reanimation]]</span> || None ||  ||  || stamina: 0.5<br/>shadow: 0.1<br/> || shadow rate: 0.01<br/>minions maxAllies: 0.2<br/>necromancy rate: 1%<br/> || sp: 0.05<br/> || g.evil>0<br/>g.embalming>=3 ||  || 1
 |-
-| <span id="necromancy">[[necromancy]]</span> || forbidden death magic. ||  || sp: 3<br/> || stamina: 0.4<br/>shadow: 0.5<br/> || reanimation.rate: 2%<br/>shadow.rate: 0.01<br/> || sp: 0.05<br/> || g.evil>0<br/>g.reanimation>=7<br/>g.souls.max>3 ||  || 1
+| <span id="necromancy">[[Necromancy]]</span> || forbidden death magic. ||  || sp: 3<br/> || stamina: 0.4<br/>shadow: 0.5<br/> || reanimation rate: 2%<br/>shadow rate: 0.01<br/> || sp: 0.05<br/> || g.evil>0<br/>g.reanimation>=7<br/>g.souls max>3 ||  || 1
 |-
-| <span id="potions">[[potions]]</span> || None ||  ||  || stamina: 0.5<br/> || alchemy.rate: 1%<br/>research.max: 2<br/> || sp: 0.05<br/> || g.crafting>=3<br/>g.alchemy>=1 || workspace<br/>potsource<br/> || 1
+| <span id="potions">[[Potions]]</span> || None ||  ||  || stamina: 0.5<br/> || alchemy rate: 1%<br/>research max: 2<br/> || sp: 0.05<br/> || g.crafting>=3<br/>g.alchemy>=1 || workspace<br/>potsource<br/> || 1
 |-
-| <span id="enchanting">[[enchanting]]</span> || imbue mundane gems and items with magical properties. ||  ||  || stamina: 0.4<br/>research: 1<br/> || charms.rate: 1%<br/> || sp: 0.05<br/>arcana: 0.1<br/> || g.tier0>0<br/>g.lore>=7 ||  || 1
+| <span id="enchanting">[[Enchanting]]</span> || imbue mundane gems and items with magical properties. ||  ||  || stamina: 0.4<br/>research: 1<br/> || charms rate: 1%<br/> || sp: 0.05<br/>arcana: 0.1<br/> || g.tier0>0<br/>g.lore>=7 ||  || 1
 |-
-| <span id="alchemy">[[alchemy]]</span> || None ||  ||  || stamina: 0.5<br/> || potions.rate: 1%<br/>research.max: 2<br/> || sp: 0.1<br/>research: 5<br/> || g.herbalism>=3 ||  || 1
+| <span id="alchemy">[[Alchemy]]</span> || None ||  ||  || stamina: 0.5<br/> || potions rate: 1%<br/>research max: 2<br/> || sp: 0.1<br/>research: 5<br/> || g.herbalism>=3 ||  || 1
 |-
-| <span id="astronomy">[[astronomy]]</span> || None ||  ||  || stamina: 0.5<br/> || planeslore.rate: 1%<br/>research.max: 2<br/> || sp: 0.05<br/> || Nothing || starsource || 1
+| <span id="astronomy">[[Astronomy]]</span> || None ||  ||  || stamina: 0.5<br/> || planeslore rate: 1%<br/>research max: 2<br/> || sp: 0.05<br/> || Nothing || starsource || 1
 |-
-| <span id="mysticism">[[mysticism]]</span> || the ability to sense the flow and flux of arcane energies. ||  ||  || stamina: 0.5<br/> || mana.max: 0.5<br/>arcana.rate: 0.001<br/>manas.rate: 0.02<br/> ||  || g.lore>=8 ||  || 1
+| <span id="mysticism">[[Mysticism]]</span> || the ability to sense the flow and flux of arcane energies. ||  ||  || stamina: 0.5<br/> || mana max: 0.5<br/>arcana rate: 0.001<br/>manas rate: 0.02<br/> ||  || g.lore>=8 ||  || 1
 |-
-| <span id="planeslore">[[planes lore]]</span> || farther than the stars and closer than your fingertips ||  || sp: 2<br/> || stamina: 0.7<br/>research: 1<br/>mana: 0.1<br/> || dist: 5%<br/>arcana.max: 1<br/>research.max: 1<br/> ||  || g.astronomy>=5<br/>g.tier1>0 ||  || 6
+| <span id="planeslore">[[Planes lore]]</span> || farther than the stars and closer than your fingertips ||  || sp: 2<br/> || stamina: 0.7<br/>research: 1<br/>mana: 0.1<br/> || dist: 5%<br/>arcana max: 1<br/>research max: 1<br/> ||  || g.astronomy>=5<br/>g.tier1>0 ||  || 6
 |-
-| <span id="astrallore">[[astral lore]]</span> || Anyone can see the stars. Few can read them. ||  || sp: 10<br/> || stamina: 1<br/>research: 10<br/>arcana: 1<br/> || sindel.rate: 0.0001<br/>sindel.max: 0.4<br/> ||  || g.planeslore>=25<br/>g.tier5>0 ||  || 10
+| <span id="astrallore">[[Astral lore]]</span> || Anyone can see the stars. Few can read them. ||  || sp: 10<br/> || stamina: 1<br/>research: 10<br/>arcana: 1<br/> || sindel rate: 0.0001<br/>sindel max: 0.4<br/> ||  || g.planeslore>=25<br/>g.tier5>0 ||  || 10
 |-
-| <span id="voidlore">[[void lore]]</span> || the absence of all things ||  || sp: 5<br/> || stamina: 0.7<br/>research: 5<br/>arcana: 0.1<br/> || space.max: 2%<br/>dist: 1%<br/>research.max: 1<br/> ||  || g.planeslore>=10<br/>g.tier5>0 ||  || 10
+| <span id="voidlore">[[Void lore]]</span> || the absence of all things ||  || sp: 5<br/> || stamina: 0.7<br/>research: 5<br/>arcana: 0.1<br/> || space max: 2%<br/>dist: 1%<br/>research max: 1<br/> ||  || g.planeslore>=10<br/>g.tier5>0 ||  || 10
 |-
-| <span id="chronomancy">[[chronomancy]]</span> || There must be a way... || t_school<br/> || sp: 5<br/> || stamina: 0.3<br/>research: 1<br/>mana: 1<br/> || tempus.max: 1<br/>tempus.rate: 0.001<br/> ||  || tier3 || timesource || 9
+| <span id="chronomancy">[[Chronomancy]]</span> || There must be a way... || t_school<br/> || sp: 5<br/> || stamina: 0.3<br/>research: 1<br/>mana: 1<br/> || tempus max: 1<br/>tempus rate: 0.001<br/> ||  || tier3 || timesource || 9
 |-
-| <span id="scrying">[[scrying]]</span> || None ||  ||  || stamina: 0.5<br/> || mana.max: 0.2<br/>research.max: 1<br/>dist: 1%<br/>arcana.max: 0.2<br/> ||  || g.divination>5 ||  || 1
+| <span id="scrying">[[Scrying]]</span> || None ||  ||  || stamina: 0.5<br/> || mana max: 0.2<br/>research max: 1<br/>dist: 1%<br/>arcana max: 0.2<br/> ||  || g.divination>5 ||  || 1
 |-
 |}

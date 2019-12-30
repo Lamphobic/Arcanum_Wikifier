@@ -45,6 +45,8 @@ def furniture_info(furniture_json):
 
 	if furniture_json.get('require') != None:
 		furniture['require'] = furniture_json.get('require')
+	elif furniture_json.get('need') != None:
+		furniture['require'] = furniture_json.get('need')
 	else: 
 		furniture['require'] = "Nothing"
 
@@ -99,7 +101,13 @@ def furniture_wiki():
 		table_line.append(str(tmp_cell))
 
 		# Requirement part
-		table_line.append(str(furniture_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
+		if isinstance(furniture_json['require'],list):
+			tmp_cell = ""
+			for requirement in furniture_json['require']:
+				tmp_cell += str(requirement) + '<br/>'
+			table_line.append(str(tmp_cell))
+		else:
+			table_line.append(str(furniture_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
 
 		table_lines.append(table_line)
 

@@ -80,9 +80,9 @@ def skill_wiki():
 		table_line = []
 		# NAME part
 		if skill_json.get('sym') != None:
-			table_line.append('| <span id="' + str(skill_json['id']) + '">' + skill_json['sym'] + '[[' +  str(skill_json['name']) + ']]</span>')
+			table_line.append('| <span id="' + str(skill_json['id']) + '">' + skill_json['sym'] + '[[' +  str(skill_json['name']).capitalize() + ']]</span>')
 		else:
-			table_line.append('| <span id="' + str(skill_json['id']) + '">[[' +  str(skill_json['name']) + ']]</span>')
+			table_line.append('| <span id="' + str(skill_json['id']) + '">[[' +  str(skill_json['name']).capitalize() + ']]</span>')
 
 		# Description part
 		table_line.append(str(skill_json['desc']))
@@ -137,19 +137,19 @@ def skill_wiki():
 	with open("skills.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write("\n==Main School==\n")
 		wiki_dump.write("List of the main schools of Theory of Magic\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'t_school' in cell"]]))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'t_school' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
 
 		wiki_dump.write("\n==Elemental School==\n")
 		wiki_dump.write("List of the elemental schools of Theory of Magic\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'elemental' in cell"]]))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'elemental' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
 
 		wiki_dump.write("\n==Evil only==\n")
 		wiki_dump.write("List of skill who need you to be evil\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil>0' in cell and not('OR' in cell)"]]))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil>0' in cell and not('OR' in cell)"]]).replace(".max", " max").replace(".rate", " rate"))
 
 		wiki_dump.write("\n==Good only==\n")
 		wiki_dump.write("List of skill who need you to be good\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil<=0' in cell and not('OR' in cell)"]]))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil<=0' in cell and not('OR' in cell)"]]).replace(".max", " max").replace(".rate", " rate"))
 
 		wiki_dump.write("\n==Full List==\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))

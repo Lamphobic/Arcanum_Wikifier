@@ -12,7 +12,7 @@ Increases maximum gold, and sometimes other valuable resources such as gems.:
 |-
 | <span id="ornatechest">[[Ornate chest]]</span> || Treasure chest. ||  || None || gold: 350<br/>gems: 5<br/>space: 3<br/> || inv max: 2<br/>gold max: 500<br/> || g.gold max>=500
 |-
-| <span id="cache">[[Buried cache]]</span> || A cache of treasure buried in the ground, protected by enchantment. ||  || 3 || space: 1<br/>research: 50<br/>gems: 3<br/>mana: 5<br/> || inv max: 1<br/>magicgems max: 2<br/>gold max: 200<br/>gems max: 10<br/> || Nothing
+| <span id="cache">[[Buried cache]]</span> || A cache of treasure buried in the ground, protected by enchantment. ||  || 3 || space: 1<br/>research: 50<br/>gems: 3<br/>mana: 5<br/> || inv max: 1<br/>magicgems max: 2<br/>gold max: 200<br/>gems max: 10<br/> || outdoors<br/>g.enchanting>0<br/>
 |-
 | <span id="vault">[[Vault]]</span> || A safe space for treasure. ||  || None || gold: 500<br/>space: 10<br/> || inv max: 2<br/>magicgems max: 10<br/>gembox max: 5<br/>gold max: 1800<br/>gems max: 20<br/> || g.space max>=25
 |-
@@ -86,7 +86,7 @@ List of every item used to be able to discover or use a skill:
 |-
 | <span id="brazier">[[Brazier]]</span> || Stand of burning hot coals. || firesource<br/>spiritsource<br/> || None || gold: 150<br/>space: 1<br/> || firelore max: 1<br/>fire rate: 0.02<br/> || g.tier0>0
 |-
-| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || Nothing
+| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || outdoors
 |-
 | <span id="bonfire">[[Bonfire]]</span> || a burning pyre for the practice of pyromancy. || firesource<br/> || 1 || fire: 4<br/>space: 2<br/> || firelore max: 1<br/>fire rate: 0.05<br/> || g.space max>=20
 |-
@@ -157,7 +157,7 @@ List of every item used to get a higher skill level:
 |-
 | <span id="brazier">[[Brazier]]</span> || Stand of burning hot coals. || firesource<br/>spiritsource<br/> || None || gold: 150<br/>space: 1<br/> || firelore max: 1<br/>fire rate: 0.02<br/> || g.tier0>0
 |-
-| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || Nothing
+| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || outdoors
 |-
 | <span id="bonfire">[[Bonfire]]</span> || a burning pyre for the practice of pyromancy. || firesource<br/> || 1 || fire: 4<br/>space: 2<br/> || firelore max: 1<br/>fire rate: 0.05<br/> || g.space max>=20
 |-
@@ -225,7 +225,7 @@ List of every item used to get a higher skill level:
 |-
 | <span id="burningcoals">[[Burning coals]]</span> || bed of burning coals || bed<br/> || 1 || fire: 10<br/>space: 2<br/> || firelore max: 1<br/>rest: {'effect': {'stamina': 0.35, 'manas': 0.1, 'fire': 0.2}}<br/> || g.fire>=10
 |-
-| <span id="cache">[[Buried cache]]</span> || A cache of treasure buried in the ground, protected by enchantment. ||  || 3 || space: 1<br/>research: 50<br/>gems: 3<br/>mana: 5<br/> || inv max: 1<br/>magicgems max: 2<br/>gold max: 200<br/>gems max: 10<br/> || Nothing
+| <span id="cache">[[Buried cache]]</span> || A cache of treasure buried in the ground, protected by enchantment. ||  || 3 || space: 1<br/>research: 50<br/>gems: 3<br/>mana: 5<br/> || inv max: 1<br/>magicgems max: 2<br/>gold max: 200<br/>gems max: 10<br/> || outdoors<br/>g.enchanting>0<br/>
 |-
 | <span id="vault">[[Vault]]</span> || A safe space for treasure. ||  || None || gold: 500<br/>space: 10<br/> || inv max: 2<br/>magicgems max: 10<br/>gembox max: 5<br/>gold max: 1800<br/>gems max: 20<br/> || g.space max>=25
 |-
@@ -281,7 +281,7 @@ List of every item used to get a higher skill level:
 |-
 | <span id="brazier">[[Brazier]]</span> || Stand of burning hot coals. || firesource<br/>spiritsource<br/> || None || gold: 150<br/>space: 1<br/> || firelore max: 1<br/>fire rate: 0.02<br/> || g.tier0>0
 |-
-| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || Nothing
+| <span id="campfire">[[Campfire]]</span> || None || firesource<br/> || 1 || space: 1<br/> || naturelore max: 1<br/>firelore max: 1<br/>fire rate: 0.05<br/> || outdoors
 |-
 | <span id="bonfire">[[Bonfire]]</span> || a burning pyre for the practice of pyromancy. || firesource<br/> || 1 || fire: 4<br/>space: 2<br/> || firelore max: 1<br/>fire rate: 0.05<br/> || g.space max>=20
 |-
