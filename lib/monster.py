@@ -163,20 +163,24 @@ def monster_csv():
 			csv_dump.write(str(monster_json['regen']) +';')
 			csv_dump.write(str(monster_json['tohit']) +';')
 			csv_dump.write(str(monster_json['speed']) +';')
-			'''
+
 			if isinstance(monster_json['attack'], str):
 				csv_dump.write(str(monster_json['attack']))
 			else:
 				#if more than 1 attack
 				if isinstance(monster_json['attack'], list):
 					for attack_json in monster_json['attack']:
-						csv_dump.write(get_attack_info(attack_json))
-						csv_dump.write(',')
+						csv_dump.write("direct: " + str(attack_json.get('dmg')))
+						if attack_json.get('dot') != None:
+							csv_dump.write(" and dot: " + str(attack_json.get('dot').get('dmg')))
+						csv_dump.write(",")
 				#if 1 attack
 				elif isinstance(monster_json['attack'], dict):
-					csv_dump.write(get_attack_info(monster_json['attack']))
-			'''
+					csv_dump.write("direct: " + str(monster_json['attack'].get('dmg')))
+					if monster_json['attack'].get('dot') != None:
+						csv_dump.write(" and dot: " + str(monster_json['attack'].get('dot').get('dmg')))
 			csv_dump.write(';')
+
 			if isinstance(monster_json['immunity'],str):
 				csv_dump.write(monster_json['immunity'])
 			else:

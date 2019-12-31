@@ -5,6 +5,25 @@ class Any(object):
         return True
 ANYTHING = Any()
 
+def recurs_json_to_str(json_value):
+    return_txt = ""
+
+    if isinstance(json_value, str) or isinstance(json_value, int):
+        return_txt += str(json_value)
+    elif isinstance(json_value, list):
+        for array_value in json_value:
+            return_txt += recurs_json_to_str(array_value)
+    elif isinstance(json_value, dict):
+        for dict_key in json_value:
+            if isinstance(json_value[dict_key], str):
+                return_txt += str(dict_key) + ": " + str(json_value[dict_key])
+            else:
+                return_txt += str(dict_key) + ": " + recurs_json_to_str(json_value[dict_key])
+    else:
+        print("error: " + str(json_value))
+    return return_txt
+
+
 def gen_dict_extract(key, var):
     if hasattr(var,'items'):
         for k, v in var.items():

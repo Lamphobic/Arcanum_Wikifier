@@ -6,23 +6,24 @@ import lib.dungeon as dungeon
 import lib.resource as resource
 import lib.furniture as furniture
 import lib.skill as skill
+import lib.spell as spell
 
 '''
 Finished
 '''
 #monster.monster_wiki()
 #dungeon.dungeon_wiki()
-furniture.furniture_wiki()
+#furniture.furniture_wiki()
+#skill.skill_wiki()
+spell.spell_wiki()
 
 '''
 Partially finished
 '''
 #resource.resource_wiki()
-skill.skill_wiki()
+
 '''
 Missing (in order of importance):
-Skills
-Spells
 Actions
 Upgrades
 Locales
@@ -33,4 +34,4 @@ Potions
 '''
 TMP
 '''
-monster.monster_csv()
+#monster.monster_csv()
