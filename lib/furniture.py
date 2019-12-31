@@ -45,7 +45,7 @@ def furniture_info(furniture_json):
 
 	if furniture_json.get('require') != None:
 		furniture['require'] = furniture_json.get('require')
-	elif furniture_json.get('need') != None:
+	if furniture_json.get('need') != None:
 		furniture['require'] = furniture_json.get('need')
 	else: 
 		furniture['require'] = "Nothing"
