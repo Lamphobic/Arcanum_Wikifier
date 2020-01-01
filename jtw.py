@@ -25,15 +25,15 @@ Finished
 #skill.skill_wiki()
 #spell.spell_wiki()
 #home.home_wiki()
-
+#potion.potion_wiki()
 '''
 Partially finished
 '''
 #resource.resource_wiki()
-potion.potion_wiki()
+tom_class.tom_class_wiki()
 '''
 Missing (in order of importance):
-Class
+
 Actions
 Upgrades
 Locales
