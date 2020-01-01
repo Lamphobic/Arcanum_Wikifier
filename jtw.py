@@ -8,6 +8,8 @@ import lib.furniture as furniture
 import lib.skill as skill
 import lib.spell as spell
 import lib.home as home
+import lib.potion as potion
+import lib.tom_class as tom_class
 
 '''{{{{}}}}
 TODO
@@ -22,20 +24,19 @@ Finished
 #furniture.furniture_wiki()
 #skill.skill_wiki()
 #spell.spell_wiki()
-
+#home.home_wiki()
 
 '''
 Partially finished
 '''
 #resource.resource_wiki()
-home.home_wiki()
+potion.potion_wiki()
 '''
 Missing (in order of importance):
+Class
 Actions
 Upgrades
 Locales
-Homes
-Potions
 '''
 
 '''
