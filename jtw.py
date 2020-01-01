@@ -17,7 +17,7 @@ TODO
 spell: blade and bladelore collide. json problem ?
 {{{}}}'''
 
-for arg in sys.argv:
+for arg in sys.argv[1:]:
 	if "monsters" in arg.lower():
 		monster.monster_wiki()
 	elif "dungeons" in arg.lower():
