@@ -158,6 +158,7 @@ def tom_class_wiki():
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
 
 
+
 	class_graph = graphviz.Digraph(engine='dot')
 	class_graph.attr(rankdir='TB', newrank="true", ranksep="2", constraint='false', fontsize="20")
 
