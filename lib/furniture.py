@@ -112,7 +112,7 @@ def generate_wiki():
 		table_lines.append(table_line)
 
 	with open("furnitures.txt", "w", encoding="UTF-8") as wiki_dump:
-		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n")
 		wiki_dump.write("Furniture is a type of item that can be placed in your home at the cost of floor space. They provide various benefits, but the most important, nonobvious benefit is the tags on furniture, since certain furniture tags can unlock certain actions or skills.\n")
 
 		wiki_dump.write("\n==Gold==\n")

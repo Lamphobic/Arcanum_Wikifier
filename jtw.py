@@ -76,9 +76,8 @@ def main(argv):
 			break
 
 	if online_update==True:
-		print("Automally uploading:")
+		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			print(str(page_names[i]))
 			wiki.bot_update(page_names[i], file_names[i])
 
 main(sys.argv)
