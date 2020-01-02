@@ -1,4 +1,5 @@
-import os, json
+import os, json, datetime
+import pywikibot
 
 def make_table(table_keys, table_lines, table_filter=None):
 	"""
@@ -35,3 +36,10 @@ def make_table(table_keys, table_lines, table_filter=None):
 				table_return += '\n|-\n'
 	table_return += '|}'
 	return table_return
+
+def bot_update(page_name, file_name):
+	with open(file_name, "r", encoding="UTF-8") as wiki_dump:
+		site = pywikibot.Site()  # The site we want to run our bot on
+		page = pywikibot.Page(site, page_name)
+		page.text = wiki_dump.read()
+		page.save('Automatic update from: ' + str(datetime.datetime.now()))  # Saves the page

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.wikilib as wiki
 import graphviz
@@ -175,7 +175,7 @@ def get_full_tom_class_list():
 	return tom_class_list
 
 
-def tom_class_wiki():
+def generate_wiki():
 	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Benefits', 'Requirement'] 
 	table_lines = []
 	tom_class_list = []
@@ -236,6 +236,7 @@ def tom_class_wiki():
 		table_lines.append(table_line)
 
 	with open("classes.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write("\n==Apprenticeship Classe==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[0, "'Apprentice' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
 
@@ -253,3 +254,5 @@ def tom_class_wiki():
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
 
 	tom_class_graph(tom_class_list)
+
+	return "classes.txt"

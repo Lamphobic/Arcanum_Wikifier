@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -71,7 +71,7 @@ def get_full_skill_list():
 
 
 
-def skill_wiki():
+def generate_wiki():
 	table_keys = ['Name', 'Description', 'tags', 'Cost', 'Consumption', 'Stat Bonus', 'Reward', 'Requirement', 'Need', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
@@ -135,6 +135,7 @@ def skill_wiki():
 		table_lines.append(table_line)
 
 	with open("skills.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write("\n==Main School==\n")
 		wiki_dump.write("List of the main schools of Theory of Magic\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'t_school' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
@@ -153,3 +154,5 @@ def skill_wiki():
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
+
+		return "skills.txt"

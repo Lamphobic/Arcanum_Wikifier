@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os, json, sys
+import lib.wikilib as wiki
 import lib.monster as monster
 import lib.dungeon as dungeon
 import lib.resource as resource
@@ -17,35 +18,70 @@ TODO
 spell: blade and bladelore collide. json problem ?
 {{{}}}'''
 
-for arg in sys.argv[1:]:
-	if "monsters" in arg.lower():
-		monster.monster_wiki()
-	elif "dungeons" in arg.lower():
-		dungeon.dungeon_wiki()
-	elif "furnitures" in arg.lower():
-		furniture.furniture_wiki()
-	elif "skills" in arg.lower():
-		skill.skill_wiki()
-	elif "spells" in arg.lower():
-		spell.spell_wiki()
-	elif "homes" in arg.lower():
-		home.home_wiki()
-	elif "potions" in arg.lower():
-		potion.potion_wiki()
-	elif "classes" in arg.lower():
-		tom_class.tom_class_wiki()
-	elif "all" in arg.lower():
-		monster.monster_wiki()
-		dungeon.dungeon_wiki()
-		furniture.furniture_wiki()
-		skill.skill_wiki()
-		spell.spell_wiki()
-		home.home_wiki()
-		potion.potion_wiki()
-		tom_class.tom_class_wiki()
-	else:
-		print("python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
-		break
+def main(argv):
+	print(argv)
+	online_update=False
+
+	for arg in argv[1:]:
+		if "-on" in arg.lower():
+			online_update=True
+	file_names = []
+	page_names = []
+	for arg in argv[1:]:
+		if "monsters" in arg.lower():
+			file_names.append(monster.generate_wiki())
+			page_names.append("Monsters")
+		elif "dungeons" in arg.lower():
+			file_names.append(dungeon.generate_wiki())
+			page_names.append("Dungeons")
+		elif "furnitures" in arg.lower():
+			file_names.append(furniture.generate_wiki())
+			page_names.append("Furniture")
+		elif "skills" in arg.lower():
+			file_names.append(skill.generate_wiki())
+			page_names.append("Skills")
+		elif "spells" in arg.lower():
+			file_names.append(spell.generate_wiki())
+			page_names.append("Spells")
+		elif "homes" in arg.lower():
+			file_names.append(home.generate_wiki())
+			page_names.append("Homes")
+		elif "potions" in arg.lower():
+			file_names.append(potion.generate_wiki())
+			page_names.append("Potions(item)")
+		elif "classes" in arg.lower():
+			file_names.append(tom_class.generate_wiki())
+			page_names.append("Classes")
+		elif "all" in arg.lower():
+			file_names.append(monster.generate_wiki())
+			page_names.append("Monsters")
+			file_names.append(dungeon.generate_wiki())
+			page_names.append("Dungeons")
+			file_names.append(furniture.generate_wiki())
+			page_names.append("Furniture")
+			file_names.append(skill.generate_wiki())
+			page_names.append("Skills")
+			file_names.append(spell.generate_wiki())
+			page_names.append("Spells")
+			file_names.append(home.generate_wiki())
+			page_names.append("Homes")
+			file_names.append(potion.generate_wiki())
+			page_names.append("Potions(item)")
+			#file_names.append(tom_class.generate_wiki())
+			#page_names.append("Classes")
+		elif "-on" in arg.lower():
+			pass
+		else:
+			print("python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
+			break
+
+	if online_update==True:
+		print("Automally uploading:")
+		for i in range(0,len(file_names)):
+			print(str(page_names[i]))
+			wiki.bot_update(page_names[i], file_names[i])
+
+main(sys.argv)
 
 '''
 Finished

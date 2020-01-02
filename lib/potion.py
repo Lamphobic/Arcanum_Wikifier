@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -54,7 +54,7 @@ def get_full_potion_list():
 
 #ID, name, flavor, size, tags, cost, effect, requirement
 
-def potion_wiki():
+def generate_wiki():
 	table_keys = ['Name', 'Description', 'Level', 'Unlock cost', 'Brewing cost', 'Effects'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "potions")
@@ -114,5 +114,8 @@ def potion_wiki():
 		table_lines.append(table_line)
 
 	with open("potions.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
+
+	return "potions.txt"

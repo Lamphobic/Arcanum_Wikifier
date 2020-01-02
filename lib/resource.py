@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 
 def resource_info(resource_json):
@@ -50,9 +50,10 @@ def get_full_resource_list():
 
 
 
-def resource_wiki():
+def generate_wiki():
 	result_list = lib.get_json("data/", "resources")
 	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write('{| class="wikitable sortable"\n')
 		wiki_dump.write('|-\n')
 		wiki_dump.write('! Name !! Description !! Tags !! Base maximum !! Is hidden !! Bonus \n')
@@ -81,3 +82,5 @@ def resource_wiki():
 				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
 			wiki_dump.write('\n')
 		wiki_dump.write('|}')
+
+		return "resources.txt"

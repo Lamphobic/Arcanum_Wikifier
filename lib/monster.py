@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.dungeon as dungeon
 
@@ -192,9 +192,10 @@ def monster_csv():
 			csv_dump.write('\n')
 
 
-def monster_wiki():
+def generate_wiki():
 	result_list = lib.get_json("data/", "monsters")
 	with open("monsters.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write('{| class="wikitable sortable"\n')
 		wiki_dump.write('|-\n')
 		wiki_dump.write('! Name !! data-sort-type="number"|Level !! data-sort-type="number"|HP !! data-sort-type="number"|Defense bonus !! data-sort-type="number"|Regen !! data-sort-type="number"|To hit bonus ')
@@ -249,3 +250,5 @@ def monster_wiki():
 
 			wiki_dump.write('\n')
 		wiki_dump.write('|}')
+
+	return "monsters.txt"

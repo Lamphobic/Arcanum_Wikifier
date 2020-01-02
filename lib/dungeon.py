@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, json
+import os, json, datetime
 import lib.extractlib as lib
 
 
@@ -99,12 +99,13 @@ def get_full_dungeon_list():
 	return dungeon_list
 
 
-def dungeon_wiki():
+def generate_wiki():
 	result_list = lib.get_json("data/", "dungeons")
 	path_to_json = "data/"
 	target_name = "dungeons"
 
 	with open("dungeons.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write('{| class="wikitable sortable"\n')
 		wiki_dump.write('|-\n')
 		wiki_dump.write('! Name !! data-sort-type="number"|Level !! data-sort-type="number"|Length !! Requirement !! Consumption !! Reward !! Encounters !! Boss\n')
@@ -149,3 +150,5 @@ def dungeon_wiki():
 
 			wiki_dump.write('\n')
 		wiki_dump.write('|}')
+
+		return "dungeons.txt"
