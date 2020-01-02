@@ -45,6 +45,7 @@ for arg in sys.argv[1:]:
 		tom_class.tom_class_wiki()
 	else:
 		print("python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
+		break
 
 '''
 Finished

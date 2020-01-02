@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 
-import os, json, sys
+import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.wikilib as wiki
+import pywikibot
 
 def extract_effect_key(effect_json):
 	return_txt = ""
@@ -181,9 +182,17 @@ def spell_wiki():
 		table_lines.append(table_line)
 
 	with open("spells.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('this page has been automatically updated the' + str(datetime.datetime.now()) + "\n")
+
 		for school_type in school_set:
 			wiki_dump.write("\n=="+ str(school_type).capitalize() + "==\n")
 			wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'" + str(school_type) + "' in cell"]]))
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))
+
+	with open("spells.txt", "r", encoding="UTF-8") as wiki_dump:
+		site = pywikibot.Site()  # The site we want to run our bot on
+		page = pywikibot.Page(site, 'Test')
+		page.text = wiki_dump.read()
+		page.save('Automatic update from: ' + str(datetime.datetime.now()))  # Saves the page

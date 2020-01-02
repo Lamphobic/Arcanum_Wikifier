@@ -1,0 +1,4 @@
+#LWP-Cookies-2.0
+Set-Cookie3: mediawiki_mw19Token=35aef728f18f15b28407de0ace7c49ae; path="/"; domain="159.203.169.186"; path_spec; expires="2020-06-30 12:09:47Z"; HttpOnly=None; version=0
+Set-Cookie3: mediawiki_mw19UserID=89; path="/"; domain="159.203.169.186"; path_spec; expires="2020-06-30 12:09:47Z"; HttpOnly=None; version=0
+Set-Cookie3: mediawiki_mw19UserName=Wikibot; path="/"; domain="159.203.169.186"; path_spec; expires="2020-06-30 12:09:47Z"; HttpOnly=None; version=0
