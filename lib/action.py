@@ -32,7 +32,7 @@ def get_effect_info(effect_json):
 
 def action_info(action_json):
 #Get every information of a action:
-#ID, name, description, cost, length, effect, upgrade, require
+#ID, name, description, cost, length, repeatable, effect, upgrade, require
 	action = {}
 	action['id'] = action_json.get('id')
 	if action_json.get('name') != None:
@@ -53,6 +53,11 @@ def action_info(action_json):
 		action['length']  = action_json.get('length')
 	else:
 		action['length']  = "Instant"
+
+	if action_json.get('repeat') != None:
+		action['repeat']  = action_json.get('repeat')
+	else:
+		action['repeat']  = True
 
 	action['effect']  = {}
 	if action_json.get('effect') != None:
@@ -82,7 +87,7 @@ def get_full_action_list():
 	return action_list
 
 def generate_wiki():
-	table_keys = ['Name', 'Description', 'Use cost', 'Length', 'Effect', 'Upgrade', 'Requirement'] 
+	table_keys = ['Name', 'Description', 'Use cost', 'Length', 'Repeatable', 'Effect', 'Upgrade', 'Requirement'] 
 	table_lines = []
 	school_set = set()
 	result_list = lib.get_json("data/", "actions")
@@ -112,6 +117,9 @@ def generate_wiki():
 		# Length part
 		table_line.append(str(action_json['length']))
 
+		# Length part
+		table_line.append(str(action_json['repeat']))
+
 		# Effect part
 		table_line.append(str(get_effect_info(action_json['effect'])))
 
@@ -140,6 +148,9 @@ def generate_wiki():
 
 		wiki_dump.write("\n==Time consuming actions==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[3, "not('Instant' in cell)"]]))
+
+		wiki_dump.write("\n==One time actions==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[4, "'False' in cell"]]))
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))
