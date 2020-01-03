@@ -11,6 +11,7 @@ import lib.spell as spell
 import lib.home as home
 import lib.potion as potion
 import lib.tom_class as tom_class
+import lib.action as action
 
 '''{{{{}}}}
 TODO
@@ -52,6 +53,9 @@ def main(argv):
 		elif "classes" in arg.lower():
 			file_names.append(tom_class.generate_wiki())
 			page_names.append("Classes")
+		elif "actions" in arg.lower():
+			file_names.append(action.generate_wiki())
+			page_names.append("Test")
 		elif "all" in arg.lower():
 			file_names.append(monster.generate_wiki())
 			page_names.append("Monsters")
@@ -67,8 +71,8 @@ def main(argv):
 			page_names.append("Homes")
 			file_names.append(potion.generate_wiki())
 			page_names.append("Potions(item)")
-			#file_names.append(tom_class.generate_wiki())
-			#page_names.append("Classes")
+			file_names.append(tom_class.generate_wiki())
+			page_names.append("Classes")
 		elif "-on" in arg.lower():
 			pass
 		else:
@@ -78,7 +82,10 @@ def main(argv):
 	if online_update==True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			wiki.bot_update(page_names[i], file_names[i])
+			if page_names[i] == "Classes":
+				print("can't upload classes yet: the manual page is better")
+			else:
+				wiki.bot_update(page_names[i], file_names[i])
 
 main(sys.argv)
 
