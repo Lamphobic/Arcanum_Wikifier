@@ -12,6 +12,7 @@ import lib.home as home
 import lib.potion as potion
 import lib.tom_class as tom_class
 import lib.action as action
+import lib.upgrade as upgrade
 
 '''{{{{}}}}
 TODO
@@ -55,6 +56,9 @@ def main(argv):
 			page_names.append("Classes")
 		elif "actions" in arg.lower():
 			file_names.append(action.generate_wiki())
+			page_names.append("Actions")
+		elif "upgrades" in arg.lower():
+			file_names.append(upgrade.generate_wiki())
 			page_names.append("Test")
 		elif "all" in arg.lower():
 			file_names.append(monster.generate_wiki())
@@ -73,6 +77,8 @@ def main(argv):
 			page_names.append("Potions(item)")
 			file_names.append(tom_class.generate_wiki())
 			page_names.append("Classes")
+			file_names.append(action.generate_wiki())
+			page_names.append("Actions")
 		elif "-on" in arg.lower():
 			pass
 		else:
@@ -90,17 +96,6 @@ def main(argv):
 main(sys.argv)
 
 '''
-Finished
-'''
-#monster.monster_wiki()
-#dungeon.dungeon_wiki()
-#furniture.furniture_wiki()
-#skill.skill_wiki()
-#spell.spell_wiki()
-#home.home_wiki()
-#potion.potion_wiki()
-#tom_class.tom_class_wiki()
-'''
 Partially finished
 '''
 #resource.resource_wiki()
@@ -108,8 +103,6 @@ Partially finished
 '''
 Missing (in order of importance):
 
-Actions
-Upgrades
 Locales
 '''
 

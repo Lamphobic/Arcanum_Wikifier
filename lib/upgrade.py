@@ -32,7 +32,7 @@ def get_effect_info(effect_json):
 
 def upgrade_info(upgrade_json):
 #Get every information of a upgrade:
-#ID, name, description, cost, length, repeatable, effect, upgrade, require
+#ID, name, description, cost, max, effect, require, need
 	upgrade = {}
 	upgrade['id'] = upgrade_json.get('id')
 	if upgrade_json.get('name') != None:
@@ -44,36 +44,38 @@ def upgrade_info(upgrade_json):
 
 	upgrade['desc']     = upgrade_json.get('desc')
 
+	if upgrade_json.get('tags') != None:
+		upgrade['tags'] = upgrade_json.get('tags').split(",")
+	else:
+		upgrade['tags'] = []
+
 	if upgrade_json.get('cost') != None:
 		upgrade['cost']  = upgrade_json.get('cost')
 	else:
 		upgrade['cost']  = {}
 
-	if upgrade_json.get('length') != None:
-		upgrade['length']  = upgrade_json.get('length')
+	if upgrade_json.get('max') != None:
+		upgrade['max']  = upgrade_json.get('max')
 	else:
-		upgrade['length']  = "Instant"
-
-	if upgrade_json.get('repeat') != None:
-		upgrade['repeat']  = upgrade_json.get('repeat')
-	else:
-		upgrade['repeat']  = True
+		upgrade['max']  = "1"
 
 	upgrade['effect']  = {}
 	if upgrade_json.get('effect') != None:
 		upgrade['effect']['effect']  = upgrade_json.get('effect')
 	if upgrade_json.get('result') != None:
 		upgrade['effect']['result']  = upgrade_json.get('result')
-
-	if upgrade_json.get('at') != None:
-		upgrade['upgrade'] = upgrade_json.get('at')
-	else: 
-		upgrade['upgrade'] = "No"		
+	if upgrade_json.get('mod') != None:
+		upgrade['effect']['mod']  = upgrade_json.get('mod')
 
 	if upgrade_json.get('require') != None:
 		upgrade['require'] = upgrade_json.get('require')
 	else: 
 		upgrade['require'] = "Nothing"
+
+	if upgrade_json.get('need') != None:
+		upgrade['need'] = upgrade_json.get('need')
+	else: 
+		upgrade['need'] = "Nothing"
 
 	return upgrade
 
@@ -87,7 +89,7 @@ def get_full_upgrade_list():
 	return upgrade_list
 
 def generate_wiki():
-	table_keys = ['Name', 'Description', 'Use cost', 'Length', 'Repeatable', 'Effect', 'Upgrade', 'Requirement'] 
+	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Max', 'Effect', 'Requirement', 'Need to have'] 
 	table_lines = []
 	school_set = set()
 	result_list = lib.get_json("data/", "upgrades")
@@ -103,6 +105,12 @@ def generate_wiki():
 		# Description part
 		table_line.append(str(upgrade_json['desc']))
 
+		# Tags part
+		tmp_cell = ""
+		for tag in upgrade_json['tags']:
+			tmp_cell += str(tag) + "<br/>"
+		table_line.append(str(tmp_cell))
+
 		# cost part
 		tmp_cell = ""
 		if isinstance(upgrade_json['cost'],str):
@@ -114,43 +122,22 @@ def generate_wiki():
 				tmp_cell += (str(mod_key) + ": " + str(upgrade_json['cost'][mod_key]) + '<br/>')
 		table_line.append(str(tmp_cell))
 
-		# Length part
-		table_line.append(str(upgrade_json['length']))
-
-		# Length part
-		table_line.append(str(upgrade_json['repeat']))
+		# Description part
+		table_line.append(str(upgrade_json['max']))
 
 		# Effect part
 		table_line.append(str(get_effect_info(upgrade_json['effect'])))
 
-		# Upgrade part 
-		tmp_cell = ""
-		if isinstance(upgrade_json['upgrade'],str):
-			tmp_cell += (str(upgrade_json['upgrade']))
-		else:
-			for level_key in upgrade_json['upgrade']:
-				tmp_cell += ("After " + str(level_key) + "use:<br/>")
-				level_json = upgrade_json['upgrade'][level_key]
-				for result_key in level_json:
-					tmp_cell += str(result_key) + ": " + str(level_json[result_key]) + "<br/>"
-		table_line.append(str(tmp_cell))
-
 		# Requirement part
 		table_line.append(lib.recurs_json_to_str(upgrade_json['require']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
-		
+
+		# Need part
+		table_line.append(lib.recurs_json_to_str(upgrade_json['need']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
+
 		table_lines.append(table_line)
 
 	with open("upgrades.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
-
-		wiki_dump.write("\n==Instant upgrades==\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[3, "'Instant' in cell"]]))
-
-		wiki_dump.write("\n==Time consuming upgrades==\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[3, "not('Instant' in cell)"]]))
-
-		wiki_dump.write("\n==One time upgrades==\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[4, "'False' in cell"]]))
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))
