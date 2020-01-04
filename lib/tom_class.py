@@ -4,119 +4,213 @@ import os, json, sys, datetime
 import lib.extractlib as lib
 import lib.wikilib as wiki
 import graphviz
+import math
 
 def find_link(tom_class_list, class_graph):
 	#Find requirement link and create a graphical edge to show them
-	edge_list = []
+#	edge_list = []
 	for source_item in tom_class_list:
 		for tom_class_item in tom_class_list:
 			if source_item['id'] in tom_class_item['require'] and not(source_item['id']+"<" in tom_class_item['require']) and not(source_item['id']+"=0" in tom_class_item['require']) and source_item['name'].capitalize() != tom_class_item['name'].capitalize():
-				class_graph.edge(str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize()))
-				edge_list.append([str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize())])
-	#Find node from the same tier list used as requirement, and link them with an invisible line to shorten the distance between them. It allow class without oclasses' requirement to be pushed on the border and make the graph more pretty
-	for tom_class_item in tom_class_list:
-		for edge_name in edge_list:
-			if edge_name[0] == str(tom_class_item['name'].capitalize()):
-				for neighbour_item in tom_class_list:
-					for tag1 in tom_class_item['tags']:
-						for tag2 in neighbour_item['tags']:
-							if tag1 == tag2:
-								class_graph.edge(str(neighbour_item['name'].capitalize()), str(tom_class_item['name'].capitalize()), style='invis')
+				class_graph.edge(str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize()), weight='100')
+#				edge_list.append([str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize())])
 
-def tom_class_graph(tom_class_list=None):
-	if tom_class_list == None:
-		tom_class_list = []
-		for json_value in result_list:
-			tom_class_json = tom_class_info(json_value)
-			tom_class_list.append(tom_class_json)
 
-	class_graph = graphviz.Digraph(engine='dot')
-	class_graph.attr(rankdir='TB', newrank="true", ranksep="2", constraint='false', fontsize="20")
+def rank_nodes(tom_class_list, class_graph, tier_max):
+	#Nodes with the same tier are put in a subgraph with the same rank.
+	
+	#It would be sweet to use the tag list: ['t_apprenticeship','t_job','t_neophyte','t_tier0','t_tier1', 't_tier2','t_tier3','t_tier4','t_tier5','t_tier6']. However, adding the tags in game would probably trigger the "are you sure?" window for apprenticeship and neophyte.
 
 	#############Apprenticeship_tier#############
-	apprentice_subgraph = class_graph.subgraph(name='clusterA')
-	class_graph.node('Apprenticeship_tier')
-	with apprentice_subgraph as s:
-		s.attr(rank='same')
-		s.node('Apprenticeship')
-
 	with class_graph.subgraph() as s:
+#		s.attr(name='subgraph_apprenticeship')
 		s.attr(rank='same')
-		s.node('Apprenticeship')
-		class_graph.node('Apprenticeship_tier')
-
+		s.node('Apprenticeship_tier')
+		s.node('Apprenticeship')		
+		
 	#############Job_tier#############
-	job_subgraph = class_graph.subgraph(name='clusterJ')
-	class_graph.node('Job_tier')
-	with job_subgraph as s:
-		s.attr(rank='same')
-		for tom_class_item in tom_class_list:
-			for tag in tom_class_item['tags']:
-				if tag == "t_job":
-					s.node(tom_class_item['name'].capitalize())
-					class_graph.edge("Apprenticeship", str(tom_class_item['name'].capitalize()))
-
 	with class_graph.subgraph() as s:
+#		s.attr(name='subgraph_job')
 		s.attr(rank='same')
+		s.node('Job_tier')
 		for tom_class_item in tom_class_list:
 			for tag in tom_class_item['tags']:
 				if tag == "t_job":
 					s.node(tom_class_item['name'].capitalize())
-		class_graph.node('Job_tier')
-
-	class_graph.edge('Apprenticeship_tier', 'Job_tier')
 
 	#############Neophyte_tier#############
-	neophyte_subgraph = class_graph.subgraph(name='clusterN')
-	class_graph.node('Neophyte_tier')
-	with neophyte_subgraph as s:
-		s.attr(rank='same')
-		s.node('Neophyte')
-		for tom_class_item in tom_class_list:
-			for tag in tom_class_item['tags']:
-				if tag == "t_job":
-					class_graph.edge(str(tom_class_item['name'].capitalize()), "Neophyte")
-
 	with class_graph.subgraph() as s:
+#		s.attr(name='subgraph_neophyte')
 		s.attr(rank='same')
-		s.node('Neophyte')
 		s.node('Neophyte_tier')
-
-	class_graph.edge('Job_tier', 'Neophyte_tier')
-
+		s.node('Neophyte')
+					
 	#############tier i#############
-	tier_subgraph = {}
-	for i in range(0,7):
-		tier_subgraph[i] = class_graph.subgraph(name='cluster' + str(i))
-		class_graph.node('Tier' + str(i))
-		with tier_subgraph[i] as s:
-
-			if i>0:
-				class_graph.edge(str('Tier' + str(i-1)), str('Tier' + str(i)))
-			for tom_class_item in tom_class_list:
-				for tag in tom_class_item['tags']:
-					if tag == "t_tier"+ str(i):
-						if "g.evil>0" in tom_class_item['require'] or "g.warlock>0" in tom_class_item['require'] or "g.reanimator>=1" in tom_class_item['require']:
-							s.node(tom_class_item['name'].capitalize(), fillcolor='red', style='filled')
-						elif "g.evil<=0" in tom_class_item['require'] or "g.evil==0" in tom_class_item['require']:
-							s.node(tom_class_item['name'].capitalize(), fillcolor='cyan', style='filled')
-						else:
-							s.node(tom_class_item['name'].capitalize())
-
+	for i in range(0,tier_max+1):
 		with class_graph.subgraph() as s:
+#			s.attr(name='subgraph' + str(i))
 			s.attr(rank='same')
 			s.node('Tier' + str(i))
-			s.subgraph(name='cluster' + str(i))
-
+			if i==0:	##This is a dirty way to add "Adept (murderer)"
+				s.node("Adept (murderer)")
 			for tom_class_item in tom_class_list:
 				for tag in tom_class_item['tags']:
 					if tag == "t_tier"+ str(i):
 						s.node(tom_class_item['name'].capitalize())
 
 
-	class_graph.edge('Neophyte_tier', 'Tier0')
+def add_flavor(tom_class_list, class_graph, tier_max):
+	#Try to group nodes and change their attributes for the graph to be meaningful
+	
+	#Searches for similar items in requirements and effects between two classes one tier appart. 
+	#I would like to draw edges with proper weight, but that doesn't provide good results so far: mundanity has to take the number of edges into account.
+	
+	full_id_list = [	#No, it not the full list. This one is hand-crafted.
+		"research",
+		"arcana",
+		"earthlore",
+		"waterlore",
+		"firelore",
+		"naturelore",
+		"airlore",
+		"airgem",
+		#"earthgem",
+		#"firegem",
+		"player.tohit",
+		"spiritlore",
+		"planeslore",
+		"scrying",
+		"spellcraft",
+		"reanimation",
+		"enchanting",
+		"elemental",
+		"bladelore",
+		"anatomy",
+		"history",
+		"enchanting",
+		"necromancy",
+		"shadowlore",
+		"demonology",
+		"animals",
+		"potions",
+		"divination",
+		"crafting",
+		"alchemy",
+		"trickery",
+		]
+	
+	compatible_class_list=[]
+	for source_item in full_id_list:		#Take an item, and a tier i class...
+		for tom_class_item in tom_class_list:
+			for i in range(0,tier_max):
+				if str("t_tier"+ str(i)) in tom_class_item['tags']:
+					mundanity=0	#(reset mundanity of the item for this class)
+					del compatible_class_list[:] #(reset the class list for this item and class)
+					for tom_class_item2 in tom_class_list:		#Take another class, one tier above the first class...
+						if str("t_tier"+ str(i+1)) in tom_class_item2['tags']: 
+							if (source_item in tom_class_item['effect']) or (source_item  in tom_class_item['cost']):	#If the two classes share the same item...
+								if (source_item  in tom_class_item2['effect']) or (source_item  in tom_class_item2['cost']):
+									mundanity +=1		#Compute the item mundanity for the first class and append the second class to the compatibility list.
+									compatible_class_list.append(str(tom_class_item2['name'].capitalize()))
+					weight=math.ceil(1)		#Finally, compute the weight...
+					if (mundanity>0 and weight>0):
+							for compatible_class_item in compatible_class_list:
+								class_graph.edge(str(tom_class_item['name'].capitalize()), str(compatible_class_item), weight=str(weight), style='invis') #And create an edge!
+							
+							
+	##Dirty flavor
+	##Subgraph are not working as desired: it seems like they don't regroup the nodes.
+	##Invisible edges are not working as desired: they push the nodes aparts, creating a wide gap. The best I can do is to add invisble edges on nearby tiers only.
+	##A key for the colour would be useful.
+	
+	villain_subgraph=class_graph.subgraph(name='villain')
+	with villain_subgraph as s:
+		s.node("Adept (murderer)", color='red:white', style='radial') 	##This is a dirty way to add "Adept (murderer)"
+		for i in range(0,tier_max+1):
+			for tom_class_item in tom_class_list:
+				for tag in tom_class_item['tags']:
+					if tag == "t_tier"+ str(i):
+						if "g.evil>0" in tom_class_item['require'] or "g.warlock>0" in tom_class_item['require'] or "g.reanimator>=1" in tom_class_item['require'] or "g.reanimation" in tom_class_item['require']:
+							s.node(tom_class_item['name'].capitalize(), color='red:white', style='radial')
+	evil_subgraph=class_graph.subgraph(name='evil')
+	with evil_subgraph as s:
+		for i in range(0,tier_max+1):
+			for tom_class_item in tom_class_list:
+				for tag in tom_class_item['tags']:
+					if tag == "t_tier"+ str(i):
+						if ("g.evil>0" in tom_class_item['require']  and not("||g.evil>0" in tom_class_item['require'])) or "g.warlock>0" in tom_class_item['require'] or "g.reanimator>=1" in tom_class_item['require'] or "g.reanimation" in tom_class_item['require'] or "phylactory" in tom_class_item['require']:
+							s.node(tom_class_item['name'].capitalize(), fillcolor='red', style='filled')
+	good_subgraph=class_graph.subgraph(name='good')
+	with good_subgraph as s:
+		for i in range(0,tier_max+1):
+			for tom_class_item in tom_class_list:
+				for tag in tom_class_item['tags']:
+					if tag == "t_tier"+ str(i):
+						if "g.evil<=0" in tom_class_item['require'] or "g.evil==0" in tom_class_item['require']:
+							s.node(tom_class_item['name'].capitalize(), fillcolor='cyan', style='filled')	
 
+
+	
+def tom_class_graph(tom_class_list=None):
+	if tom_class_list == None:
+		tom_class_list = []
+		for json_value in result_list:
+			tom_class_json = tom_class_info(json_value)
+			tom_class_list.append(tom_class_json)
+	tier_max=6
+
+	class_graph = graphviz.Digraph(engine='dot')
+	class_graph.attr(newrank="false", ranksep="2", fontsize="20", mclimit='10')
+#	class_graph.attr(newrank="", ranksep="2", fontsize="20", mclimit='1', packMode="graph")
+#	class_graph.attr(newrank="false", ranksep="2", fontsize="20", remincross='true')
+	
+	# The first node is usually on the top left corner (it is easier than forcing it using 'pos'). Let it be Apprenticeship and make the tier tree.	
+	tier_tree = class_graph.subgraph(name='clusterT')
+	with tier_tree as s:
+		s.edge('Apprenticeship_tier', 'Job_tier')
+		s.edge('Job_tier', 'Neophyte_tier')
+		s.edge('Neophyte_tier','Tier0')
+		for i in range(1,tier_max+1):
+			s.edge(str('Tier' + str(i-1)), str('Tier' + str(i)))	
+			
+	#The links should be processed early, too.
 	find_link(tom_class_list, class_graph)
+	
+	add_flavor(tom_class_list, class_graph, tier_max)
+	
+	#Let's add some more edges
+	
+	#############Apprenticeship_tier#############
+	#(void)
+	
+	#############Job_tier#############
+	for tom_class_item in tom_class_list:
+		for tag in tom_class_item['tags']:
+			if tag == "t_job":
+				class_graph.edge("Apprenticeship", str(tom_class_item['name'].capitalize()))
+		
+	#############Neophyte_tier#############
+	for tom_class_item in tom_class_list:
+		for tag in tom_class_item['tags']:
+			if tag == "t_job":
+				class_graph.edge(str(tom_class_item['name'].capitalize()), "Neophyte")
+					
+	#############tier 0#############
+	class_graph.edge("Neophyte", 'Adept')
+	class_graph.edge("Neophyte", "Adept (murderer)")		#This is a dirty way to add "Adept (murderer)"	
+					
+	#############tier i#############
+# Try to have them linked to the tier tree, so that they are more grouped. Linking a node defines it. 
+#	for i in range(1,tier_max+1):		#There is another tier range in the rank_nodes function
+#		for tom_class_item in tom_class_list:
+#			for tag in tom_class_item['tags']:
+#				if tag == "t_tier"+ str(i):
+#					class_graph.edge('Tier' + str(i), str(tom_class_item['name'].capitalize()), style='dotted', weight='1')
+
+#Another idea, to center the graph, would be to link all nodes of a rank to the ones above and under.
+#The 'pack' attribute is probably the solution.
+
+	rank_nodes(tom_class_list, class_graph, tier_max)
 
 	class_graph.render(format="png", view=True)
 
