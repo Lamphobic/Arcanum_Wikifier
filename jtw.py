@@ -1,4 +1,10 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Main driver of the Arcanium Wikifier
+"""
+
 
 import os, json, sys
 import lib.wikilib as wiki
