@@ -16,7 +16,7 @@ def make_table(table_keys, table_lines, table_filter=None):
 		table_return += '! ' + str(key) + ' !'
 	table_return = table_return[:-2]
 	table_return += '\n|-\n'
-	if table_filter == None:
+	if table_filter is None:
 		for line in table_lines:
 			for cell in line:
 				table_return += cell + ' || '
@@ -29,7 +29,7 @@ def make_table(table_keys, table_lines, table_filter=None):
 				cell = line[filter_eval[0]]
 				if eval(filter_eval[1]):
 					is_true = True
-			if is_true == True:
+			if is_true is True:
 				for cell in line:
 					table_return += cell + ' || '
 				table_return = table_return[:-4]

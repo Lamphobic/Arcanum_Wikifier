@@ -61,7 +61,7 @@ def main(argv):
 	if online_update==True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			if page_names[i] == "Classes":
+			if page_names[i] is"Classes":
 				print("can't upload classes yet: the manual page is better")
 			else:
 				wiki.bot_update(page_names[i], file_names[i])
@@ -99,6 +99,7 @@ def gen_spells():
 	page_names.append("Spells")
 
 def gen_resources():
+	res = resource.generate_wiki()
 	file_names.append(resource.generate_wiki())
 	page_names.append("Resources")
 
@@ -128,7 +129,8 @@ def on():
 	
 				
 main(sys.argv)
-
+print(file_names)
+print(page_names)
 '''
 Partially finished
 '''

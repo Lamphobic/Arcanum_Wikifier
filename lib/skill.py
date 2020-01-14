@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to skills.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -9,51 +14,53 @@ def skill_info(skill_json):
 #ID, name, description, tags, cost, consumption, bonus, reward, requirement, need, level scaling
 	skill = {}
 	skill['id'] = skill_json.get('id')
-	if skill_json.get('name') != None:
-		skill['name'] = skill_json.get('name')
+	if skill_json.get('name') is not None:
+		skill['name'] = skill_json.get('name').title()
 	else:
-		skill['name'] = skill['id']
+		skill['name'] = skill['id'].title()
 
 	skill['sym']  = skill_json.get('sym')
 
 	skill['desc']     = skill_json.get('desc')
 
-	if skill_json.get('tags') != None:
+	if skill_json.get('tags') is not None:
 		skill['tags'] = skill_json.get('tags').split(",")
 	else:
 		skill['tags'] = []
 
-	if skill_json.get('buy') != None:
+	if skill_json.get('buy') is not None:
 		skill['cost']  = skill_json.get('buy')
 	else:
 		skill['cost']  = {}
 
-	if skill_json.get('run') != None:
+	if skill_json.get('run') is not None:
 		skill['consumption']  = skill_json.get('run')
 	else:
 		skill['consumption']  = {}
 
-	if skill_json.get('mod') != None:
+	if skill_json.get('mod') is not None:
 		skill['bonus']  = skill_json.get('mod')
+		skill['mod']  = skill_json.get('mod')
 	else:
 		skill['bonus']  = {}
+		skill['mod']  = {}
 
-	if skill_json.get('result') != None:
+	if skill_json.get('result') is not None:
 		skill['reward']  = skill_json.get('result')
 	else:
 		skill['reward']  = {}
 
-	if skill_json.get('need') != None:
+	if skill_json.get('need') is not None:
 		skill['need']  = skill_json.get('need')
 	else:
 		skill['need']  = {}
 
-	if skill_json.get('level') != None:
+	if skill_json.get('level') is not None:
 		skill['level_scaling']  = skill_json.get('level')
 	else:
 		skill['level_scaling']  = "1"
 
-	if skill_json.get('require') != None:
+	if skill_json.get('require') is not None:
 		skill['require'] = skill_json.get('require')
 	else: 
 		skill['require'] = "Nothing"
@@ -63,8 +70,8 @@ def skill_info(skill_json):
 
 
 def get_full_skill_list():
-	result_list = lib.get_json("data/", "skill")
-	skill_list
+	result_list = lib.get_json("data/", "skills")
+	skill_list = list()
 	for json_value in result_list:
 		skill_list.append(skill_info(json_value))
 	return skill_list
@@ -79,7 +86,7 @@ def generate_wiki():
 		skill_json = skill_info(json_value)
 		table_line = []
 		# NAME part
-		if skill_json.get('sym') != None:
+		if skill_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(skill_json['id']) + '">' + skill_json['sym'] + '[[' +  str(skill_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(skill_json['id']) + '">[[' +  str(skill_json['name']).capitalize() + ']]</span>')

@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to actions.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -10,44 +15,54 @@ def potion_info(potion_json):
 
 	potion = {}
 	potion['id'] = potion_json.get('id')
-	if potion_json.get('name') != None:
-		potion['name'] = potion_json.get('name')
+	if potion_json.get('name') is not None:
+		potion['name'] = potion_json.get('name').title()
 	else:
-		potion['name'] = potion['id']
+		potion['name'] = potion['id'].title()
 
 	potion['sym'] = potion_json.get('sym')
 
 
 	potion['flavor'] = potion_json.get('flavor')
 
-	if potion_json.get('level') != None:
+	if potion_json.get('level') is not None:
 		potion['level']  = potion_json.get('level')
 	else:
 		potion['level']  = 1
 
-	if potion_json.get('buy') != None:
+	if potion_json.get('buy') is not None:
 		potion['unlk_cost']  = potion_json.get('buy')
 	else:
 		potion['unlk_cost']  = {}
 
-	if potion_json.get('cost') != None:
+	if potion_json.get('cost') is not None:
 		potion['brewing_cost']  = potion_json.get('cost')
 	else:
 		potion['brewing_cost']  = {}
 
 
-	if potion_json.get('use') != None:
+	if potion_json.get('use') is not None:
 		potion['effect']  = potion_json.get('use')
 	else:
 		potion['effect']  = {}
-
+		
+	potion['mod'] = {}
+	if potion_json.get('use') is not None and not isinstance(potion_json.get('use'), str) :
+		if potion_json.get('use').get('effect') is not None:
+			potion['mod'] = potion_json.get('use').get('effect')
+		elif potion_json.get('use').get('mod') is not None:
+			potion['mod'] = potion_json.get('use').get('mod')
+		else:
+			if isinstance(potion_json.get('use'), dict):
+				potion['mod'] = potion_json.get('use')
+		
 	return potion
 
 
 
 def get_full_potion_list():
-	result_list = lib.get_json("data/", "potion")
-	potion_list
+	result_list = lib.get_json("data/", "potions")
+	potion_list = list()
 	for json_value in result_list:
 		potion_list.append(potion_info(json_value))
 	return potion_list
@@ -62,7 +77,7 @@ def generate_wiki():
 		potion_json = potion_info(json_value)
 		table_line = []
 		# NAME part
-		if potion_json.get('sym') != None:
+		if potion_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(potion_json['id']) + '">' + potion_json['sym'] + '[[' +  str(potion_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(potion_json['id']) + '">[[' +  str(potion_json['name']).capitalize() + ']]</span>')
@@ -96,12 +111,12 @@ def generate_wiki():
 		if isinstance(potion_json['effect'],str):
 			tmp_cell += "Give the following spell effect: " + str(potion_json['effect'])
 		else:
-			if potion_json['effect'].get('dot') != None:
+			if potion_json['effect'].get('dot') is not None:
 				tmp_cell += "Give the following effect for " + str(potion_json['effect'].get('dot').get('duration')) + " seconds: <br/>"
 				effect_json = {}
-				if potion_json['effect'].get('dot').get('mod') != None:
+				if potion_json['effect'].get('dot').get('mod') is not None:
 					effect_json = {**effect_json, **potion_json['effect'].get('dot').get('mod')}
-				if potion_json['effect'].get('dot').get('effect') != None:
+				if potion_json['effect'].get('dot').get('effect') is not None:
 					effect_json = {**effect_json, **potion_json['effect'].get('dot').get('effect')}
 				for mod_key in effect_json:
 					tmp_cell += (str(mod_key) + ": " + str(effect_json[mod_key]) + '<br/>')

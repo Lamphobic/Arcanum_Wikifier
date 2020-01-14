@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to actions.
+"""
+
 import os, json, datetime
 import lib.extractlib as lib
 
@@ -54,35 +60,37 @@ def dungeon_info(dungeon_json):
 	dungeon = {}
 	dungeon['id'] = dungeon_json.get('id')
 
-	if dungeon_json.get('name') != None:
-		dungeon['name'] = dungeon_json.get('name')
+	if dungeon_json.get('name') is not None:
+		dungeon['name'] = dungeon_json.get('name').title()
 	else:
-		dungeon['name'] = dungeon['id']
+		dungeon['name'] = dungeon['id'].title()
 
-	if dungeon_json.get('sym') != None:
+	if dungeon_json.get('sym') is not None:
 		dungeon['sym']  = dungeon_json.get('sym')
 		dungeon['name'] = dungeon['sym'] + dungeon['name']
 
 	dungeon['level']  = dungeon_json.get('level')
 	dungeon['length'] = dungeon_json.get('length')
 	dungeon['require'] = dungeon_json.get('require') #### TO CHANGE
+	dungeon['mod'] = {}
 
-	if dungeon_json.get('run') != None:
+	if dungeon_json.get('run') is not None:
 		dungeon['consume'] = dungeon_json.get('run')
 	else: 
 		dungeon['consume'] = "Nothing"
 
-	if dungeon_json.get('result') != None:
+	if dungeon_json.get('result') is not None:
+		dungeon['mod'] = dungeon_json.get('result')
 		dungeon['reward'] = dungeon_json.get('result')
 	else: 
 		dungeon['reward'] = "Nothing"
 
-	if dungeon_json.get('enemies') != None:
+	if dungeon_json.get('enemies') is not None:
 		dungeon['encounters'] = parse_encounter(dungeon_json.get('enemies'))
 	else:
 		dungeon['encounters'] = "None"
 
-	if dungeon_json.get('boss') != None:
+	if dungeon_json.get('boss') is not None:
 		dungeon['boss'] = parse_encounter(dungeon_json.get('boss'))
 	else:
 		dungeon['boss'] = "None"

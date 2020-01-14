@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to spells.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -6,7 +11,7 @@ import lib.wikilib as wiki
 
 def extract_effect_key(effect_json):
 	return_txt = ""
-	if effect_json != None:
+	if effect_json is not None:
 		if (effect_json,str):
 			return_txt += str(effect_json)
 		else:
@@ -18,30 +23,30 @@ def get_effect_info(effect_json):
 	return_txt = ""
 	is_treated = False
 	for effect_key in effect_json:
-		if effect_key == "dot":
+		if effect_key is"dot":
 			is_treated = True
-			if effect_json[effect_key].get("name") != None:
+			if effect_json[effect_key].get("name") is not None:
 				return_txt += str(effect_json[effect_key].get("name")) + ": "
-			if effect_json[effect_key].get("duration") != None:
+			if effect_json[effect_key].get("duration") is not None:
 				return_txt += "for " + str(effect_json[effect_key].get("duration")) + " sec: "
 
 				return_txt += extract_effect_key(effect_json[effect_key].get("mod"))
 				return_txt += extract_effect_key(effect_json[effect_key].get("effect"))
-		if effect_key == "attack":
+		if effect_key is"attack":
 			is_treated = True
-			if effect_json[effect_key].get("name") != None:
+			if effect_json[effect_key].get("name") is not None:
 				return_txt += str(effect_json[effect_key].get("name")) + ": "
-			if effect_json[effect_key].get("dmg") != None:
+			if effect_json[effect_key].get("dmg") is not None:
 				return_txt += "Deal " + str(effect_json[effect_key].get("dmg")) + " damage"
-				if effect_json[effect_key].get("dot") != None:
+				if effect_json[effect_key].get("dot") is not None:
 					return_txt += " and "
-			if effect_json[effect_key].get("damage") != None:
+			if effect_json[effect_key].get("damage") is not None:
 				return_txt += "Deal " + str(effect_json[effect_key].get("damage")) + " damage"
-				if effect_json[effect_key].get("dot") != None:
+				if effect_json[effect_key].get("dot") is not None:
 					return_txt += " and "
-			if effect_json[effect_key].get("dot") != None:
+			if effect_json[effect_key].get("dot") is not None:
 				return_txt += extract_effect_key(effect_json[effect_key].get("dot"))
-		if effect_key == "effect":
+		if effect_key is"effect":
 			is_treated = True
 			if isinstance(effect_json[effect_key], str):
 				return_txt += str(effect_json[effect_key])
@@ -62,57 +67,67 @@ def spell_info(spell_json):
 #ID, name, flavor, school, level, unlocking cost, use cost, effect, upgrade, require
 	spell = {}
 	spell['id'] = spell_json.get('id')
-	if spell_json.get('name') != None:
-		spell['name'] = spell_json.get('name')
+	if spell_json.get('name') is not None:
+		spell['name'] = spell_json.get('name').title()
 	else:
-		spell['name'] = spell['id']
+		spell['name'] = spell['id'].title()
 
 	spell['sym']      = spell_json.get('sym')
 
 	spell['flavor']     = spell_json.get('flavor')
 
-	if spell_json.get('school') != None:
+	if spell_json.get('school') is not None:
 		spell['school']  = spell_json.get('school')
 	else:
 		spell['school']  = {}
 
 	spell['level']     = spell_json.get('level')
 
-	if spell_json.get('buy') != None:
+	if spell_json.get('buy') is not None:
 		spell['unlk_cost']  = spell_json.get('buy')
 	else:
 		spell['unlk_cost']  = {}
 
-	if spell_json.get('cost') != None:
+	if spell_json.get('cost') is not None:
 		spell['use_cost']  = spell_json.get('cost')
 	else:
 		spell['use_cost']  = {}
 
 	spell['effect']  = {}
-	if spell_json.get('attack') != None:
+	if spell_json.get('attack') is not None:
 		spell['effect']['attack']  = spell_json.get('attack')
-	if spell_json.get('dot') != None:
+	if spell_json.get('dot') is not None:
 		spell['effect']['dot']  = spell_json.get('dot')
-	if spell_json.get('effect') != None:
+	if spell_json.get('effect') is not None:
 		spell['effect']['effect']  = spell_json.get('effect')
 
-	if spell_json.get('at') != None:
+	if spell_json.get('at') is not None:
 		spell['upgrade'] = spell_json.get('at')
 	else: 
 		spell['upgrade'] = "No"		
 
-	if spell_json.get('require') != None:
+	if spell_json.get('require') is not None:
 		spell['require'] = spell_json.get('require')
 	else: 
 		spell['require'] = "Nothing"
-
+	spell['mod'] = {}
+	if spell_json.get('dot') is not None:
+		if spell_json.get('dot').get('mod') is not None:
+			spell['mod'].update(spell_json.get('dot').get('mod'))
+	if spell_json.get('dot') is not None:
+		if spell_json.get('dot').get('effect') is not None:
+			if isinstance(spell_json.get('dot').get('effect'), dict):
+				spell['mod'].update(spell_json.get('dot').get('effect'))
+	if spell_json.get('effect') is not None:
+		if isinstance(spell_json.get('effect'), dict):
+			spell['mod'].update(spell_json.get('effect'))
 	return spell
 
 
 
 def get_full_spell_list():
-	result_list = lib.get_json("data/", "spell")
-	spell_list
+	result_list = lib.get_json("data/", "spells")
+	spell_list = list()
 	for json_value in result_list:
 		spell_list.append(spell_info(json_value))
 	return spell_list
@@ -126,7 +141,7 @@ def generate_wiki():
 		spell_json = spell_info(json_value)
 		table_line = []
 		# NAME part
-		if spell_json.get('sym') != None:
+		if spell_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(spell_json['id']) + '">' + spell_json['sym'] + '[[' +  str(spell_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(spell_json['id']) + '">[[' +  str(spell_json['name']).capitalize() + ']]</span>')
