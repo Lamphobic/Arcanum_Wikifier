@@ -28,8 +28,10 @@ def main(argv):
 		if "-on" in arg.lower():
 			online_update=True
 			
-	global file_names = []
-	global page_names = []
+	global file_names
+	global page_names
+	file_names = []
+	page_names = []
 	
 	switch = {
 		"actions": gen_actions,
@@ -47,7 +49,7 @@ def main(argv):
 	}
 	
 	for arg in argv[1:]:
-		func = switch.get(argument, lambda: "python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
+		func = switch.get(arg.lower(), lambda: "python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
 		func()
 
 	if online_update==True:
