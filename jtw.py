@@ -100,8 +100,11 @@ def gen_spells():
 
 def gen_resources():
 	res = resource.generate_wiki()
-	file_names.append(resource.generate_wiki())
+	file_names.append("resources.txt")
 	page_names.append("Resources")
+	file_names.extend(res)
+	sez = ['_'.join(e.split(' ')) for e in list.copy(res)]
+	page_names.extend(sez)
 
 def gen_classes():
 	file_names.append(tom_class.generate_wiki())

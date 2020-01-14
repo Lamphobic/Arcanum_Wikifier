@@ -94,18 +94,19 @@ def generate_individual_res_page(res):
 def generate_wiki():
 	global lists
 	lists = [
-			action.get_full_action_list(),
-			dungeon.get_full_dungeon_list(),
-			furniture.get_full_furniture_list(),
-			home.get_full_home_list(),
-			monster.get_full_monster_list(),
-			potion.get_full_potion_list(),
-			resource.get_full_resource_list(),
-			skill.get_full_skill_list(),
-			spell.get_full_spell_list(),
-			tom_class.get_full_tom_class_list(),
-			upgrade.get_full_upgrade_list()
-			]
+		action.get_full_action_list(),
+		dungeon.get_full_dungeon_list(),
+		furniture.get_full_furniture_list(),
+		home.get_full_home_list(),
+		monster.get_full_monster_list(),
+		potion.get_full_potion_list(),
+		resource.get_full_resource_list(),
+		skill.get_full_skill_list(),
+		spell.get_full_spell_list(),
+		tom_class.get_full_tom_class_list(),
+		upgrade.get_full_upgrade_list()
+		]
+	ret = list()
 	result_list = lib.get_json("data/", "resources")
 	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
@@ -137,7 +138,7 @@ def generate_wiki():
 				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
 			wiki_dump.write('\n')
 			generate_individual_res_page(resource_json)
-				
+			ret.append(resource_json['name'])
 		wiki_dump.write('|}')
 
-		return "resources.txt"
+		return ret
