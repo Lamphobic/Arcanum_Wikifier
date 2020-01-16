@@ -141,7 +141,7 @@ def generate_wiki():
 		wiki_dump.write('{| class="wikitable sortable"\n')
 		wiki_dump.write('|-\n')
 		wiki_dump.write('! Name !! Description !! Tags !! Base maximum !! Is hidden !! Bonus \n')
-
+		result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
 		for json_value in result_list:
 			resource_json = resource_info(json_value)
 
@@ -165,6 +165,7 @@ def generate_wiki():
 			for mod_key in resource_json['mod']:
 				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
 			wiki_dump.write('\n')
+			
 			generate_individual_res_page(resource_json)
 			ret.append(resource_json['name'])
 		wiki_dump.write('|}')
