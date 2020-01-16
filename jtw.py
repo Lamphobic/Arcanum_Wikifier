@@ -61,7 +61,7 @@ def main(argv):
 	if online_update==True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			if page_names[i] is"Classes":
+			if page_names[i] is "Classes":
 				print("can't upload classes yet: the manual page is better")
 			else:
 				wiki.bot_update(page_names[i], file_names[i])
