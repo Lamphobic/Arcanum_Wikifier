@@ -66,32 +66,57 @@ def generate_individual_res_page(res):
 	with open(res['name']+".txt", "w", encoding="UTF-8") as res_page:
 		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
 		if res['desc'] is not None:
-			res_page.write('===Description===\n' + res['desc'] + '\n')
+			res_page.write('==Description==\n' + res['desc'] + '\n')
 		if res['tags']:
-			res_page.write('===Tags===\n' + ' '.join(res['tags']) + '\n')
-		res_page.write('===Base Max===\n' + str(res['base_max']) + '\n')
-		res_page.write('===Is Hidden===\n' + res['hidden'] + '\n')
+			res_page.write('==Tags==\n' + ' '.join(res['tags']) + '\n')
+		res_page.write('==Base Max==\n' + str(res['base_max']) + '\n')
+		res_page.write('==Is Hidden==\n' + res['hidden'] + '\n')
 		if res['mod']:
-			res_page.write('===Affects===\n')
+			res_page.write('==Affects==\n')
 			for mod_key in res['mod']:
 				res_page.write('*' + str(mod_key) + ": " + str(res['mod'][mod_key]) + '\n')
+		baffected = False;
+		bsource = False;
 		affected_by = list()
+		sources = list()
 		matchname = res['name'].lower()
 		matchid = res['id'].lower()
-		for l in lists: #for each list of entries
+		#Build Sources
+		for l in lists: #fo''r each list of entries
+			sources = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
 						matchmod = str(mod_key).lower().split('.')
-						if matchname in matchmod: #if this mod references this resource by name
-							affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
-						elif matchid in matchmod: #if this mod references this resource by id
-							affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
-		affected_by.sort()
-		if affected_by:
-			res_page.write('===Affected By===\n')
-			for e in affected_by:
-				res_page.write('* ' + e + '\n')
+						if matchid in matchmod: #if this mod references this resource by id
+							if matchid == str(mod_key).lower():
+								sources.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+			sources.sort()
+			if sources:
+				if not bsource:
+					res_page.write('==Sources==\n')
+					bsource = True
+				res_page.write(('===' + l + '===\n').title())
+				for e in sources:
+					res_page.write('* ' + e + '\n')
+		#Build Affected By
+		for l in lists: #for each list of entries
+			affected_by = list()
+			for e in lists[l]: #for each entry in this list
+				if e['mod']: #if this entry has any mods
+					for mod_key in e['mod']: #for each mod in the mods of this entry
+						matchmod = str(mod_key).lower().split('.')
+						if matchid in matchmod: #if this mod references this resource by id
+							if matchid != str(mod_key).lower():
+								affected_by.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+			affected_by.sort()
+			if affected_by:
+				if not baffected:
+					res_page.write('==Affected By==\n')
+					baffected = True
+				res_page.write(('===' + l + '===\n').title())
+				for e in affected_by:
+					res_page.write('* ' + e + '\n')
 
 
 def generate_wiki():
