@@ -55,7 +55,7 @@ def main(argv):
 	}
 	
 	if len(argv) == 1:
-		print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|homes|potions|skills|spells|resources|classes|all")
+		print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
 	
 	for arg in argv[1:]:
 		func = switch.get(arg.lower(), lambda: print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all"))
