@@ -28,13 +28,32 @@ spell: blade and bladelore collide. json problem ?
 
 def main(argv):
 	print(argv)
+	
 	global online_update
+	global only_generate_main_pages
 	online_update = False
+	only_generate_main_pages = False
 			
 	global file_names
 	global page_names
 	file_names = []
 	page_names = []
+	
+	flags_switch = {
+		"-on": on,
+		"-mainonly": main_only,
+		"-differencesonly": differences_only,
+		"-help": help,
+		"-h": help,
+		"-?": help,
+		"help": help,
+		"?": help
+	}
+	
+	for arg in argv[1:]:
+		func = flags_switch.get(arg.lower())
+		if func is not None:
+			func()
 	
 	switch = {
 		"actions": gen_actions,
@@ -48,15 +67,26 @@ def main(argv):
 		"resources": gen_resources,
 		"classes": gen_classes,
 		"all": gen_all,
-		"-on": on
+		"-on": None,
+		"-mainonly": None,
+		"-differencesonly": None,
+		"-help": None,
+		"-h": None,
+		"-?": None,
+		"help": None,
+		"?": None
 	}
 	
 	if len(argv) == 1:
-		print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+		help()
 	
 	for arg in argv[1:]:
-		func = switch.get(arg.lower(), lambda: print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all"))
-		func()
+		func = switch.get(arg.lower(), help)
+		if func is not None:
+			func()
+		
+	print(file_names)
+	print(page_names)
 
 	if online_update == True:
 		print("Automatically uploading:")
@@ -99,12 +129,11 @@ def gen_spells():
 	page_names.append("Spells")
 
 def gen_resources():
-	res = resource.generate_wiki()
+	res = resource.generate_wiki(only_generate_main_pages)
 	file_names.append("resources.txt")
 	page_names.append("Resources")
-	file_names.extend(res)
-	sez = ['_'.join(e.split(' ')) for e in list.copy(res)]
-	page_names.extend(sez)
+	file_names.extend([(e + '.txt') for e in res])
+	page_names.extend(['_'.join(e.split(' ')) for e in res])
 
 def gen_classes():
 	file_names.append(tom_class.generate_wiki())
@@ -132,10 +161,20 @@ def on():
 	online_update = True
 	print("Automatic upload turned on.")
 	
+def main_only():
+	global only_generate_main_pages
+	only_generate_main_pages = True
+	print("Automatic upload turned on.")
+	
+def differences_only():
+	pass #TODO: Later
+	
+def help():
+	print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+	exit()
+	
 				
 main(sys.argv)
-print(file_names)
-print(page_names)
 '''
 Partially finished
 '''

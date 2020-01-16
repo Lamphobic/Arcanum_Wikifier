@@ -119,7 +119,7 @@ def generate_individual_res_page(res):
 					res_page.write('* ' + e + '\n')
 
 
-def generate_wiki():
+def generate_wiki(main_only=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),
@@ -166,8 +166,9 @@ def generate_wiki():
 				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
 			wiki_dump.write('\n')
 			
-			generate_individual_res_page(resource_json)
-			ret.append(resource_json['name'])
+			if not main_only:
+				generate_individual_res_page(resource_json)
+				ret.append(resource_json['name'])
 		wiki_dump.write('|}')
 
 		return ret
