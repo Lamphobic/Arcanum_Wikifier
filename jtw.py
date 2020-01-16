@@ -54,14 +54,17 @@ def main(argv):
 		"-on": on
 	}
 	
+	if len(argv) == 1:
+		print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+	
 	for arg in argv[1:]:
-		func = switch.get(arg.lower(), lambda: "python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|homes|potions|skills|spells|resources|classes|all")
+		func = switch.get(arg.lower(), lambda: print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all"))
 		func()
 
 	if online_update==True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			if page_names[i] is"Classes":
+			if page_names[i] is "Classes":
 				print("can't upload classes yet: the manual page is better")
 			else:
 				wiki.bot_update(page_names[i], file_names[i])

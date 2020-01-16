@@ -27,7 +27,7 @@ def recurs_json_to_str(json_value):
 def gen_dict_extract(key, var):
     if hasattr(var,'items'):
         for k, v in var.items():
-            if k is key:
+            if k == key:
                 yield v
             if isinstance(v, dict):
                 for result in gen_dict_extract(key, v):
