@@ -76,13 +76,16 @@ def generate_individual_res_page(res):
 			for mod_key in res['mod']:
 				res_page.write('*' + str(mod_key) + ": " + str(res['mod'][mod_key]) + '\n')
 		affected_by = list()
+		matchname = res['name'].lower()
+		matchid = res['id'].lower()
 		for l in lists: #for each list of entries
-			for e in l: #for each entry in this list
+			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						if res['name'].lower() in str(mod_key).lower().split('.'): #if this mod references this resource
+					matchmod = str(mod_key).lower().split('.')
+						if matchname in matchmod: #if this mod references this resource by name
 							affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
-						elif res['id'].lower() in str(mod_key).lower().split('.'):
+						elif matchid in matchmod: #if this mod references this resource by id
 							affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
 		affected_by.sort()
 		if affected_by:
@@ -93,19 +96,19 @@ def generate_individual_res_page(res):
 
 def generate_wiki():
 	global lists
-	lists = [
-		action.get_full_action_list(),
-		dungeon.get_full_dungeon_list(),
-		furniture.get_full_furniture_list(),
-		home.get_full_home_list(),
-		monster.get_full_monster_list(),
-		potion.get_full_potion_list(),
-		resource.get_full_resource_list(),
-		skill.get_full_skill_list(),
-		spell.get_full_spell_list(),
-		tom_class.get_full_tom_class_list(),
-		upgrade.get_full_upgrade_list()
-		]
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
 	ret = list()
 	result_list = lib.get_json("data/", "resources")
 	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:

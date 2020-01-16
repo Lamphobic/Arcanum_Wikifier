@@ -55,7 +55,7 @@ def main(argv):
 	}
 	
 	for arg in argv[1:]:
-		func = switch.get(arg.lower(), lambda: "python (3.8) jtw.py all|monsters|dungeons|furnitures|skills|spells|homes|potions|classes")
+		func = switch.get(arg.lower(), lambda: "python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|homes|potions|skills|spells|resources|classes|all")
 		func()
 
 	if online_update==True:
