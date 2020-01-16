@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to actions.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -6,7 +11,7 @@ import lib.wikilib as wiki
 
 def extract_effect_key(effect_json):
 	return_txt = ""
-	if effect_json != None:
+	if effect_json is not None:
 		if (effect_json,str):
 			return_txt += str(effect_json)
 		else:
@@ -35,17 +40,17 @@ def action_info(action_json):
 #ID, name, description, cost, length, repeatable, effect, upgrade, require
 	action = {}
 	action['id'] = action_json.get('id')
-	if action_json.get('name') != None:
-		action['name'] = action_json.get('name')
+	if action_json.get('name') is not None:
+		action['name'] = action_json.get('name').title()
 	else:
-		action['name'] = action['id']
+		action['name'] = action['id'].title()
 
 	action['sym']      = action_json.get('sym')
 
 	action['desc']     = action_json.get('desc')
 
 	action['cost'] = {}
-	if action_json.get('cost') != None:
+	if action_json.get('cost') is not None:
 		if isinstance(action_json.get('cost'), int):
 			action['cost']['gold'] = action_json.get('cost')
 		elif isinstance(action_json.get('cost'), str):
@@ -54,7 +59,7 @@ def action_info(action_json):
 			action['cost']  = action_json.get('cost')
 
 	action['run'] = {}
-	if action_json.get('run') != None:
+	if action_json.get('run') is not None:
 		if isinstance(action_json.get('run'), int):
 			action['run']['gold'] = action_json.get('run')
 		elif isinstance(action_json.get('run'), str):
@@ -62,49 +67,55 @@ def action_info(action_json):
 		else:
 			action['run']  = action_json.get('run')
 
-	if action_json.get('length') != None:
+	if action_json.get('length') is not None:
 		action['length']  = action_json.get('length')
 	else:
 		action['length']  = "Instant"
 
-	if action_json.get('repeat') != None:
+	if action_json.get('repeat') is not None:
 		action['repeat']  = action_json.get('repeat')
 	else:
 		action['repeat']  = True
-
+		
+	
+	action['mod'] = {}
 	action['effect']  = {}
-	if action_json.get('effect') != None:
+	if action_json.get('effect') is not None:
 		action['effect']['effect']  = action_json.get('effect')
+		action['mod'].update(action_json.get('effect'))
 
 	action['result']  = {}
-	if action_json.get('mod') != None:
+	if action_json.get('mod') is not None:
 		action['result']['mod']  = action_json.get('mod')
-	if action_json.get('result') != None:
+		action['mod'].update(action_json.get('mod'))
+	if action_json.get('result') is not None:
 		action['result']['result']  = action_json.get('result')
-
+		if isinstance(action_json.get('result'), dict):
+			action['mod'].update(action_json.get('result'))
+		
 	is_done = False
 	action['upgrade']= {}
-	if action_json.get('at') != None:
+	if action_json.get('at') is not None:
 		is_done = True
 		action['upgrade']['at'] = action_json.get('at')
-	if action_json.get('every') != None:
+	if action_json.get('every') is not None:
 		is_done = True
 		action['upgrade']['every'] = action_json.get('every')
-	if is_done == False:
+	if is_done is False:
 		action['upgrade'] = "No"
 
-	if action_json.get('require') != None:
+	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
 	else: 
 		action['require'] = "Nothing"
-
+	
 	return action
 
 
 
 def get_full_action_list():
-	result_list = lib.get_json("data/", "action")
-	action_list
+	result_list = lib.get_json("data/", "actions")
+	action_list = list()
 	for json_value in result_list:
 		action_list.append(action_info(json_value))
 	return action_list
@@ -118,7 +129,7 @@ def generate_wiki():
 		action_json = action_info(json_value)
 		table_line = []
 		# NAME part
-		if action_json.get('sym') != None:
+		if action_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(action_json['id']) + '">' + action_json['sym'] + '[[' +  str(action_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(action_json['id']) + '">[[' +  str(action_json['name']).capitalize() + ']]</span>')
@@ -128,7 +139,7 @@ def generate_wiki():
 
 		# cost part
 		tmp_cell = ""
-		if bool(action_json['cost']) !=False:
+		if bool(action_json['cost']) is notFalse:
 			if isinstance(action_json['cost'],str):
 				tmp_cell += "To start action:<br/>"
 				tmp_cell += " * " + (str(action_json['cost']))
@@ -140,7 +151,7 @@ def generate_wiki():
 				for mod_key in action_json['cost']:
 					tmp_cell += " * " + (str(mod_key) + ": " + str(action_json['cost'][mod_key]) + '<br/>')
 
-		if bool(action_json['run']) !=False:
+		if bool(action_json['run']) is notFalse:
 			if isinstance(action_json['run'],str):
 				tmp_cell += "To run action:<br/>"
 				tmp_cell += " * " + (str(action_json['run']))
@@ -162,9 +173,9 @@ def generate_wiki():
 
 		# Effect part
 		tmp_cell = ""
-		if bool(action_json['result']) != False:
+		if bool(action_json['result']) is not False:
 			tmp_cell += "Finishing effect: <br/>" + str(get_effect_info(action_json['result']))
-		if bool(action_json['effect']) != False:
+		if bool(action_json['effect']) is not False:
 			tmp_cell += "Running effect: <br/>" + str(get_effect_info(action_json['effect']))
 		table_line.append(tmp_cell)
 
@@ -173,13 +184,13 @@ def generate_wiki():
 		if isinstance(action_json['upgrade'],str):
 			tmp_cell += (str(action_json['upgrade']))
 		else:
-			if action_json['upgrade'].get('at') != None:
+			if action_json['upgrade'].get('at') is not None:
 				for level_key in action_json['upgrade'].get('at'):
 					tmp_cell += ("After " + str(level_key) + " uses:<br/>")
 					level_json = action_json['upgrade']['at'].get(level_key)
 					for result_key in level_json:
 						tmp_cell += " * " + str(result_key) + ": " + str(level_json[result_key]) + "<br/>"
-			if action_json['upgrade'].get('every') != None:
+			if action_json['upgrade'].get('every') is not None:
 				for level_key in action_json['upgrade'].get('every'):
 					tmp_cell += ("Every " + str(level_key) + " uses:<br/>")
 					level_json = action_json['upgrade']['every'].get(level_key)

@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to furnitures.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -10,10 +15,10 @@ def furniture_info(furniture_json):
 
 	furniture = {}
 	furniture['id'] = furniture_json.get('id')
-	if furniture_json.get('name') != None:
-		furniture['name'] = furniture_json.get('name')
+	if furniture_json.get('name') is not None:
+		furniture['name'] = furniture_json.get('name').title()
 	else:
-		furniture['name'] = furniture['id']
+		furniture['name'] = furniture['id'].title()
 
 	furniture['sym']  = furniture_json.get('sym')
 
@@ -21,31 +26,31 @@ def furniture_info(furniture_json):
 
 	furniture['desc']     = furniture_json.get('desc')
 
-	if furniture_json.get('tags') != None:
+	if furniture_json.get('tags') is not None:
 		furniture['tags'] = furniture_json.get('tags').split(",")
 	else:
 		furniture['tags'] = []
 
-	if furniture_json.get('repeat') == True:
+	if furniture_json.get('repeat') is True:
 		furniture['base_max'] = None
-	elif furniture_json.get('max') != None:
+	elif furniture_json.get('max') is not None:
 		furniture['base_max'] = furniture_json.get('max')
 	else:
 		furniture['base_max'] = 1
 
-	if furniture_json.get('cost') != None:
+	if furniture_json.get('cost') is not None:
 		furniture['cost']  = furniture_json.get('cost')
 	else:
 		furniture['cost']  = {}
 
-	if furniture_json.get('mod') != None:
+	if furniture_json.get('mod') is not None:
 		furniture['mod']  = furniture_json.get('mod')
 	else:
 		furniture['mod']  = {}
 
-	if furniture_json.get('require') != None:
+	if furniture_json.get('require') is not None:
 		furniture['require'] = furniture_json.get('require')
-	if furniture_json.get('need') != None:
+	if furniture_json.get('need') is not None:
 		furniture['require'] = furniture_json.get('need')
 	else: 
 		furniture['require'] = "Nothing"
@@ -56,7 +61,7 @@ def furniture_info(furniture_json):
 
 def get_full_furniture_list():
 	result_list = lib.get_json("data/", "furniture")
-	furniture_list
+	furniture_list = list()
 	for json_value in result_list:
 		furniture_list.append(furniture_info(json_value))
 	return furniture_list
@@ -71,7 +76,7 @@ def generate_wiki():
 		furniture_json = furniture_info(json_value)
 		table_line = []
 		# NAME part
-		if furniture_json.get('sym') != None:
+		if furniture_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(furniture_json['id']) + '">' + furniture_json['sym'] + '[[' +  str(furniture_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(furniture_json['id']) + '">[[' +  str(furniture_json['name']).capitalize() + ']]</span>')

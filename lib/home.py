@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to homes.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -10,10 +15,10 @@ def home_info(home_json):
 
 	home = {}
 	home['id'] = home_json.get('id')
-	if home_json.get('name') != None:
-		home['name'] = home_json.get('name')
+	if home_json.get('name') is not None:
+		home['name'] = home_json.get('name').title()
 	else:
-		home['name'] = home['id']
+		home['name'] = home['id'].title()
 
 	home['sym'] = home_json.get('sym')
 
@@ -23,22 +28,22 @@ def home_info(home_json):
 
 	home['size'] = home_json.get('mod').get("space.max")
 
-	if home_json.get('tags') != None:
+	if home_json.get('tags') is not None:
 		home['tags'] = home_json.get('tags').split(",")
 	else:
 		home['tags'] = []
 
-	if home_json.get('cost') != None:
+	if home_json.get('cost') is not None:
 		home['cost']  = home_json.get('cost')
 	else:
 		home['cost']  = {}
-
-	if home_json.get('mod') != None:
+	
+	if home_json.get('mod') is not None:
 		home['mod']  = home_json.get('mod')
 	else:
 		home['mod']  = {}
-
-	if home_json.get('require') != None:
+	
+	if home_json.get('require') is not None:
 		home['require'] = home_json.get('require')
 	else: 
 		home['require'] = "Nothing"
@@ -48,8 +53,8 @@ def home_info(home_json):
 
 
 def get_full_home_list():
-	result_list = lib.get_json("data/", "home")
-	home_list
+	result_list = lib.get_json("data/", "homes")
+	home_list = list()
 	for json_value in result_list:
 		home_list.append(home_info(json_value))
 	return home_list
@@ -64,7 +69,7 @@ def generate_wiki():
 		home_json = home_info(json_value)
 		table_line = []
 		# NAME part
-		if home_json.get('sym') != None:
+		if home_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(home_json['id']) + '">' + home_json['sym'] + '[[' +  str(home_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(home_json['id']) + '">[[' +  str(home_json['name']).capitalize() + ']]</span>')

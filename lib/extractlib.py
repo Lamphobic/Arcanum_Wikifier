@@ -27,7 +27,7 @@ def recurs_json_to_str(json_value):
 def gen_dict_extract(key, var):
     if hasattr(var,'items'):
         for k, v in var.items():
-            if k == key:
+            if k is key:
                 yield v
             if isinstance(v, dict):
                 for result in gen_dict_extract(key, v):
@@ -50,7 +50,7 @@ def get_json(path_to_json, target_name):
     result_list = []
     for json_source in json_dict:
         unencapsulated_json = json_dict[json_source]
-        while type(unencapsulated_json) != dict and unencapsulated_json:
+        while type(unencapsulated_json) is not dict and unencapsulated_json:
             unencapsulated_json = unencapsulated_json[0]
         if not unencapsulated_json:
             continue

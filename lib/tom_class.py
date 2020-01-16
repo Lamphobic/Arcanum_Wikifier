@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: ?
+Contributors: ?
+Purpose: Produce all pages directly related to classes.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -11,7 +16,7 @@ def find_link(tom_class_list, class_graph):
 #	edge_list = []
 	for source_item in tom_class_list:
 		for tom_class_item in tom_class_list:
-			if source_item['id'] in tom_class_item['require'] and not(source_item['id']+"<" in tom_class_item['require']) and not(source_item['id']+"=0" in tom_class_item['require']) and source_item['name'].capitalize() != tom_class_item['name'].capitalize():
+			if source_item['id'] in tom_class_item['require'] and not(source_item['id']+"<" in tom_class_item['require']) and not(source_item['id']+"=0" in tom_class_item['require']) and source_item['name'].capitalize() is not tom_class_item['name'].capitalize():
 				class_graph.edge(str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize()), weight='100')
 #				edge_list.append([str(source_item['name'].capitalize()), str(tom_class_item['name'].capitalize())])
 
@@ -35,7 +40,7 @@ def rank_nodes(tom_class_list, class_graph, tier_max):
 		s.node('Job_tier')
 		for tom_class_item in tom_class_list:
 			for tag in tom_class_item['tags']:
-				if tag == "t_job":
+				if tag is"t_job":
 					s.node(tom_class_item['name'].capitalize())
 
 	#############Neophyte_tier#############
@@ -55,7 +60,7 @@ def rank_nodes(tom_class_list, class_graph, tier_max):
 				s.node("Adept (murderer)")
 			for tom_class_item in tom_class_list:
 				for tag in tom_class_item['tags']:
-					if tag == "t_tier"+ str(i):
+					if tag is"t_tier"+ str(i):
 						s.node(tom_class_item['name'].capitalize())
 
 
@@ -129,7 +134,7 @@ def add_flavor(tom_class_list, class_graph, tier_max):
 		for i in range(0,tier_max+1):
 			for tom_class_item in tom_class_list:
 				for tag in tom_class_item['tags']:
-					if tag == "t_tier"+ str(i):
+					if tag is"t_tier"+ str(i):
 						if "g.evil>0" in tom_class_item['require'] or "g.warlock>0" in tom_class_item['require'] or "g.reanimator>=1" in tom_class_item['require'] or "g.reanimation" in tom_class_item['require']:
 							s.node(tom_class_item['name'].capitalize(), color='red:white', style='radial')
 	evil_subgraph=class_graph.subgraph(name='evil')
@@ -137,7 +142,7 @@ def add_flavor(tom_class_list, class_graph, tier_max):
 		for i in range(0,tier_max+1):
 			for tom_class_item in tom_class_list:
 				for tag in tom_class_item['tags']:
-					if tag == "t_tier"+ str(i):
+					if tag is"t_tier"+ str(i):
 						if ("g.evil>0" in tom_class_item['require']  and not("||g.evil>0" in tom_class_item['require'])) or "g.warlock>0" in tom_class_item['require'] or "g.reanimator>=1" in tom_class_item['require'] or "g.reanimation" in tom_class_item['require'] or "phylactory" in tom_class_item['require']:
 							s.node(tom_class_item['name'].capitalize(), fillcolor='red', style='filled')
 	good_subgraph=class_graph.subgraph(name='good')
@@ -145,14 +150,14 @@ def add_flavor(tom_class_list, class_graph, tier_max):
 		for i in range(0,tier_max+1):
 			for tom_class_item in tom_class_list:
 				for tag in tom_class_item['tags']:
-					if tag == "t_tier"+ str(i):
+					if tag is"t_tier"+ str(i):
 						if "g.evil<=0" in tom_class_item['require'] or "g.evil==0" in tom_class_item['require']:
 							s.node(tom_class_item['name'].capitalize(), fillcolor='cyan', style='filled')	
 
 
 	
 def tom_class_graph(tom_class_list=None):
-	if tom_class_list == None:
+	if tom_class_list is None:
 		tom_class_list = []
 		for json_value in result_list:
 			tom_class_json = tom_class_info(json_value)
@@ -186,13 +191,13 @@ def tom_class_graph(tom_class_list=None):
 	#############Job_tier#############
 	for tom_class_item in tom_class_list:
 		for tag in tom_class_item['tags']:
-			if tag == "t_job":
+			if tag is"t_job":
 				class_graph.edge("Apprenticeship", str(tom_class_item['name'].capitalize()))
 		
 	#############Neophyte_tier#############
 	for tom_class_item in tom_class_list:
 		for tag in tom_class_item['tags']:
-			if tag == "t_job":
+			if tag is"t_job":
 				class_graph.edge(str(tom_class_item['name'].capitalize()), "Neophyte")
 					
 	#############tier 0#############
@@ -204,7 +209,7 @@ def tom_class_graph(tom_class_list=None):
 #	for i in range(1,tier_max+1):		#There is another tier range in the rank_nodes function
 #		for tom_class_item in tom_class_list:
 #			for tag in tom_class_item['tags']:
-#				if tag == "t_tier"+ str(i):
+#				if tag is"t_tier"+ str(i):
 #					class_graph.edge('Tier' + str(i), str(tom_class_item['name'].capitalize()), style='dotted', weight='1')
 
 #Another idea, to center the graph, would be to link all nodes of a rank to the ones above and under.
@@ -220,39 +225,44 @@ def tom_class_info(tom_class_json):
 
 	tom_class = {}
 	tom_class['id'] = tom_class_json.get('id')
-	if tom_class_json.get('name') != None:
-		tom_class['name'] = tom_class_json.get('name')
+	if tom_class_json.get('name') is not None:
+		tom_class['name'] = tom_class_json.get('name').title()
 	else:
-		tom_class['name'] = tom_class['id']
+		tom_class['name'] = tom_class['id'].title()
 
 	tom_class['sym'] = tom_class_json.get('sym')
 
 	tom_class['desc'] = tom_class_json.get('desc')
 
-	if tom_class_json.get('tags') != None:
+	if tom_class_json.get('tags') is not None:
 		tom_class['tags'] = tom_class_json.get('tags').split(",")
 	else:
 		tom_class['tags'] = []
 
 
-	if tom_class_json.get('cost') != None:
+	if tom_class_json.get('cost') is not None:
 		tom_class['cost']  = tom_class_json.get('cost')
 	else:
 		tom_class['cost']  = {}
-
+	
+	tom_class['mod'] = {}
 	tom_class['effect']  = {}
-	if tom_class_json.get('mod') != None:
+	if tom_class_json.get('mod') is not None:
+		if isinstance(tom_class_json.get('mod'),dict):
+			tom_class['mod'].update(tom_class_json.get('mod'))
 		if isinstance(tom_class_json.get('mod'),str):
 			tom_class['effect'][tom_class_json.get('mod')] = True
 		else:
 			tom_class['effect']  = {**tom_class['effect'], **tom_class_json.get('mod')}
-	if tom_class_json.get('effect') != None:
+	if tom_class_json.get('effect') is not None:
+		if isinstance(tom_class_json.get('effect'),dict):
+			tom_class['mod'].update(tom_class_json.get('effect'))
 		if isinstance(tom_class_json.get('effect'),str):
 			tom_class['effect'][tom_class_json.get('effect')] = True
 		else:
 			tom_class['effect']  = {**tom_class['effect'], **tom_class_json.get('effect')}		
 
-	if tom_class_json.get('require') != None:
+	if tom_class_json.get('require') is not None:
 		tom_class['require'] = tom_class_json.get('require')
 	else: 
 		tom_class['require'] = "Nothing"
@@ -262,8 +272,8 @@ def tom_class_info(tom_class_json):
 
 
 def get_full_tom_class_list():
-	result_list = lib.get_json("data/", "tom_class")
-	tom_class_list
+	result_list = lib.get_json("data/", "classes")
+	tom_class_list = list()
 	for json_value in result_list:
 		tom_class_list.append(tom_class_info(json_value))
 	return tom_class_list
@@ -280,7 +290,7 @@ def generate_wiki():
 		table_line = []
 		# NAME part
 		tmp_cell = ""
-		if tom_class_json.get('sym') != None:
+		if tom_class_json.get('sym') is not None:
 			tmp_cell += '| <span id="' + str(tom_class_json['id']) + '">' + tom_class_json['sym'] + '[[' +  str(tom_class_json['name']).capitalize() + ']]'
 		else:
 			tmp_cell += '| <span id="' + str(tom_class_json['id']) + '">[[' +  str(tom_class_json['name']).capitalize() + ']]'

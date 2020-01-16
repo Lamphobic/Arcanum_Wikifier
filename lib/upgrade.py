@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+"""
+Original Author: Harrygiel
+Contributors: Lamphobic
+Purpose: Produce all pages directly related to upgrades.
+"""
 
 import os, json, sys, datetime
 import lib.extractlib as lib
@@ -6,7 +11,7 @@ import lib.wikilib as wiki
 
 def extract_effect_key(effect_json):
 	return_txt = ""
-	if effect_json != None:
+	if effect_json is not None:
 		if (effect_json,str):
 			return_txt += str(effect_json)
 		else:
@@ -35,44 +40,45 @@ def upgrade_info(upgrade_json):
 #ID, name, description, cost, max, effect, require, need
 	upgrade = {}
 	upgrade['id'] = upgrade_json.get('id')
-	if upgrade_json.get('name') != None:
-		upgrade['name'] = upgrade_json.get('name')
+	if upgrade_json.get('name') is not None:
+		upgrade['name'] = upgrade_json.get('name').title()
 	else:
-		upgrade['name'] = upgrade['id']
+		upgrade['name'] = upgrade['id'].title()
 
 	upgrade['sym']      = upgrade_json.get('sym')
 
 	upgrade['desc']     = upgrade_json.get('desc')
 
-	if upgrade_json.get('tags') != None:
+	if upgrade_json.get('tags') is not None:
 		upgrade['tags'] = upgrade_json.get('tags').split(",")
 	else:
 		upgrade['tags'] = []
 
-	if upgrade_json.get('cost') != None:
+	if upgrade_json.get('cost') is not None:
 		upgrade['cost']  = upgrade_json.get('cost')
 	else:
 		upgrade['cost']  = {}
 
-	if upgrade_json.get('max') != None:
+	if upgrade_json.get('max') is not None:
 		upgrade['max']  = upgrade_json.get('max')
 	else:
 		upgrade['max']  = "1"
 
+	upgrade['mod'] = list()
 	upgrade['effect']  = {}
-	if upgrade_json.get('effect') != None:
+	if upgrade_json.get('effect') is not None:
 		upgrade['effect']['effect']  = upgrade_json.get('effect')
-	if upgrade_json.get('result') != None:
+	if upgrade_json.get('result') is not None:
 		upgrade['effect']['result']  = upgrade_json.get('result')
-	if upgrade_json.get('mod') != None:
+	if upgrade_json.get('mod') is not None:
 		upgrade['effect']['mod']  = upgrade_json.get('mod')
-
-	if upgrade_json.get('require') != None:
+		upgrade['mod'] = upgrade_json.get('mod')
+	if upgrade_json.get('require') is not None:
 		upgrade['require'] = upgrade_json.get('require')
 	else: 
 		upgrade['require'] = "Nothing"
 
-	if upgrade_json.get('need') != None:
+	if upgrade_json.get('need') is not None:
 		upgrade['need'] = upgrade_json.get('need')
 	else: 
 		upgrade['need'] = "Nothing"
@@ -82,8 +88,8 @@ def upgrade_info(upgrade_json):
 
 
 def get_full_upgrade_list():
-	result_list = lib.get_json("data/", "upgrade")
-	upgrade_list
+	result_list = lib.get_json("data/", "upgrades")
+	upgrade_list = list()
 	for json_value in result_list:
 		upgrade_list.append(upgrade_info(json_value))
 	return upgrade_list
@@ -97,7 +103,7 @@ def generate_wiki():
 		upgrade_json = upgrade_info(json_value)
 		table_line = []
 		# NAME part
-		if upgrade_json.get('sym') != None:
+		if upgrade_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(upgrade_json['id']) + '">' + upgrade_json['sym'] + '[[' +  str(upgrade_json['name']).capitalize() + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(upgrade_json['id']) + '">[[' +  str(upgrade_json['name']).capitalize() + ']]</span>')
