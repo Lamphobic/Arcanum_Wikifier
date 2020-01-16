@@ -82,7 +82,7 @@ def generate_individual_res_page(res):
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-					matchmod = str(mod_key).lower().split('.')
+						matchmod = str(mod_key).lower().split('.')
 						if matchname in matchmod: #if this mod references this resource by name
 							affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
 						elif matchid in matchmod: #if this mod references this resource by id
