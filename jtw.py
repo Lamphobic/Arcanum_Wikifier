@@ -28,11 +28,8 @@ spell: blade and bladelore collide. json problem ?
 
 def main(argv):
 	print(argv)
-	online_update=False
-
-	for arg in argv[1:]:
-		if "-on" in arg.lower():
-			online_update=True
+	global online_update
+	online_update = False
 			
 	global file_names
 	global page_names
@@ -61,7 +58,7 @@ def main(argv):
 		func = switch.get(arg.lower(), lambda: print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all"))
 		func()
 
-	if online_update==True:
+	if online_update == True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
 			if page_names[i] is "Classes":
@@ -131,7 +128,9 @@ def gen_all():
 	gen_actions()
 	
 def on():
-	pass
+	global online_update
+	online_update = True
+	print("Automatic upload turned on.")
 	
 				
 main(sys.argv)
