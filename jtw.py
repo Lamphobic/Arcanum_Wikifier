@@ -69,7 +69,7 @@ def main(argv):
 		"all": gen_all,
 		"-on": None,
 		"-mainonly": None,
-		"-differencesonly": None,
+		"-diffonly": None,
 		"-help": None,
 		"-h": None,
 		"-?": None,
@@ -170,7 +170,16 @@ def differences_only():
 	pass #TODO: Later
 	
 def help():
-	print("python (3.8) jtw.py actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+	print("python (3.8) jtw.py [OPTIONS] actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+	print("Options")
+	print("-on")
+	print("Sets the bot to upload the newly generated pages online.")
+	print("-mainonly")
+	print("Produces only main registry files under the various topics.")
+	print("-diffonly")
+	print("When -on is active, uploads only files that are different from a previous run of this script.")
+	print("-help, -h, help, -?, ?")
+	print("View this help page.")
 	exit()
 	
 				
