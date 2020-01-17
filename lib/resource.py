@@ -18,6 +18,7 @@ import lib.skill as skill
 import lib.spell as spell
 import lib.tom_class as tom_class
 import lib.upgrade as upgrade
+import lib.wikilib as wiki
 
 def resource_info(resource_json):
 #Get every information of a resource:
@@ -135,40 +136,62 @@ def generate_wiki(main_only=False):
 		"upgrade": upgrade.get_full_upgrade_list()
 		}
 	ret = list()
+	table_keys = ['Name','Description','Tags','Base Maximum','Bonus']
+	table_lines = []
 	result_list = lib.get_json("data/", "resources")
-	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
-		wiki_dump.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
-		wiki_dump.write('{| class="wikitable sortable"\n')
-		wiki_dump.write('|-\n')
-		wiki_dump.write('! Name !! Description !! Tags !! Base maximum !! Is hidden !! Bonus \n')
-		result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
-		for json_value in result_list:
-			resource_json = resource_info(json_value)
-
-			wiki_dump.write('|-\n')
-			# NAME part
-			if resource_json.get('sym') is not None:
-				wiki_dump.write('| <span id="' + str(resource_json['id']) + '">' + resource_json['sym'] + '[[' +  str(resource_json['name']) + ']]</span> ||')
-			else:
-				wiki_dump.write('| <span id="' + str(resource_json['id']) + '">[[' +  str(resource_json['name']) + ']]</span> ||')
-
-			wiki_dump.write(str(resource_json['desc']) + ' || ')
-
-			for tag in resource_json['tags']:
-				wiki_dump.write(str(tag) + "<br/>")
-			wiki_dump.write(' || ')
-
-			wiki_dump.write(str(resource_json['base_max'] ) + ' || ')
-
-			wiki_dump.write(str(resource_json['hidden'] ) + ' || ')
-
-			for mod_key in resource_json['mod']:
-				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
-			wiki_dump.write('\n')
+	result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
+	for json_value in result_list:
+		resource_json = resource_info(json_value)
+		
+		table_line = []
+		
+		
+		if resource_json.get('sym') is not None:
+			table_line.append('| <span id="' + str(resource_json['id']) + '">' + resource_json['sym'] + '[[' +  str(resource_json['name']) + ']]</span>')
+		else:
+			table_line.append('| <span id="' + str(resource_json['id']) + '">[[' +  str(resource_json['name']) + ']]</span>')
 			
-			if not main_only:
-				generate_individual_res_page(resource_json)
-				ret.append(resource_json['name'])
-		wiki_dump.write('|}')
+		# Description part
+		table_line.append(str(resource_json['desc']))
+		
+		# Tags part
+		cell = "";
+		for tag in resource_json['tags']:
+			cell += (str(tag) + "<br/>")
+		table_line.append(cell)
+		
+		# Base Maximum part
+		table_line.append(str(resource_json['base_max']))
+		
+		# Bonus part
+		cell = ""
+		for mod_key in resource_json['mod']:
+			cell += (str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
+		table_line.append(cell)
+		
+		# Add line to lines
+		table_lines.append(table_line)
+		
+		if not main_only:
+			generate_individual_res_page(resource_json)
+			ret.append(resource_json['name'])
+			
+	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
+		
+		wiki_dump.write("\n==General Resources==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'magicgems' not in cell and 'manas' not in cell and 't_runes' not in cell"]]))
+		
+		wiki_dump.write("\n==Magic Gems==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'magicgems' in cell"]]))
+		
+		wiki_dump.write("\n==Runes==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'t_runes' in cell"]]))
+		
+		wiki_dump.write("\n==Manas==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'manas' in cell"]]))
+		
+		wiki_dump.write("\n==Full List==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines))
 
-		return ret
+	return ret

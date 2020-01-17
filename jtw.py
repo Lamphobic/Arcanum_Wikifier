@@ -164,7 +164,6 @@ def on():
 def main_only():
 	global only_generate_main_pages
 	only_generate_main_pages = True
-	print("Automatic upload turned on.")
 	
 def differences_only():
 	pass #TODO: Later
