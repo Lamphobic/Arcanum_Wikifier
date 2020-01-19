@@ -310,6 +310,7 @@ def generate_wiki(main_only=False, no_graph_gen=False):
 		"upgrade": upgrade.get_full_upgrade_list()
 		}
 	ret = list()
+	
 	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Benefits', 'Requirement'] 
 	table_lines = []
 	tom_class_list = []
@@ -370,7 +371,7 @@ def generate_wiki(main_only=False, no_graph_gen=False):
 		table_lines.append(table_line)
 		
 		if not main_only:
-			generate_individual_cls_page(resource_json)
+			generate_individual_cls_page(class_json)
 			ret.append(resource_json['name'])
 
 	with open("classes.txt", "w", encoding="UTF-8") as wiki_dump:
@@ -394,4 +395,4 @@ def generate_wiki(main_only=False, no_graph_gen=False):
 	if not no_graph_gen:
 		tom_class_graph(tom_class_list)
 
-	return "classes.txt"
+	return ret
