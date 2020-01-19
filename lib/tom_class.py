@@ -6,8 +6,21 @@ Purpose: Produce all pages directly related to classes.
 """
 
 import os, json, sys, datetime
+
 import lib.extractlib as lib
+import lib.action as action
+import lib.dungeon as dungeon
+import lib.furniture as furniture
+import lib.home as home
+import lib.monster as monster
+import lib.potion as potion
+import lib.resource as resource
+import lib.skill as skill
+import lib.spell as spell
+import lib.tom_class as tom_class
+import lib.upgrade as upgrade
 import lib.wikilib as wiki
+
 import graphviz
 import math
 
@@ -277,9 +290,26 @@ def get_full_tom_class_list():
 	for json_value in result_list:
 		tom_class_list.append(tom_class_info(json_value))
 	return tom_class_list
+	
+def generate_individual_cls_page(res):
+	pass
 
-
-def generate_wiki():
+def generate_wiki(main_only=False, no_graph_gen=False):
+	global lists
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
+	ret = list()
 	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Benefits', 'Requirement'] 
 	table_lines = []
 	tom_class_list = []
@@ -338,6 +368,10 @@ def generate_wiki():
 			table_line.append(str(tom_class_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
 
 		table_lines.append(table_line)
+		
+		if not main_only:
+			generate_individual_cls_page(resource_json)
+			ret.append(resource_json['name'])
 
 	with open("classes.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
@@ -356,7 +390,8 @@ def generate_wiki():
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
-
-	tom_class_graph(tom_class_list)
+	
+	if not no_graph_gen:
+		tom_class_graph(tom_class_list)
 
 	return "classes.txt"

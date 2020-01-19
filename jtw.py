@@ -90,16 +90,16 @@ def main(argv):
 			func()
 	
 	flags_switch = {
-		"-on": on,
-		"-test": test,
-		"-main": main_only,
-		"-nograph": no_graph,
-		"-diff": differences_only,
-		"-help": help,
-		"-h": help,
-		"-?": help,
-		"help": help,
-		"?": help
+		"-on": flg_on,
+		"-test": flg_test,
+		"-main": flg_main_only,
+		"-nograph": flg_no_graph,
+		"-diff": flg_differences_only,
+		"-help": flg_help,
+		"-h": flg_help,
+		"-?": flg_help,
+		"help": flg_help,
+		"?": flg_help
 	}
 	
 	for arg in argv[1:]:
@@ -150,7 +150,10 @@ def main(argv):
 				if page_names[i] is "Classes":
 					print("can't upload classes yet: the manual page is better")
 				else:
-					wiki.bot_update(page_names[i], file_names[i])
+					if test_update:
+						wiki.bot_update("Test"+page_names[i], file_names[i])
+					else:
+						wiki.bot_update(page_names[i], file_names[i])
 
 def gen_actions():
 	file_names.append(action.generate_wiki())
@@ -185,14 +188,15 @@ def gen_spells():
 	page_names.append("Spells")
 
 def gen_resources():
-	res = resource.generate_wiki(only_generate_main_pages)
+	res = resource.generate_wiki(main_only=only_generate_main_pages)
 	file_names.append("resources.txt")
 	page_names.append("Resources")
 	file_names.extend([(e + '.txt') for e in res])
 	page_names.extend(['_'.join(e.split(' ')) for e in res])
 
 def gen_classes():
-	file_names.append(tom_class.generate_wiki())
+	cls = tom_class.generate_wiki(main_only=only_generate_main_pages, no_graph_gen=no_graph)
+	file_names.append("classes.txt")
 	page_names.append("Classes")
 
 def gen_upgrades():
@@ -212,30 +216,30 @@ def gen_all():
 	gen_dungeons()
 	gen_actions()
 	
-def on():
+def flg_on(): #Fully working
 	global online_update
 	online_update = True
 	print("Automatic upload turned on.")
 	
-def test():
+def flg_test(): #Fully working
 	global test_update
 	test_update = True
 	print("Uploading to only test pages.")
 	
-def main_only():
+def flg_main_only(): #Partially working
 	global only_generate_main_pages
 	only_generate_main_pages = True
 	print("Generating main pages only.")
 	
-def no_graph():
+def flg_no_graph(): #not working
 	global no_graph
 	no_graph = True
 	print("Not generating class graph.")
 	
-def differences_only():
+def flg_differences_only(): #not working
 	pass #TODO: Later
 	
-def help():
+def flg_help():
 	print("python (3.8) jtw.py [OPTIONS] actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|upgrades|all")
 	print("Options")
 	print("-on")
