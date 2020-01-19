@@ -83,7 +83,7 @@ def generate_individual_res_page(res):
 		sources = list()
 		matchid = res['id'].lower()
 		#Build Sources
-		for l in lists: #fo''r each list of entries
+		for l in lists: #for each list of entries
 			sources = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
