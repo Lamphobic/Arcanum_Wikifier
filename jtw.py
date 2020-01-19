@@ -245,7 +245,7 @@ def flg_help():
 	print("-on")
 	print("\tSets the bot to upload the newly generated pages online.")
 	print("-test")
-	print("\tIf -on is set, when uploading, uploads only main pages, and uploads them to a test pages.")
+	print("\tIf -on is set, when uploading, uploads only main pages, and uploads them to a test pages. Block uploading of non-main pages.")
 	print("-main")
 	print("\tProduces only main listing files under the various topics.")
 	print("-nograph")
