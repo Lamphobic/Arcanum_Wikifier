@@ -137,6 +137,7 @@ def generate_wiki(main_only=False):
 		"upgrade": upgrade.get_full_upgrade_list()
 		}
 	ret = list()
+	
 	table_keys = ['Name','Description','Tags','Base Maximum','Bonus']
 	table_lines = []
 	result_list = lib.get_json("data/", "resources")
