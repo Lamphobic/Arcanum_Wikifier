@@ -81,7 +81,6 @@ def generate_individual_res_page(res):
 		bsource = False;
 		affected_by = list()
 		sources = list()
-		matchname = res['name'].lower()
 		matchid = res['id'].lower()
 		#Build Sources
 		for l in lists: #fo''r each list of entries
