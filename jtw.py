@@ -180,8 +180,11 @@ def gen_potions():
 	page_names.append("Potions")
 
 def gen_skills():
-	file_names.append(skill.generate_wiki())
+	skl = skill.generate_wiki(main_only=only_generate_main_pages)
+	file_names.append("skills.txt")
 	page_names.append("Skills")
+	file_names.extend([(e + '.txt') for e in skl])
+	page_names.extend(['_'.join(e.split(' ')) for e in skl])
 
 def gen_spells():
 	file_names.append(spell.generate_wiki())
@@ -198,6 +201,8 @@ def gen_classes():
 	cls = tom_class.generate_wiki(main_only=only_generate_main_pages, no_graph_gen=no_graph)
 	file_names.append("classes.txt")
 	page_names.append("Classes")
+	file_names.extend([(e + '.txt') for e in cls])
+	page_names.extend(['_'.join(e.split(' ')) for e in cls])
 
 def gen_upgrades():
 	file_names.append(upgrade.generate_wiki())

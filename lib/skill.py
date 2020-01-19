@@ -6,7 +6,19 @@ Purpose: Produce all pages directly related to skills.
 """
 
 import os, json, sys, datetime
+
 import lib.extractlib as lib
+import lib.action as action
+import lib.dungeon as dungeon
+import lib.furniture as furniture
+import lib.home as home
+import lib.monster as monster
+import lib.potion as potion
+import lib.resource as resource
+import lib.skill as skill
+import lib.spell as spell
+import lib.tom_class as tom_class
+import lib.upgrade as upgrade
 import lib.wikilib as wiki
 
 def skill_info(skill_json):
@@ -77,8 +89,26 @@ def get_full_skill_list():
 	return skill_list
 
 
+def generate_individual_skl_page(res):
+	pass
 
-def generate_wiki():
+def generate_wiki(main_only=False):
+	global lists
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
+	ret = list()
+	
 	table_keys = ['Name', 'Description', 'tags', 'Cost', 'Consumption', 'Stat Bonus', 'Reward', 'Requirement', 'Need', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
@@ -138,8 +168,13 @@ def generate_wiki():
 
 		#level scaling part
 		table_line.append(str(skill_json['level_scaling']))
-
+		
+		# Add line to lines
 		table_lines.append(table_line)
+		
+		if not main_only:
+			generate_individual_skl_page(skill_json)
+			ret.append(resource_json['name'])
 
 	with open("skills.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
@@ -162,4 +197,4 @@ def generate_wiki():
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
 
-		return "skills.txt"
+		return ret
