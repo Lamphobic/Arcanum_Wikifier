@@ -291,7 +291,7 @@ def get_full_tom_class_list():
 		tom_class_list.append(tom_class_info(json_value))
 	return tom_class_list
 	
-def generate_individual_cls_page(res):
+def generate_individual_cls_page(cls):
 	pass
 
 def generate_wiki(main_only=False, no_graph_gen=False):
