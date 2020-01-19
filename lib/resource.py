@@ -91,7 +91,7 @@ def generate_individual_res_page(res):
 						matchmod = str(mod_key).lower().split('.')
 						if matchid in matchmod: #if this mod references this resource by id
 							if matchid == str(mod_key).lower():
-								sources.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
 			sources.sort()
 			if sources:
 				if not bsource:
@@ -109,7 +109,7 @@ def generate_individual_res_page(res):
 						matchmod = str(mod_key).lower().split('.')
 						if matchid in matchmod: #if this mod references this resource by id
 							if matchid != str(mod_key).lower():
-								affected_by.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
 			affected_by.sort()
 			if affected_by:
 				if not baffected:
