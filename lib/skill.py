@@ -31,9 +31,9 @@ def skill_info(skill_json):
 	else:
 		skill['name'] = skill['id'].title()
 
-	skill['sym']  = skill_json.get('sym')
+	skill['sym'] = skill_json.get('sym')
 
-	skill['desc']     = skill_json.get('desc')
+	skill['desc'] = skill_json.get('desc')
 
 	if skill_json.get('tags') is not None:
 		skill['tags'] = skill_json.get('tags').split(",")
@@ -42,35 +42,52 @@ def skill_info(skill_json):
 
 	if skill_json.get('buy') is not None:
 		skill['cost']  = skill_json.get('buy')
+		if skill_json.get('buy').get('sp') is None:
+			skill['cost']['sp'] = 1
 	else:
-		skill['cost']  = {}
+		skill['cost'] = {}
+		skill['cost']['sp'] = 1
 
 	if skill_json.get('run') is not None:
 		skill['consumption']  = skill_json.get('run')
 	else:
 		skill['consumption']  = {}
-
+	
+	skill['mod'] = {}
 	if skill_json.get('mod') is not None:
-		skill['bonus']  = skill_json.get('mod')
-		skill['mod']  = skill_json.get('mod')
+		skill['bonus'] = skill_json.get('mod')
+		is_dict = True
+		while is_dict:
+			is_dict = False
+			newDict = {}
+			for e in skill['bonus']:
+				if not isinstance(skill['bonus'][e], dict):
+					tmp = skill['bonus'][e]
+					newDict[e] = tmp
+				else:
+					is_dict = True
+					for en in skill['bonus'][e]:
+						newDict[e + '.' + en] = skill['bonus'][e][en]
+			skill['bonus'] = dict(newDict)
+		skill['mod'].update(skill['bonus'])
 	else:
-		skill['bonus']  = {}
-		skill['mod']  = {}
+		skill['bonus'] = {}
 
 	if skill_json.get('result') is not None:
-		skill['reward']  = skill_json.get('result')
+		skill['reward'] = skill_json.get('result')
+		skill['mod'].update(skill_json.get('result'))
 	else:
-		skill['reward']  = {}
+		skill['reward'] = {}
 
 	if skill_json.get('need') is not None:
-		skill['need']  = skill_json.get('need')
+		skill['need'] = skill_json.get('need')
 	else:
-		skill['need']  = {}
+		skill['need'] = {}
 
 	if skill_json.get('level') is not None:
-		skill['level_scaling']  = skill_json.get('level')
+		skill['level_scaling'] = skill_json.get('level')
 	else:
-		skill['level_scaling']  = "1"
+		skill['level_scaling'] = "1"
 
 	if skill_json.get('require') is not None:
 		skill['require'] = skill_json.get('require')
@@ -89,8 +106,64 @@ def get_full_skill_list():
 	return skill_list
 
 
-def generate_individual_skl_page(res):
-	pass
+def generate_individual_skl_page(skl):
+	with open(skl['name']+".txt", "w", encoding="UTF-8") as skl_page:
+		skl_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
+		if skl['desc']:
+			skl_page.write('==Description==\n' + skl['desc'] + '\n')
+		if skl['tags']:
+			skl_page.write('==Tags==\n' + ' '.join(skl['tags']) + '\n')
+		if skl['cost']:
+			skl_page.write('==Purchase Cost==\n')
+			for entry_key in skl['cost']:
+				skl_page.write('*' + entry_key + ': ' + str(skl['cost'][entry_key]) + '\n')
+		if skl['consumption']:
+			skl_page.write('==Training Cost==\n')
+			for entry_key in skl['consumption']:
+				skl_page.write('*' + entry_key + ': ' + str(skl['consumption'][entry_key]) + '\n')
+		if skl['bonus']:
+			skl_page.write('==Rank Bonuses==\n')
+			for entry_key in skl['bonus']:
+				skl_page.write('*' + entry_key + ': ' + str(skl['bonus'][entry_key]) + '\n')
+		if skl['reward']:
+			skl_page.write('==Rewards==\n')
+			for entry_key in skl['reward']:
+				skl_page.write('*' + entry_key + ': ' + str(skl['reward'][entry_key]) + '\n')
+		skl_page.write('==Unlock Requirements==\n')
+		if skl['require'] != "Nothing":
+			skl_page.write('*' + str(skl['require'].replace("&&", "\n*").replace("||", "OR")) + '\n')
+		if skl['need']:
+			if isinstance(skl['need'], list):
+					for e in skl['need']:
+						skl_page.write(str(e) + '\n')
+			else:
+				skl_page.write(str(skl['need']) + '\n')
+		if skl['need']:
+			skl_page.write('==Training Requirements==\n')
+			if isinstance(skl['need'], list):
+				for e in skl['need']:
+					skl_page.write(str(e) + '\n')
+			else:
+				skl_page.write(str(skl['need']) + '\n')
+		skl_page.write('==Level Scaling==\n' + str(skl['level_scaling']) + '\n')
+		
+		baffected = False;
+		bsource = False;
+		bulocks = False;
+		affected_by = list()
+		sources = list()
+		unlock = list()
+		matchid = skl['id'].lower()
+		
+		#Build Unlocks
+		
+		
+		#Build Affected By
+			
+		
+		#Build Alternative Training Sources
+		
+		
 
 def generate_wiki(main_only=False):
 	global lists
@@ -109,7 +182,7 @@ def generate_wiki(main_only=False):
 		}
 	ret = list()
 	
-	table_keys = ['Name', 'Description', 'tags', 'Cost', 'Consumption', 'Stat Bonus', 'Reward', 'Requirement', 'Need', 'Level Scaling'] 
+	table_keys = ['Name', 'Description', 'tags', 'Purchase Cost', 'Training Cost', 'Rank Bonus', 'Reward', 'Unlock Requirements', 'Training Requirements', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
 	for json_value in result_list:
@@ -132,20 +205,20 @@ def generate_wiki(main_only=False):
 
 		# Cost part
 		tmp_cell = ""
-		for mod_key in skill_json['cost']:
-			tmp_cell += (str(mod_key) + ": " + str(skill_json['cost'][mod_key]) + '<br/>')
+		for cost_key in sorted(skill_json['cost'].keys()):
+			tmp_cell += (str(cost_key) + ": " + str(skill_json['cost'][cost_key]) + '<br/>')
 		table_line.append(str(tmp_cell))
 
 		# consumption part
 		tmp_cell = ""
-		for mod_key in skill_json['consumption']:
-			tmp_cell += (str(mod_key) + ": " + str(skill_json['consumption'][mod_key]) + '<br/>')
+		for train_cost_key in skill_json['consumption']:
+			tmp_cell += (str(train_cost_key) + ": " + str(skill_json['consumption'][train_cost_key]) + '<br/>')
 		table_line.append(str(tmp_cell))
 
 		# bonus part
 		tmp_cell = ""
-		for mod_key in skill_json['bonus']:
-			tmp_cell += (str(mod_key) + ": " + str(skill_json['bonus'][mod_key]) + '<br/>')
+		for rank_bonus_key in skill_json['bonus']:
+			tmp_cell += (str(rank_bonus_key) + ": " + str(skill_json['bonus'][rank_bonus_key]) + '<br/>')
 		table_line.append(str(tmp_cell))
 
 		# reward part
@@ -174,27 +247,26 @@ def generate_wiki(main_only=False):
 		
 		if not main_only:
 			generate_individual_skl_page(skill_json)
-			ret.append(resource_json['name'])
+			ret.append(skill_json['name'])
 
 	with open("skills.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
 		wiki_dump.write("\n==Main School==\n")
 		wiki_dump.write("List of the main schools of Theory of Magic\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'t_school' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'t_school' in cell"]]))
 
 		wiki_dump.write("\n==Elemental School==\n")
 		wiki_dump.write("List of the elemental schools of Theory of Magic\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'elemental' in cell"]]).replace(".max", " max").replace(".rate", " rate"))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'elemental' in cell"]]))
 
 		wiki_dump.write("\n==Evil only==\n")
 		wiki_dump.write("List of skill who need you to be evil\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil>0' in cell and not('OR' in cell)"]]).replace(".max", " max").replace(".rate", " rate"))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil>0' in cell and not('OR' in cell)"]]))
 
 		wiki_dump.write("\n==Good only==\n")
 		wiki_dump.write("List of skill who need you to be good\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil<=0' in cell and not('OR' in cell)"]]).replace(".max", " max").replace(".rate", " rate"))
-
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil<=0' in cell and not('OR' in cell)"]]))
 		wiki_dump.write("\n==Full List==\n")
-		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
+		wiki_dump.write(wiki.make_table(table_keys, table_lines))
 
 		return ret
