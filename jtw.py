@@ -231,7 +231,7 @@ def flg_main_only(): #Partially working
 	only_generate_main_pages = True
 	print("Generating main pages only.")
 	
-def flg_no_graph(): #not working
+def flg_no_graph(): #Fully working
 	global no_graph
 	no_graph = True
 	print("Not generating class graph.")
