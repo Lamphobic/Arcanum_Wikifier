@@ -31,18 +31,70 @@ def main(argv):
 	
 	global online_update
 	global only_generate_main_pages
+	global test_update
+	global no_graph
+	
 	online_update = False
 	only_generate_main_pages = False
+	test_update = False
+	no_graph = True
+	
+	mains = [
+		"actions",
+		"dungeons",
+		"furnitures",
+		"homes",
+		"monsters",
+		"potions",
+		"skills",
+		"spells",
+		"resources",
+		"classes",
+		"upgrade"
+		]
 			
 	global file_names
 	global page_names
 	file_names = []
 	page_names = []
 	
+	
+	help_switch = {
+		"actions": None,
+		"dungeons": None,
+		"furnitures": None,
+		"homes": None,
+		"monsters": None,
+		"potions": None,
+		"skills": None,
+		"spells": None,
+		"resources": None,
+		"classes": None,
+		"upgrades": None,
+		"all": None,
+		"-on": None,
+		"-test": None,
+		"-main": None,
+		"-diff": None,
+		"-nograph": None,
+		"-help": help,
+		"-h": help,
+		"-?": help,
+		"help": help,
+		"?": help
+	}
+	
+	for arg in argv[1:]:
+		func = help_switch.get(arg.lower(), help)
+		if func is not None:
+			func()
+	
 	flags_switch = {
 		"-on": on,
-		"-mainonly": main_only,
-		"-differencesonly": differences_only,
+		"-test": test,
+		"-main": main_only,
+		"-nograph": no_graph,
+		"-diff": differences_only,
 		"-help": help,
 		"-h": help,
 		"-?": help,
@@ -66,10 +118,13 @@ def main(argv):
 		"spells": gen_spells,
 		"resources": gen_resources,
 		"classes": gen_classes,
+		"upgrades": gen_upgrades,
 		"all": gen_all,
 		"-on": None,
-		"-mainonly": None,
-		"-diffonly": None,
+		"-test": None,
+		"-main": None,
+		"-nograph": None,
+		"-diff": None,
 		"-help": None,
 		"-h": None,
 		"-?": None,
@@ -91,10 +146,11 @@ def main(argv):
 	if online_update == True:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			if page_names[i] is "Classes":
-				print("can't upload classes yet: the manual page is better")
-			else:
-				wiki.bot_update(page_names[i], file_names[i])
+			if not test_update or page_names[i].lower() in mains:
+				if page_names[i] is "Classes":
+					print("can't upload classes yet: the manual page is better")
+				else:
+					wiki.bot_update(page_names[i], file_names[i])
 
 def gen_actions():
 	file_names.append(action.generate_wiki())
@@ -109,7 +165,7 @@ def gen_furnitures():
 	page_names.append("Furnitures")
 
 def gen_homes():
-	file_names.append(homes.generate_wiki())
+	file_names.append(home.generate_wiki())
 	page_names.append("Homes")
 
 def gen_monsters():
@@ -161,24 +217,40 @@ def on():
 	online_update = True
 	print("Automatic upload turned on.")
 	
+def test():
+	global test_update
+	test_update = True
+	print("Uploading to only test pages.")
+	
 def main_only():
 	global only_generate_main_pages
 	only_generate_main_pages = True
+	print("Generating main pages only.")
+	
+def no_graph():
+	global no_graph
+	no_graph = True
+	print("Not generating class graph.")
 	
 def differences_only():
 	pass #TODO: Later
 	
 def help():
-	print("python (3.8) jtw.py [OPTIONS] actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|all")
+	print("python (3.8) jtw.py [OPTIONS] actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|upgrades|all")
 	print("Options")
 	print("-on")
-	print("Sets the bot to upload the newly generated pages online.")
-	print("-mainonly")
-	print("Produces only main registry files under the various topics.")
-	print("-diffonly")
-	print("When -on is active, uploads only files that are different from a previous run of this script.")
+	print("\tSets the bot to upload the newly generated pages online.")
+	print("-test")
+	print("\tIf -on is set, when uploading, uploads only main pages, and uploads them to a test pages.")
+	print("-main")
+	print("\tProduces only main listing files under the various topics.")
+	print("-nograph")
+	print("\tDoes not generate graph for classes.")
+	print("-diff")
+	print("\tNot yet implemented. When -on is active, uploads only files that are different from a previous run of this script.")
 	print("-help, -h, help, -?, ?")
-	print("View this help page.")
+	print("\tView this help page.")
+	
 	exit()
 	
 				

@@ -139,7 +139,7 @@ def generate_wiki():
 
 		# cost part
 		tmp_cell = ""
-		if bool(action_json['cost']) is notFalse:
+		if bool(action_json['cost']) is not False:
 			if isinstance(action_json['cost'],str):
 				tmp_cell += "To start action:<br/>"
 				tmp_cell += " * " + (str(action_json['cost']))
@@ -151,7 +151,7 @@ def generate_wiki():
 				for mod_key in action_json['cost']:
 					tmp_cell += " * " + (str(mod_key) + ": " + str(action_json['cost'][mod_key]) + '<br/>')
 
-		if bool(action_json['run']) is notFalse:
+		if bool(action_json['run']) is not False:
 			if isinstance(action_json['run'],str):
 				tmp_cell += "To run action:<br/>"
 				tmp_cell += " * " + (str(action_json['run']))
