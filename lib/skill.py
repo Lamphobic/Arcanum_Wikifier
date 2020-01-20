@@ -25,7 +25,7 @@ def skill_info(skill_json):
 #Get every information of a skill:
 #ID, name, description, tags, cost, consumption, bonus, reward, requirement, need, level scaling
 	skill = {}
-	skill['type'] = 'skill'
+	skill['type'] = 'skills'
 	skill['id'] = skill_json.get('id')
 	if skill_json.get('name') is not None:
 		skill['name'] = skill_json.get('name').title()
@@ -196,7 +196,8 @@ def get_full_skill_list():
 
 def generate_individual_skl_page(skl):
 	with open(skl['name']+".txt", "w", encoding="UTF-8") as skl_page:
-		skl_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
+		skl_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n")
+		skl_page.write(skl['name'] + ' is from [[' + skl['type'].title() + ']]\n')
 		if skl['desc']:
 			skl_page.write('==Description==\n' + skl['desc'] + '\n')
 		if skl['tags']:
@@ -236,9 +237,9 @@ def generate_individual_skl_page(skl):
 				skl_page.write(str(skl['need']) + '\n')
 		skl_page.write('==Level Scaling==\n' + str(skl['level_scaling']) + '\n')
 		
-		baffected = False;
-		bsource = False;
-		bunlock = False;
+		baffected = False
+		bsource = False
+		bunlock = False
 		affected_by = list()
 		sources = list()
 		unlock = {}
@@ -253,11 +254,11 @@ def generate_individual_skl_page(skl):
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
@@ -277,7 +278,7 @@ def generate_individual_skl_page(skl):
 						if matchid in match_mod:
 							if matchid != str(mod_key).lower():
 								match_mod = [x if x != matchid else skl['name'] for x in match_mod]
-								affected_by.append('[[' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
+								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
 			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
@@ -297,7 +298,7 @@ def generate_individual_skl_page(skl):
 						match_mod = str(mod_key).lower().split('.')
 						if matchid in str(mod_key): #if this mod references this resource by id
 							if matchid + '.exp' == str(mod_key).lower():
-								sources.append('[[' + e['name'] + ']]: ' + skl['name'] + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + skl['name'] + ": " + str(e['mod'][mod_key]))
 			sources = list(set(sources))
 			sources.sort()
 			if sources:

@@ -14,7 +14,7 @@ def home_info(home_json):
 #ID, name, flavor, size, tags, cost, effect, requirement
 
 	home = {}
-	home['type'] = 'home'
+	home['type'] = 'homes'
 	home['id'] = home_json.get('id')
 	if home_json.get('name') is not None:
 		home['name'] = home_json.get('name').title()

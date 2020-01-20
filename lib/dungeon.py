@@ -58,7 +58,7 @@ def dungeon_info(dungeon_json):
 #Get every information of a dungeon:
 #ID, name, level, length, requirement, consumption, reward, encounters, boss
 	dungeon = {}
-	dungeon['type'] = 'dungeon'
+	dungeon['type'] = 'dungeons'
 	dungeon['id'] = dungeon_json.get('id')
 
 	if dungeon_json.get('name') is not None:

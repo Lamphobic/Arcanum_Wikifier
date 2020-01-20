@@ -237,7 +237,7 @@ def tom_class_info(tom_class_json):
 #ID, name, description, tags, cost, effect, requirement
 
 	tom_class = {}
-	tom_class['type'] = 'class'
+	tom_class['type'] = 'classes'
 	tom_class['id'] = tom_class_json.get('id')
 	if tom_class_json.get('name') is not None:
 		tom_class['name'] = tom_class_json.get('name').title()

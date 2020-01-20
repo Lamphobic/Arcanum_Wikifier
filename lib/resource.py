@@ -26,7 +26,7 @@ def resource_info(resource_json):
 #ID, name, description, tags, base maximum, hidden, bonus
 
 	resource = {}
-	resource['type'] = 'resource'
+	resource['type'] = 'resources'
 	resource['id'] = resource_json.get('id')
 	if resource_json.get('name') is not None:
 		resource['name'] = resource_json.get('name').title()
@@ -67,7 +67,8 @@ def get_full_resource_list():
 
 def generate_individual_res_page(res):
 	with open(res['name']+".txt", "w", encoding="UTF-8") as res_page:
-		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
+		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n")
+		res_page.write(res['name'] + ' is from [[' + res['type'].title() + ']]\n')
 		if res['desc'] is not None:
 			res_page.write('==Description==\n' + res['desc'] + '\n')
 		if res['tags']:
@@ -79,9 +80,9 @@ def generate_individual_res_page(res):
 			for mod_key in res['mod']:
 				res_page.write('*' + str(mod_key) + ": " + str(res['mod'][mod_key]) + '\n')
 				
-		baffected = False;
-		bsource = False;
-		bunlock = False;
+		baffected = False
+		bsource = False
+		bunlock = False
 		affected_by = list()
 		sources = list()
 		unlock = {}
@@ -96,7 +97,7 @@ def generate_individual_res_page(res):
 						match_mod = str(mod_key).lower().split('.')
 						if matchid in match_mod: #if this mod references this resource by id
 							if matchid == str(mod_key).lower():
-								sources.append('[[' + e['name'] + ']]: ' + res['name'] + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + res['name'] + ": " + str(e['mod'][mod_key]))
 			sources = list(set(sources))
 			sources.sort()
 			if sources:
@@ -114,10 +115,10 @@ def generate_individual_res_page(res):
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
 						match_mod = str(mod_key).lower().split('.')
-						match_mod = [x if x != matchid else res['name'] for x in match_mod]
 						if matchid in match_mod: #if this mod references this resource by id
+							match_mod = [x if x != matchid else res['name'] for x in match_mod]
 							if matchid != str(mod_key).lower():
-								affected_by.append('[[' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
+								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
 			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
@@ -139,11 +140,11 @@ def generate_individual_res_page(res):
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:

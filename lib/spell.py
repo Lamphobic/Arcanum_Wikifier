@@ -66,7 +66,7 @@ def spell_info(spell_json):
 #Get every information of a spell:
 #ID, name, flavor, school, level, unlocking cost, use cost, effect, upgrade, require
 	spell = {}
-	spell['type'] = 'spell'
+	spell['type'] = 'spells'
 	spell['id'] = spell_json.get('id')
 	if spell_json.get('name') is not None:
 		spell['name'] = spell_json.get('name').title()

@@ -39,7 +39,7 @@ def action_info(action_json):
 #Get every information of a action:
 #ID, name, description, cost, length, repeatable, effect, upgrade, require
 	action = {}
-	action['type'] = 'action'
+	action['type'] = 'actions'
 	action['id'] = action_json.get('id')
 	if action_json.get('name') is not None:
 		action['name'] = action_json.get('name').title()
