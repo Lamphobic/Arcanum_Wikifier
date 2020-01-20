@@ -77,21 +77,26 @@ def generate_individual_res_page(res):
 			res_page.write('==Affects==\n')
 			for mod_key in res['mod']:
 				res_page.write('*' + str(mod_key) + ": " + str(res['mod'][mod_key]) + '\n')
+				
 		baffected = False;
 		bsource = False;
+		bunlock = False;
 		affected_by = list()
 		sources = list()
+		unlock = {}
 		matchid = res['id'].lower()
+		
 		#Build Sources
 		for l in lists: #for each list of entries
 			sources = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						matchmod = str(mod_key).lower().split('.')
-						if matchid in matchmod: #if this mod references this resource by id
+						match_mod = str(mod_key).lower().split('.')
+						if matchid in match_mod: #if this mod references this resource by id
 							if matchid == str(mod_key).lower():
-								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['name'] + ']]: ' + res['name'] + ": " + str(e['mod'][mod_key]))
+			sources = list(set(sources))
 			sources.sort()
 			if sources:
 				if not bsource:
@@ -100,16 +105,19 @@ def generate_individual_res_page(res):
 				res_page.write(('===' + l + '===\n').title())
 				for e in sources:
 					res_page.write('* ' + e + '\n')
+					
 		#Build Affected By
 		for l in lists: #for each list of entries
 			affected_by = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						matchmod = str(mod_key).lower().split('.')
-						if matchid in matchmod: #if this mod references this resource by id
+						match_mod = str(mod_key).lower().split('.')
+						match_mod = [x if x != matchid else res['name'] for x in match_mod]
+						if matchid in match_mod: #if this mod references this resource by id
 							if matchid != str(mod_key).lower():
-								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								affected_by.append('[[' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
+			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
 				if not baffected:
@@ -118,6 +126,32 @@ def generate_individual_res_page(res):
 				res_page.write(('===' + l + '===\n').title())
 				for e in affected_by:
 					res_page.write('* ' + e + '\n')
+					
+		
+		
+		#Build Unlocks
+		for l in lists:
+			unlock = {}
+			for e in lists[l]:
+				if 'requirements' in e:
+					if e['requirements']['<'] or e['requirements']['>']:
+						for req_key in e['requirements']['<']:
+							match_req = str(req_key).lower()
+							if matchid in match_req.split('.'):
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+						for req_key in e['requirements']['>']:
+							match_req = str(req_key)
+							if matchid in match_req.split('.'):
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+			sorted_l = sorted(unlock, key=unlock.get)
+			if unlock:
+				if not bunlock:
+					res_page.write('==Unlocks==\n')
+					bunlock = True
+				res_page.write(('===' + l + '===\n').title())
+				for e in sorted_l:
+					res_page.write('* ' + e + '\n')
+		
 
 
 def generate_wiki(main_only=False):
