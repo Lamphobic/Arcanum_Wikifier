@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to spells.
 """
 
-import os, json, sys, datetime
+import os, json, sys, datetime, re
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -110,6 +110,52 @@ def spell_info(spell_json):
 		spell['require'] = spell_json.get('require')
 	else: 
 		spell['require'] = "Nothing"
+	
+	spell['requirements'] = {}
+	spell['requirements']['>'] = {}
+	spell['requirements']['<'] = {}
+	requirements = spell['requirements']
+	if spell_json.get('require') is not None:
+		require = spell_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				if not isinstance(e, dict):
+					requirements['>'][e] = 1
+				else:
+					for ent in e:
+						requirements['>'][ent] = e[ent]
+		elif isinstance(require, dict):
+			for e in require:
+				requirements['>'][e] = require[e]
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1]) + 1
+						else:
+							requirements['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					requirements['<'][s[0]] = int(s[1])
+				else:
+					requirements['>'][e] = 1
+	
 	spell['mod'] = {}
 	if spell_json.get('dot') is not None:
 		if spell_json.get('dot').get('mod') is not None:
