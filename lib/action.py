@@ -141,7 +141,6 @@ def action_info(action_json):
 					action['requirements']['<'][s[0]] = int(s[1])
 				else:
 					action['requirements']['>'][e] = 1
-	print(action_json.get('need'))
 	if action_json.get('need') is not None:
 		require = action_json.get('need')
 		if isinstance(require, list):
@@ -175,8 +174,7 @@ def action_info(action_json):
 					action['requirements']['<'][s[0]] = int(s[1])
 				else:
 					action['requirements']['>'][e] = 1
-	print(action['requirements'])
-	print()
+					
 	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
 	else: 
