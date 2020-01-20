@@ -67,8 +67,8 @@ def get_full_resource_list():
 
 def generate_individual_res_page(res):
 	with open(res['name']+".txt", "w", encoding="UTF-8") as res_page:
-		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n")
-		res_page.write(res['name'] + ' is from [[' + res['type'].title() + ']]\n')
+		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
+		res_page.write(res['name'] + ' is part of [[' + res['type'].title() + '|\"' + res['type'].title() + '\"]]\n')
 		if res['desc'] is not None:
 			res_page.write('==Description==\n' + res['desc'] + '\n')
 		if res['tags']:
