@@ -72,26 +72,26 @@ def spell_info(spell_json):
 	else:
 		spell['name'] = spell['id'].title()
 
-	spell['sym']      = spell_json.get('sym')
+	spell['sym'] = spell_json.get('sym')
 
-	spell['flavor']     = spell_json.get('flavor')
+	spell['flavor'] = spell_json.get('flavor')
 
 	if spell_json.get('school') is not None:
-		spell['school']  = spell_json.get('school')
+		spell['school'] = spell_json.get('school')
 	else:
-		spell['school']  = {}
+		spell['school'] = {}
 
-	spell['level']     = spell_json.get('level')
+	spell['level'] = spell_json.get('level')
 
 	if spell_json.get('buy') is not None:
-		spell['unlk_cost']  = spell_json.get('buy')
+		spell['unlk_cost'] = spell_json.get('buy')
 	else:
-		spell['unlk_cost']  = {}
+		spell['unlk_cost'] = {}
 
 	if spell_json.get('cost') is not None:
-		spell['use_cost']  = spell_json.get('cost')
+		spell['use_cost'] = spell_json.get('cost')
 	else:
-		spell['use_cost']  = {}
+		spell['use_cost'] = {}
 
 	spell['effect']  = {}
 	if spell_json.get('attack') is not None:

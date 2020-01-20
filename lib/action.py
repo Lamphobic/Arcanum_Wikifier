@@ -47,7 +47,7 @@ def action_info(action_json):
 
 	action['sym'] = action_json.get('sym')
 
-	action['desc'] = action_json.get('desc')
+	action['desc'] = action_json.get('desc').capitalize()
 
 	action['cost'] = {}
 	if action_json.get('cost') is not None:

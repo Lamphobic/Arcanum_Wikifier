@@ -34,7 +34,7 @@ def resource_info(resource_json):
 
 	resource['sym'] = resource_json.get('sym')
 
-	resource['desc'] = resource_json.get('desc')
+	resource['desc'] = resource_json.get('desc').capitalize()
 
 	if resource_json.get('tags') is not None:
 		resource['tags'] = resource_json.get('tags').split(",")

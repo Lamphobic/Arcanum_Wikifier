@@ -45,9 +45,9 @@ def upgrade_info(upgrade_json):
 	else:
 		upgrade['name'] = upgrade['id'].title()
 
-	upgrade['sym']      = upgrade_json.get('sym')
+	upgrade['sym'] = upgrade_json.get('sym')
 
-	upgrade['desc']     = upgrade_json.get('desc')
+	upgrade['desc'] = upgrade_json.get('desc').capitalize()
 
 	if upgrade_json.get('tags') is not None:
 		upgrade['tags'] = upgrade_json.get('tags').split(",")
@@ -55,14 +55,14 @@ def upgrade_info(upgrade_json):
 		upgrade['tags'] = []
 
 	if upgrade_json.get('cost') is not None:
-		upgrade['cost']  = upgrade_json.get('cost')
+		upgrade['cost'] = upgrade_json.get('cost')
 	else:
-		upgrade['cost']  = {}
+		upgrade['cost'] = {}
 
 	if upgrade_json.get('max') is not None:
-		upgrade['max']  = upgrade_json.get('max')
+		upgrade['max'] = upgrade_json.get('max')
 	else:
-		upgrade['max']  = "1"
+		upgrade['max'] = "1"
 
 	upgrade['mod'] = list()
 	upgrade['effect']  = {}

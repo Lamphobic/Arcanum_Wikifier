@@ -33,7 +33,7 @@ def skill_info(skill_json):
 
 	skill['sym'] = skill_json.get('sym')
 
-	skill['desc'] = skill_json.get('desc')
+	skill['desc'] = skill_json.get('desc').capitalize()
 
 	if skill_json.get('tags') is not None:
 		skill['tags'] = skill_json.get('tags').split(",")

@@ -20,11 +20,11 @@ def furniture_info(furniture_json):
 	else:
 		furniture['name'] = furniture['id'].title()
 
-	furniture['sym']  = furniture_json.get('sym')
+	furniture['sym'] = furniture_json.get('sym')
 
 
 
-	furniture['desc']     = furniture_json.get('desc')
+	furniture['desc'] = furniture_json.get('desc').capitalize()
 
 	if furniture_json.get('tags') is not None:
 		furniture['tags'] = furniture_json.get('tags').split(",")
@@ -39,14 +39,14 @@ def furniture_info(furniture_json):
 		furniture['base_max'] = 1
 
 	if furniture_json.get('cost') is not None:
-		furniture['cost']  = furniture_json.get('cost')
+		furniture['cost'] = furniture_json.get('cost')
 	else:
-		furniture['cost']  = {}
+		furniture['cost'] = {}
 
 	if furniture_json.get('mod') is not None:
-		furniture['mod']  = furniture_json.get('mod')
+		furniture['mod'] = furniture_json.get('mod')
 	else:
-		furniture['mod']  = {}
+		furniture['mod'] = {}
 
 	if furniture_json.get('require') is not None:
 		furniture['require'] = furniture_json.get('require')

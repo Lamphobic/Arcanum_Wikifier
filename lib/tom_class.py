@@ -245,7 +245,7 @@ def tom_class_info(tom_class_json):
 
 	tom_class['sym'] = tom_class_json.get('sym')
 
-	tom_class['desc'] = tom_class_json.get('desc')
+	tom_class['desc'] = tom_class_json.get('desc').capitalize()
 
 	if tom_class_json.get('tags') is not None:
 		tom_class['tags'] = tom_class_json.get('tags').split(",")
