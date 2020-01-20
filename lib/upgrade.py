@@ -39,6 +39,7 @@ def upgrade_info(upgrade_json):
 #Get every information of a upgrade:
 #ID, name, description, cost, max, effect, require, need
 	upgrade = {}
+	upgrade['type'] = 'upgrade'
 	upgrade['id'] = upgrade_json.get('id')
 	if upgrade_json.get('name') is not None:
 		upgrade['name'] = upgrade_json.get('name').title()
@@ -47,7 +48,7 @@ def upgrade_info(upgrade_json):
 
 	upgrade['sym'] = upgrade_json.get('sym')
 
-	upgrade['desc'] = upgrade_json.get('desc').capitalize()
+	upgrade['desc'] = str(upgrade_json.get('desc')).capitalize()
 
 	if upgrade_json.get('tags') is not None:
 		upgrade['tags'] = upgrade_json.get('tags').split(",")

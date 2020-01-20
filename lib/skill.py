@@ -25,6 +25,7 @@ def skill_info(skill_json):
 #Get every information of a skill:
 #ID, name, description, tags, cost, consumption, bonus, reward, requirement, need, level scaling
 	skill = {}
+	skill['type'] = 'skill'
 	skill['id'] = skill_json.get('id')
 	if skill_json.get('name') is not None:
 		skill['name'] = skill_json.get('name').title()
@@ -33,7 +34,7 @@ def skill_info(skill_json):
 
 	skill['sym'] = skill_json.get('sym')
 
-	skill['desc'] = skill_json.get('desc').capitalize()
+	skill['desc'] = str(skill_json.get('desc')).capitalize()
 
 	if skill_json.get('tags') is not None:
 		skill['tags'] = skill_json.get('tags').split(",")

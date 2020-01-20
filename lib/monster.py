@@ -79,6 +79,7 @@ def monster_info(monster_json):
 #Get every information of a monster:
 #ID, name, level, HP, Defense bonus, regen, To hit bonus, speed bonus, IsUnique, attack (json or string value), immunity (array), loot modifier (array), spawning area (array)
 	monster = {}
+	monster['type'] = 'monster'
 	monster['id'] = monster_json.get('id')
 	if monster_json.get('name') is not None:
 		monster['name'] = monster_json.get('name').title()

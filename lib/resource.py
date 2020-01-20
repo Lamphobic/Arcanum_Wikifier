@@ -26,6 +26,7 @@ def resource_info(resource_json):
 #ID, name, description, tags, base maximum, hidden, bonus
 
 	resource = {}
+	resource['type'] = 'resource'
 	resource['id'] = resource_json.get('id')
 	if resource_json.get('name') is not None:
 		resource['name'] = resource_json.get('name').title()
@@ -34,7 +35,7 @@ def resource_info(resource_json):
 
 	resource['sym'] = resource_json.get('sym')
 
-	resource['desc'] = resource_json.get('desc').capitalize()
+	resource['desc'] = str(resource_json.get('desc')).capitalize()
 
 	if resource_json.get('tags') is not None:
 		resource['tags'] = resource_json.get('tags').split(",")

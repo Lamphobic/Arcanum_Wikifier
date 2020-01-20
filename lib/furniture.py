@@ -14,6 +14,7 @@ def furniture_info(furniture_json):
 #ID, name, description, tags, base maximum, cost, bonus, requirement
 
 	furniture = {}
+	furniture['type'] = 'furniture'
 	furniture['id'] = furniture_json.get('id')
 	if furniture_json.get('name') is not None:
 		furniture['name'] = furniture_json.get('name').title()
@@ -24,7 +25,7 @@ def furniture_info(furniture_json):
 
 
 
-	furniture['desc'] = furniture_json.get('desc').capitalize()
+	furniture['desc'] = str(furniture_json.get('desc')).capitalize()
 
 	if furniture_json.get('tags') is not None:
 		furniture['tags'] = furniture_json.get('tags').split(",")
