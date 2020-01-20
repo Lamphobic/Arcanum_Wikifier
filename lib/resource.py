@@ -6,6 +6,7 @@ Purpose: Produce all pages directly related to resources.
 """
 
 import os, json, sys, datetime
+
 import lib.extractlib as lib
 import lib.action as action
 import lib.dungeon as dungeon
@@ -18,12 +19,14 @@ import lib.skill as skill
 import lib.spell as spell
 import lib.tom_class as tom_class
 import lib.upgrade as upgrade
+import lib.wikilib as wiki
 
 def resource_info(resource_json):
 #Get every information of a resource:
 #ID, name, description, tags, base maximum, hidden, bonus
 
 	resource = {}
+	resource['type'] = 'resources'
 	resource['id'] = resource_json.get('id')
 	if resource_json.get('name') is not None:
 		resource['name'] = resource_json.get('name').title()
@@ -32,7 +35,7 @@ def resource_info(resource_json):
 
 	resource['sym'] = resource_json.get('sym')
 
-	resource['desc'] = resource_json.get('desc')
+	resource['desc'] = str(resource_json.get('desc')).capitalize()
 
 	if resource_json.get('tags') is not None:
 		resource['tags'] = resource_json.get('tags').split(",")
@@ -64,7 +67,8 @@ def get_full_resource_list():
 
 def generate_individual_res_page(res):
 	with open(res['name']+".txt", "w", encoding="UTF-8") as res_page:
-		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
+		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
+		res_page.write(res['name'] + ' is part of [[' + res['type'].title() + '|\"' + res['type'].title() + '\"]]\n')
 		if res['desc'] is not None:
 			res_page.write('==Description==\n' + res['desc'] + '\n')
 		if res['tags']:
@@ -75,22 +79,26 @@ def generate_individual_res_page(res):
 			res_page.write('==Affects==\n')
 			for mod_key in res['mod']:
 				res_page.write('*' + str(mod_key) + ": " + str(res['mod'][mod_key]) + '\n')
-		baffected = False;
-		bsource = False;
+				
+		baffected = False
+		bsource = False
+		bunlock = False
 		affected_by = list()
 		sources = list()
-		matchname = res['name'].lower()
+		unlock = {}
 		matchid = res['id'].lower()
+		
 		#Build Sources
-		for l in lists: #fo''r each list of entries
+		for l in lists: #for each list of entries
 			sources = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						matchmod = str(mod_key).lower().split('.')
-						if matchid in matchmod: #if this mod references this resource by id
+						match_mod = str(mod_key).lower().split('.')
+						if matchid in match_mod: #if this mod references this resource by id
 							if matchid == str(mod_key).lower():
-								sources.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + res['name'] + ": " + str(e['mod'][mod_key]))
+			sources = list(set(sources))
 			sources.sort()
 			if sources:
 				if not bsource:
@@ -99,16 +107,19 @@ def generate_individual_res_page(res):
 				res_page.write(('===' + l + '===\n').title())
 				for e in sources:
 					res_page.write('* ' + e + '\n')
+					
 		#Build Affected By
 		for l in lists: #for each list of entries
 			affected_by = list()
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						matchmod = str(mod_key).lower().split('.')
-						if matchid in matchmod: #if this mod references this resource by id
+						match_mod = str(mod_key).lower().split('.')
+						if matchid in match_mod: #if this mod references this resource by id
+							match_mod = [x if x != matchid else res['name'] for x in match_mod]
 							if matchid != str(mod_key).lower():
-								affected_by.append('<span id="' + str(e['id']) + '">[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
+			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
 				if not baffected:
@@ -117,9 +128,35 @@ def generate_individual_res_page(res):
 				res_page.write(('===' + l + '===\n').title())
 				for e in affected_by:
 					res_page.write('* ' + e + '\n')
+					
+		
+		
+		#Build Unlocks
+		for l in lists:
+			unlock = {}
+			for e in lists[l]:
+				if 'requirements' in e:
+					if e['requirements']['<'] or e['requirements']['>']:
+						for req_key in e['requirements']['<']:
+							match_req = str(req_key).lower()
+							if matchid in match_req.split('.'):
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+						for req_key in e['requirements']['>']:
+							match_req = str(req_key)
+							if matchid in match_req.split('.'):
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+			sorted_l = sorted(unlock, key=unlock.get)
+			if unlock:
+				if not bunlock:
+					res_page.write('==Unlocks==\n')
+					bunlock = True
+				res_page.write(('===' + l + '===\n').title())
+				for e in sorted_l:
+					res_page.write('* ' + e + '\n')
+		
 
 
-def generate_wiki():
+def generate_wiki(main_only=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),
@@ -135,39 +172,63 @@ def generate_wiki():
 		"upgrade": upgrade.get_full_upgrade_list()
 		}
 	ret = list()
+	
+	table_keys = ['Name','Description','Tags','Base Maximum','Bonus']
+	table_lines = []
 	result_list = lib.get_json("data/", "resources")
-	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
-		wiki_dump.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "\n")
-		wiki_dump.write('{| class="wikitable sortable"\n')
-		wiki_dump.write('|-\n')
-		wiki_dump.write('! Name !! Description !! Tags !! Base maximum !! Is hidden !! Bonus \n')
-		result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
-		for json_value in result_list:
-			resource_json = resource_info(json_value)
-
-			wiki_dump.write('|-\n')
-			# NAME part
-			if resource_json.get('sym') is not None:
-				wiki_dump.write('| <span id="' + str(resource_json['id']) + '">' + resource_json['sym'] + '[[' +  str(resource_json['name']) + ']]</span> ||')
-			else:
-				wiki_dump.write('| <span id="' + str(resource_json['id']) + '">[[' +  str(resource_json['name']) + ']]</span> ||')
-
-			wiki_dump.write(str(resource_json['desc']) + ' || ')
-
-			for tag in resource_json['tags']:
-				wiki_dump.write(str(tag) + "<br/>")
-			wiki_dump.write(' || ')
-
-			wiki_dump.write(str(resource_json['base_max'] ) + ' || ')
-
-			wiki_dump.write(str(resource_json['hidden'] ) + ' || ')
-
-			for mod_key in resource_json['mod']:
-				wiki_dump.write( str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
-			wiki_dump.write('\n')
+	result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
+	for json_value in result_list:
+		resource_json = resource_info(json_value)
+		
+		table_line = []
+		
+		
+		if resource_json.get('sym') is not None:
+			table_line.append('| <span id="' + str(resource_json['id']) + '">' + resource_json['sym'] + '[[' +  str(resource_json['name']) + ']]</span>')
+		else:
+			table_line.append('| <span id="' + str(resource_json['id']) + '">[[' +  str(resource_json['name']) + ']]</span>')
 			
+		# Description part
+		table_line.append(str(resource_json['desc']))
+		
+		# Tags part
+		cell = "";
+		for tag in resource_json['tags']:
+			cell += (str(tag) + "<br/>")
+		table_line.append(cell)
+		
+		# Base Maximum part
+		table_line.append(str(resource_json['base_max']))
+		
+		# Bonus part
+		cell = ""
+		for mod_key in resource_json['mod']:
+			cell += (str(mod_key) + ": " + str(resource_json['mod'][mod_key]) + '<br/>')
+		table_line.append(cell)
+		
+		# Add line to lines
+		table_lines.append(table_line)
+		
+		if not main_only:
 			generate_individual_res_page(resource_json)
 			ret.append(resource_json['name'])
-		wiki_dump.write('|}')
+			
+	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
+		wiki_dump.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
+		
+		wiki_dump.write("\n==General Resources==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'magicgems' not in cell and 'manas' not in cell and 't_runes' not in cell"]]))
+		
+		wiki_dump.write("\n==Magic Gems==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'magicgems' in cell"]]))
+		
+		wiki_dump.write("\n==Runes==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'t_runes' in cell"]]))
+		
+		wiki_dump.write("\n==Manas==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines,table_filter=[[2, "'manas' in cell"]]))
+		
+		wiki_dump.write("\n==Full List==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines))
 
-		return ret
+	return ret

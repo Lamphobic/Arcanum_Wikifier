@@ -14,6 +14,7 @@ def potion_info(potion_json):
 #ID, name, flavor, level, unlock cost, brewing cost, effect
 
 	potion = {}
+	potion['type'] = 'potions'
 	potion['id'] = potion_json.get('id')
 	if potion_json.get('name') is not None:
 		potion['name'] = potion_json.get('name').title()

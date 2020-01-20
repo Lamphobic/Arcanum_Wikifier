@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to spells.
 """
 
-import os, json, sys, datetime
+import os, json, sys, datetime, re
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -66,32 +66,33 @@ def spell_info(spell_json):
 #Get every information of a spell:
 #ID, name, flavor, school, level, unlocking cost, use cost, effect, upgrade, require
 	spell = {}
+	spell['type'] = 'spells'
 	spell['id'] = spell_json.get('id')
 	if spell_json.get('name') is not None:
 		spell['name'] = spell_json.get('name').title()
 	else:
 		spell['name'] = spell['id'].title()
 
-	spell['sym']      = spell_json.get('sym')
+	spell['sym'] = spell_json.get('sym')
 
-	spell['flavor']     = spell_json.get('flavor')
+	spell['flavor'] = spell_json.get('flavor')
 
 	if spell_json.get('school') is not None:
-		spell['school']  = spell_json.get('school')
+		spell['school'] = spell_json.get('school')
 	else:
-		spell['school']  = {}
+		spell['school'] = {}
 
-	spell['level']     = spell_json.get('level')
+	spell['level'] = spell_json.get('level')
 
 	if spell_json.get('buy') is not None:
-		spell['unlk_cost']  = spell_json.get('buy')
+		spell['unlk_cost'] = spell_json.get('buy')
 	else:
-		spell['unlk_cost']  = {}
+		spell['unlk_cost'] = {}
 
 	if spell_json.get('cost') is not None:
-		spell['use_cost']  = spell_json.get('cost')
+		spell['use_cost'] = spell_json.get('cost')
 	else:
-		spell['use_cost']  = {}
+		spell['use_cost'] = {}
 
 	spell['effect']  = {}
 	if spell_json.get('attack') is not None:
@@ -110,6 +111,52 @@ def spell_info(spell_json):
 		spell['require'] = spell_json.get('require')
 	else: 
 		spell['require'] = "Nothing"
+	
+	spell['requirements'] = {}
+	spell['requirements']['>'] = {}
+	spell['requirements']['<'] = {}
+	requirements = spell['requirements']
+	if spell_json.get('require') is not None:
+		require = spell_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				if not isinstance(e, dict):
+					requirements['>'][e] = 1
+				else:
+					for ent in e:
+						requirements['>'][ent] = e[ent]
+		elif isinstance(require, dict):
+			for e in require:
+				requirements['>'][e] = require[e]
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1]) + 1
+						else:
+							requirements['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					requirements['<'][s[0]] = int(s[1])
+				else:
+					requirements['>'][e] = 1
+	
 	spell['mod'] = {}
 	if spell_json.get('dot') is not None:
 		if spell_json.get('dot').get('mod') is not None:

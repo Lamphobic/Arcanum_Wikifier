@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to actions.
 """
 
-import os, json, datetime
+import os, json, datetime, re
 import lib.extractlib as lib
 
 
@@ -58,6 +58,7 @@ def dungeon_info(dungeon_json):
 #Get every information of a dungeon:
 #ID, name, level, length, requirement, consumption, reward, encounters, boss
 	dungeon = {}
+	dungeon['type'] = 'dungeons'
 	dungeon['id'] = dungeon_json.get('id')
 
 	if dungeon_json.get('name') is not None:
@@ -72,6 +73,45 @@ def dungeon_info(dungeon_json):
 	dungeon['level']  = dungeon_json.get('level')
 	dungeon['length'] = dungeon_json.get('length')
 	dungeon['require'] = dungeon_json.get('require') #### TO CHANGE
+	
+	dungeon['requirements'] = {}
+	dungeon['requirements']['>'] = {}
+	dungeon['requirements']['<'] = {}
+	requirements = dungeon['requirements']
+	if dungeon_json.get('require') is not None:
+		require = dungeon_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				requirements['>'][e] = 1
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1]) + 1
+						else:
+							requirements['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					requirements['<'][s[0]] = int(s[1])
+				else:
+					requirements['>'][e] = 1
+	
 	dungeon['mod'] = {}
 
 	if dungeon_json.get('run') is not None:

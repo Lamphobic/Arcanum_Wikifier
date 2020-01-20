@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to actions.
 """
 
-import os, json, sys, datetime
+import os, json, sys, datetime, re
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -39,15 +39,16 @@ def action_info(action_json):
 #Get every information of a action:
 #ID, name, description, cost, length, repeatable, effect, upgrade, require
 	action = {}
+	action['type'] = 'actions'
 	action['id'] = action_json.get('id')
 	if action_json.get('name') is not None:
 		action['name'] = action_json.get('name').title()
 	else:
 		action['name'] = action['id'].title()
 
-	action['sym']      = action_json.get('sym')
+	action['sym'] = action_json.get('sym')
 
-	action['desc']     = action_json.get('desc')
+	action['desc'] = str(action_json.get('desc')).capitalize()
 
 	action['cost'] = {}
 	if action_json.get('cost') is not None:
@@ -104,6 +105,80 @@ def action_info(action_json):
 	if is_done is False:
 		action['upgrade'] = "No"
 
+	action['requirements'] = {}
+	action['requirements']['>'] = {}
+	action['requirements']['<'] = {}
+	requirements = action['requirements']
+	if action_json.get('require') is not None:
+		require = action_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				requirements['>'][e] = 1
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1]) + 1
+						else:
+							requirements['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					requirements['<'][s[0]] = int(s[1])
+				else:
+					requirements['>'][e] = 1
+	if action_json.get('need') is not None:
+		require = action_json.get('need')
+		if isinstance(require, list):
+			for e in require:
+				requirements['>'][e] = 1
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements[ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements[ent] = int(tmp[1]) + 1
+						else:
+							requirements[ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif '<=' in e:
+					s = e.split('<=')
+					requirements[s[0]] = int(s[1])
+				elif '<' in e:
+					s = e.split('<')
+					requirements['<'][s[0]] = int(s[1]) - 1
+				else:
+					requirements['>'][e] = 1
+					
 	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
 	else: 
@@ -139,7 +214,7 @@ def generate_wiki():
 
 		# cost part
 		tmp_cell = ""
-		if bool(action_json['cost']) is notFalse:
+		if bool(action_json['cost']) is not False:
 			if isinstance(action_json['cost'],str):
 				tmp_cell += "To start action:<br/>"
 				tmp_cell += " * " + (str(action_json['cost']))
@@ -151,7 +226,7 @@ def generate_wiki():
 				for mod_key in action_json['cost']:
 					tmp_cell += " * " + (str(mod_key) + ": " + str(action_json['cost'][mod_key]) + '<br/>')
 
-		if bool(action_json['run']) is notFalse:
+		if bool(action_json['run']) is not False:
 			if isinstance(action_json['run'],str):
 				tmp_cell += "To run action:<br/>"
 				tmp_cell += " * " + (str(action_json['run']))

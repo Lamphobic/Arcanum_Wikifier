@@ -79,6 +79,7 @@ def monster_info(monster_json):
 #Get every information of a monster:
 #ID, name, level, HP, Defense bonus, regen, To hit bonus, speed bonus, IsUnique, attack (json or string value), immunity (array), loot modifier (array), spawning area (array)
 	monster = {}
+	monster['type'] = 'monsters'
 	monster['id'] = monster_json.get('id')
 	if monster_json.get('name') is not None:
 		monster['name'] = monster_json.get('name').title()
@@ -89,15 +90,15 @@ def monster_info(monster_json):
 		monster['sym']  = monster_json.get('sym')
 		monster['name'] = monster['sym'] + monster['name']
 
-	monster['level']    = monster_json.get('level')
-	monster['hp']       = monster_json.get('hp')
-	monster['defense']  = monster_json.get('defense')
-	monster['regen']    = monster_json.get('regen')
-	monster['tohit']    = monster_json.get('tohit')
-	monster['speed']    = monster_json.get('speed')
+	monster['level'] = monster_json.get('level')
+	monster['hp'] = monster_json.get('hp')
+	monster['defense'] = monster_json.get('defense')
+	monster['regen'] = monster_json.get('regen')
+	monster['tohit'] = monster_json.get('tohit')
+	monster['speed'] = monster_json.get('speed')
 
 	if monster_json.get('unique') is True:
-			monster['unique'] = "Yes"
+		monster['unique'] = "Yes"
 	else:
 		monster['unique'] = "No"
 

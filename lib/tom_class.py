@@ -5,9 +5,22 @@ Contributors: ?
 Purpose: Produce all pages directly related to classes.
 """
 
-import os, json, sys, datetime
+import os, json, sys, datetime, re
+
 import lib.extractlib as lib
+import lib.action as action
+import lib.dungeon as dungeon
+import lib.furniture as furniture
+import lib.home as home
+import lib.monster as monster
+import lib.potion as potion
+import lib.resource as resource
+import lib.skill as skill
+import lib.spell as spell
+import lib.tom_class as tom_class
+import lib.upgrade as upgrade
 import lib.wikilib as wiki
+
 import graphviz
 import math
 
@@ -224,6 +237,7 @@ def tom_class_info(tom_class_json):
 #ID, name, description, tags, cost, effect, requirement
 
 	tom_class = {}
+	tom_class['type'] = 'classes'
 	tom_class['id'] = tom_class_json.get('id')
 	if tom_class_json.get('name') is not None:
 		tom_class['name'] = tom_class_json.get('name').title()
@@ -232,7 +246,7 @@ def tom_class_info(tom_class_json):
 
 	tom_class['sym'] = tom_class_json.get('sym')
 
-	tom_class['desc'] = tom_class_json.get('desc')
+	tom_class['desc'] = str(tom_class_json.get('desc')).capitalize()
 
 	if tom_class_json.get('tags') is not None:
 		tom_class['tags'] = tom_class_json.get('tags').split(",")
@@ -266,6 +280,51 @@ def tom_class_info(tom_class_json):
 		tom_class['require'] = tom_class_json.get('require')
 	else: 
 		tom_class['require'] = "Nothing"
+	
+	tom_class['requirements'] = {}
+	tom_class['requirements']['>'] = {}
+	tom_class['requirements']['<'] = {}
+	requirements = tom_class['requirements']
+	if tom_class_json.get('require') is not None:
+		require = tom_class_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				if not isinstance(e, dict):
+					requirements['>'][e] = 1
+				else:
+					for ent in e:
+						requirements['>'][ent] = e[ent]
+		elif isinstance(require, dict):
+			for e in require:
+				requirements['>'][e] = require[e]
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							requirements['>'][ent] = int(tmp[1]) + 1
+						else:
+							requirements['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						requirements['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						requirements['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					requirements['<'][s[0]] = int(s[1])
+				else:
+					requirements['>'][e] = 1
 
 	return tom_class
 
@@ -277,9 +336,27 @@ def get_full_tom_class_list():
 	for json_value in result_list:
 		tom_class_list.append(tom_class_info(json_value))
 	return tom_class_list
+	
+def generate_individual_cls_page(cls):
+	pass
 
-
-def generate_wiki():
+def generate_wiki(main_only=False, no_graph_gen=False):
+	global lists
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
+	ret = list()
+	
 	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Benefits', 'Requirement'] 
 	table_lines = []
 	tom_class_list = []
@@ -338,6 +415,10 @@ def generate_wiki():
 			table_line.append(str(tom_class_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
 
 		table_lines.append(table_line)
+		
+		if not main_only:
+			generate_individual_cls_page(class_json)
+			ret.append(resource_json['name'])
 
 	with open("classes.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")
@@ -356,7 +437,8 @@ def generate_wiki():
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines).replace(".max", " max").replace(".rate", " rate"))
+	
+	if not no_graph_gen:
+		tom_class_graph(tom_class_list)
 
-	tom_class_graph(tom_class_list)
-
-	return "classes.txt"
+	return ret

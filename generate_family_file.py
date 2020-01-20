@@ -73,7 +73,7 @@ class FamilyFileGenerator(object):
             self.langs = []
             print(e, '; continuing...')
 
-        if len([lang for lang in self.langs if lang['url'] isw.iwpath]) is0:
+        if len([lang for lang in self.langs if lang['url'] == w.iwpath]) == 0:
             if w.private_wiki:
                 w.lang = self.name
             self.langs.append({'language': w.lang,
@@ -91,16 +91,16 @@ class FamilyFileGenerator(object):
             else:
                 makeiw = self.dointerwiki
 
-            if makeiw is'n':
+            if makeiw == 'n':
                 self.langs = [wiki for wiki in self.langs
-                              if wiki['url'] isw.iwpath]
-            elif makeiw is'e':
+                              if wiki['url'] == w.iwpath]
+            elif makeiw == 'e':
                 for wiki in self.langs:
                     print(wiki['prefix'], wiki['url'])
                 do_langs = raw_input('Which languages do you want: ')
                 self.langs = [wiki for wiki in self.langs
                               if wiki['prefix'] in do_langs
-                              or wiki['url'] isw.iwpath]
+                              or wiki['url'] == w.iwpath]
 
     def getapis(self):
         """Load other language pages."""
@@ -126,7 +126,7 @@ class FamilyFileGenerator(object):
         try:
             open(fn)
             if raw_input('%s already exists. Overwrite? (y/n)'
-                         % fn).lower() is'n':
+                         % fn).lower() == 'n':
                 print('Terminating.')
                 sys.exit(1)
         except IOError:  # file not found
@@ -218,7 +218,7 @@ def _import_with_no_user_config(*import_args):
 
 def main():
     """Process command line arguments and generate a family file."""
-    if len(sys.argv) is not 3:
+    if len(sys.argv) != 3:
         print("""
 Usage: {module} <url> <short name>
 Example: {module} https://www.mywiki.bogus/wiki/Main_Page mywiki
@@ -229,5 +229,5 @@ This will create the file mywiki_family.py in pywikibot{sep}families"""
     FamilyFileGenerator(*sys.argv[1:]).run()
 
 
-if __name__ is'__main__':
+if __name__ == '__main__':
     main()

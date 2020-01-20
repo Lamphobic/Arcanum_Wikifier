@@ -758,7 +758,6 @@
 		"tags":"shadowsource,spiritsource",
 		"require":"evil",
 		"max":4,
-		"repeat":true,
 		"cost":{
 			"gold":300,
 			"bones":5,
@@ -1269,7 +1268,7 @@
 		},
 		"mod":{
 			"minions.max":"10%",
-			"minions.maxAllies":"10%"
+			"allies.max":"10%"
 		}
 
 	},
