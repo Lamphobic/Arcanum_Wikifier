@@ -216,7 +216,8 @@ def generate_individual_skl_page(skl):
 			skl_page.write('==Rewards==\n')
 			for entry_key in skl['reward']:
 				skl_page.write('*' + entry_key + ': ' + str(skl['reward'][entry_key]) + '\n')
-		skl_page.write('==Unlock Requirements==\n')
+		if skl['require'] != "Nothing" and not skl['need']:
+			skl_page.write('==Unlock Requirements==\n')
 		if skl['require'] != "Nothing":
 			skl_page.write('*' + str(skl['require'].replace("&&", "\n*").replace("||", "OR")) + '\n')
 		if skl['need']:
@@ -239,30 +240,30 @@ def generate_individual_skl_page(skl):
 		bunlock = False;
 		affected_by = list()
 		sources = list()
-		unlock = list()
+		unlock = {}
 		matchid = skl['id'].lower()
 		
 		#Build Unlocks
 		for l in lists:
-			unlock = list()
+			unlock = {}
 			for e in lists[l]:
 				if 'requirements' in e:
 					if e['requirements']['<'] or e['requirements']['>']:
 						for req_key in e['requirements']['<']:
-							match_req = str(req_key)
-							if matchid in match_req:
-								unlock.append('*' + str(e['requirements']['<'][match_req]) + 'or less ' + match_req + ':[[' + e['name'] + ']]')
+							match_req = str(req_key).lower()
+							if matchid in match_req.split('.'):
+								unlock['*' + str(e['requirements']['<'][match_req]) + ' or less ' + match_req + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
-							if matchid in match_req:
-								unlock.append('*' + str(e['requirements']['>'][match_req]) + 'or more ' + match_req + ':[[' + e['name'] + ']]')
-			unlock.sort()
+							if matchid in match_req.split('.'):
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + match_req + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
 					skl_page.write('==Unlocks==\n')
 					bunlock = True
 				skl_page.write(('===' + l + '===\n').title())
-				for e in affected_by:
+				for e in sorted_l:
 					skl_page.write('* ' + e + '\n')
 		
 		#Build Affected By
@@ -271,10 +272,11 @@ def generate_individual_skl_page(skl):
 			for e in lists[l]:
 				if e['mod']:
 					for mod_key in e['mod']:
-						match_mod = str(mod_key)
+						match_mod = str(mod_key).lower().split('.')
 						if matchid in match_mod:
-							if matchid != match_mod.lower():
-								affected_by.append('[[' + e['name'] + ']]: ' + match_mod + ": " + str(e['mod'][mod_key]))
+							if matchid != str(mod_key).lower():
+								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key).lower() + ": " + str(e['mod'][mod_key]))
+			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
 				if not baffected:
@@ -294,6 +296,7 @@ def generate_individual_skl_page(skl):
 						if matchid in str(mod_key): #if this mod references this resource by id
 							if matchid + '.exp' == str(mod_key).lower():
 								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+			sources = list(set(sources))
 			sources.sort()
 			if sources:
 				if not bsource:
