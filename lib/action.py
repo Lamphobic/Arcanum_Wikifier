@@ -169,9 +169,12 @@ def action_info(action_json):
 					else:
 						s = e.split('>')
 						action['requirements']['>'][s[0]] = int(s[1]) + 1
-				elif bool(re.search('<=|<', e)):
-					s = re.split('<=|<', e)
+				elif '<=' in e):
+					s = e.split('<=')
 					action['requirements']['<'][s[0]] = int(s[1])
+				elif '<' in e:
+					s = e.split('<')
+					action['requirements']['<'][s[0]] = int(s[1]) - 1
 				else:
 					action['requirements']['>'][e] = 1
 					
