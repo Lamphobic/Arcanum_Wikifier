@@ -107,11 +107,12 @@ def action_info(action_json):
 	action['requirements'] = {}
 	action['requirements']['>'] = {}
 	action['requirements']['<'] = {}
+	requirements = action['requirements']
 	if action_json.get('require') is not None:
 		require = action_json.get('require')
 		if isinstance(require, list):
 			for e in require:
-				action['requirements']['>'][e] = 1
+				requirements['>'][e] = 1
 		else:
 			require = require.replace('(', '').replace(')', '').replace('g.', '')
 			for e in re.split('&&|\|\|', require):
@@ -122,29 +123,29 @@ def action_info(action_json):
 					tmpl = tmp[0].split('+')
 					for ent in tmpl:
 						if '>=' == cmp_sign:
-							action['requirements']['>'][ent] = int(tmp[1])
+							requirements['>'][ent] = int(tmp[1])
 						elif '>' == cmp_sign:
-							action['requirements']['>'][ent] = int(tmp[1]) + 1
+							requirements['>'][ent] = int(tmp[1]) + 1
 						else:
-							action['requirements']['<'][ent] = int(tmp[1])
+							requirements['<'][ent] = int(tmp[1])
 							
 				elif bool(re.search('>=|>', e)):
 					if '>=' in e:
 						s = e.split('>=')
-						action['requirements']['>'][s[0]] = int(s[1])
+						requirements['>'][s[0]] = int(s[1])
 					else:
 						s = e.split('>')
-						action['requirements']['>'][s[0]] = int(s[1]) + 1
+						requirements['>'][s[0]] = int(s[1]) + 1
 				elif bool(re.search('<=|<', e)):
 					s = re.split('<=|<', e)
-					action['requirements']['<'][s[0]] = int(s[1])
+					requirements['<'][s[0]] = int(s[1])
 				else:
-					action['requirements']['>'][e] = 1
+					requirements['>'][e] = 1
 	if action_json.get('need') is not None:
 		require = action_json.get('need')
 		if isinstance(require, list):
 			for e in require:
-				action['requirements']['>'][e] = 1
+				requirements['>'][e] = 1
 		else:
 			require = require.replace('(', '').replace(')', '').replace('g.', '')
 			for e in re.split('&&|\|\|', require):
@@ -155,27 +156,27 @@ def action_info(action_json):
 					tmpl = tmp[0].split('+')
 					for ent in tmpl:
 						if '>=' == cmp_sign:
-							action['requirements']['>'][ent] = int(tmp[1])
+							requirements[ent] = int(tmp[1])
 						elif '>' == cmp_sign:
-							action['requirements']['>'][ent] = int(tmp[1]) + 1
+							requirements[ent] = int(tmp[1]) + 1
 						else:
-							action['requirements']['<'][ent] = int(tmp[1])
+							requirements[ent] = int(tmp[1])
 							
 				elif bool(re.search('>=|>', e)):
 					if '>=' in e:
 						s = e.split('>=')
-						action['requirements']['>'][s[0]] = int(s[1])
+						requirements['>'][s[0]] = int(s[1])
 					else:
 						s = e.split('>')
-						action['requirements']['>'][s[0]] = int(s[1]) + 1
+						requirements['>'][s[0]] = int(s[1]) + 1
 				elif '<=' in e:
 					s = e.split('<=')
-					action['requirements']['<'][s[0]] = int(s[1])
+					requirements[s[0]] = int(s[1])
 				elif '<' in e:
 					s = e.split('<')
-					action['requirements']['<'][s[0]] = int(s[1]) - 1
+					requirements['<'][s[0]] = int(s[1]) - 1
 				else:
-					action['requirements']['>'][e] = 1
+					requirements['>'][e] = 1
 					
 	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
