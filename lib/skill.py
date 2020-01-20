@@ -252,11 +252,11 @@ def generate_individual_skl_page(skl):
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
 							if matchid in match_req.split('.'):
-								unlock['*' + str(e['requirements']['<'][match_req]) + ' or less ' + match_req + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+								unlock['*' + str(e['requirements']['<'][match_req]) + ' or less ' + skl['name'] + '.'.join(match_req.split('.')[1:]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + match_req + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + skl['name'] + '.'.join(match_req.split('.')[1:]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
@@ -275,7 +275,8 @@ def generate_individual_skl_page(skl):
 						match_mod = str(mod_key).lower().split('.')
 						if matchid in match_mod:
 							if matchid != str(mod_key).lower():
-								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key).lower() + ": " + str(e['mod'][mod_key]))
+								match_mod = [x if x != matchid else skl['name'] for x in match_mod]
+								affected_by.append('[[' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
 			affected_by = list(set(affected_by))
 			affected_by.sort()
 			if affected_by:
@@ -295,7 +296,7 @@ def generate_individual_skl_page(skl):
 						match_mod = str(mod_key).lower().split('.')
 						if matchid in str(mod_key): #if this mod references this resource by id
 							if matchid + '.exp' == str(mod_key).lower():
-								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+								sources.append('[[' + e['name'] + ']]: ' + skl['name'] + ": " + str(e['mod'][mod_key]))
 			sources = list(set(sources))
 			sources.sort()
 			if sources:
