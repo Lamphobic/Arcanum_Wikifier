@@ -149,14 +149,34 @@ def generate_individual_skl_page(skl):
 		
 		baffected = False;
 		bsource = False;
-		bulocks = False;
+		bunlock = False;
 		affected_by = list()
 		sources = list()
 		unlock = list()
 		matchid = skl['id'].lower()
 		
 		#Build Unlocks
-		
+		for l in lists:
+			unlock = list()
+			for e in lists[l]:
+				if 'requirements' in e:
+					if e['requirements']['<'] or e['requirements']['>']:
+						for req_key in e['requirements']['<']:
+							match_req = str(req_key)
+							if matchid in match_req:
+								unlock.append('*' + str(e['requirements']['<'][match_req]) + 'or less ' + match_req + ':[[' + e['name'] + ']]')
+						for req_key in e['requirements']['>']:
+							match_req = str(req_key)
+							if matchid in match_req:
+								unlock.append('*' + str(e['requirements']['>'][match_req]) + 'or more ' + match_req + ':[[' + e['name'] + ']]')
+			unlock.sort()
+			if unlock:
+				if not bunlock:
+					skl_page.write('==Unlocks==\n')
+					bunlock = True
+				skl_page.write(('===' + l + '===\n').title())
+				for e in affected_by:
+					skl_page.write('* ' + e + '\n')
 		
 		#Build Affected By
 		for l in lists:
@@ -164,10 +184,10 @@ def generate_individual_skl_page(skl):
 			for e in lists[l]:
 				if e['mod']:
 					for mod_key in e['mod']:
-						matchmod = str(mod_key)
-						if matchid in matchmod:
-							if matchid != str(mod_key).lower():
-								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+						match_mod = str(mod_key)
+						if matchid in match_mod:
+							if matchid != match_mod.lower():
+								affected_by.append('[[' + e['name'] + ']]: ' + match_mod + ": " + str(e['mod'][mod_key]))
 			affected_by.sort()
 			if affected_by:
 				if not baffected:
@@ -183,8 +203,8 @@ def generate_individual_skl_page(skl):
 			for e in lists[l]: #for each entry in this list
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
-						matchmod = str(mod_key).lower().split('.')
-						if matchid in matchmod: #if this mod references this resource by id
+						match_mod = str(mod_key).lower().split('.')
+						if matchid in str(mod_key): #if this mod references this resource by id
 							if matchid + '.exp' == str(mod_key).lower():
 								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
 			sources.sort()
