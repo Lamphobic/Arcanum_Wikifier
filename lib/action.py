@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to actions.
 """
 
-import os, json, sys, datetime
+import os, json, sys, datetime, re
 import lib.extractlib as lib
 import lib.wikilib as wiki
 
@@ -45,9 +45,9 @@ def action_info(action_json):
 	else:
 		action['name'] = action['id'].title()
 
-	action['sym']      = action_json.get('sym')
+	action['sym'] = action_json.get('sym')
 
-	action['desc']     = action_json.get('desc')
+	action['desc'] = action_json.get('desc')
 
 	action['cost'] = {}
 	if action_json.get('cost') is not None:
@@ -104,6 +104,79 @@ def action_info(action_json):
 	if is_done is False:
 		action['upgrade'] = "No"
 
+	action['requirements'] = {}
+	action['requirements']['>'] = {}
+	action['requirements']['<'] = {}
+	print(action_json.get('require'))
+	if action_json.get('require') is not None:
+		require = action_json.get('require')
+		if isinstance(require, list):
+			for e in require:
+				action['requirements']['>'][e] = 1
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							action['requirements']['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							action['requirements']['>'][ent] = int(tmp[1]) + 1
+						else:
+							action['requirements']['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						action['requirements']['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						action['requirements']['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					action['requirements']['<'][s[0]] = int(s[1])
+				else:
+					action['requirements']['>'][e] = 1
+	print(action_json.get('need'))
+	if action_json.get('need') is not None:
+		require = action_json.get('need')
+		if isinstance(require, list):
+			for e in require:
+				action['requirements']['>'][e] = 1
+		else:
+			require = require.replace('(', '').replace(')', '').replace('g.', '')
+			for e in re.split('&&|\|\|', require):
+				if '+' in e:
+					reg = '>=|<=|>|<'
+					cmp_sign = str(re.search(reg, e).group())
+					tmp = re.split(reg, e)
+					tmpl = tmp[0].split('+')
+					for ent in tmpl:
+						if '>=' == cmp_sign:
+							action['requirements']['>'][ent] = int(tmp[1])
+						elif '>' == cmp_sign:
+							action['requirements']['>'][ent] = int(tmp[1]) + 1
+						else:
+							action['requirements']['<'][ent] = int(tmp[1])
+							
+				elif bool(re.search('>=|>', e)):
+					if '>=' in e:
+						s = e.split('>=')
+						action['requirements']['>'][s[0]] = int(s[1])
+					else:
+						s = e.split('>')
+						action['requirements']['>'][s[0]] = int(s[1]) + 1
+				elif bool(re.search('<=|<', e)):
+					s = re.split('<=|<', e)
+					action['requirements']['<'][s[0]] = int(s[1])
+				else:
+					action['requirements']['>'][e] = 1
+	print(action['requirements'])
+	print()
 	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
 	else: 
