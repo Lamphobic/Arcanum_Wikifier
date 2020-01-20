@@ -159,10 +159,42 @@ def generate_individual_skl_page(skl):
 		
 		
 		#Build Affected By
-			
+		for l in lists:
+			affected_by = list()
+			for e in lists[l]:
+				if e['mod']:
+					for mod_key in e['mod']:
+						matchmod = str(mod_key)
+						if matchid in matchmod:
+							if matchid != str(mod_key).lower():
+								affected_by.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+			affected_by.sort()
+			if affected_by:
+				if not baffected:
+					skl_page.write('==Affected By==\n')
+					baffected = True
+				skl_page.write(('===' + l + '===\n').title())
+				for e in affected_by:
+					skl_page.write('* ' + e + '\n')
 		
 		#Build Alternative Training Sources
-		
+		for l in lists: #for each list of entries
+			sources = list()
+			for e in lists[l]: #for each entry in this list
+				if e['mod']: #if this entry has any mods
+					for mod_key in e['mod']: #for each mod in the mods of this entry
+						matchmod = str(mod_key).lower().split('.')
+						if matchid in matchmod: #if this mod references this resource by id
+							if matchid + '.exp' == str(mod_key).lower():
+								sources.append('[[' + e['name'] + ']]: ' + str(mod_key) + ": " + str(e['mod'][mod_key]))
+			sources.sort()
+			if sources:
+				if not bsource:
+					skl_page.write('==Alternative Training Sources==\n')
+					bsource = True
+				skl_page.write(('===' + l + '===\n').title())
+				for e in sources:
+					skl_page.write('* ' + e + '\n')
 		
 
 def generate_wiki(main_only=False):
