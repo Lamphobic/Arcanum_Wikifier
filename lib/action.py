@@ -107,7 +107,6 @@ def action_info(action_json):
 	action['requirements'] = {}
 	action['requirements']['>'] = {}
 	action['requirements']['<'] = {}
-	print(action_json.get('require'))
 	if action_json.get('require') is not None:
 		require = action_json.get('require')
 		if isinstance(require, list):
@@ -169,7 +168,7 @@ def action_info(action_json):
 					else:
 						s = e.split('>')
 						action['requirements']['>'][s[0]] = int(s[1]) + 1
-				elif '<=' in e):
+				elif '<=' in e:
 					s = e.split('<=')
 					action['requirements']['<'][s[0]] = int(s[1])
 				elif '<' in e:
