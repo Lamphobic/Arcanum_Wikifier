@@ -252,11 +252,11 @@ def generate_individual_skl_page(skl):
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
 							if matchid in match_req.split('.'):
-								unlock['*' + str(e['requirements']['<'][match_req]) + ' or less ' + skl['name'] + '.'.join(match_req.split('.')[1:]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
 							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + skl['name'] + '.'.join(match_req.split('.')[1:]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
