@@ -77,7 +77,6 @@ def dungeon_info(dungeon_json):
 	dungeon['requirements']['>'] = {}
 	dungeon['requirements']['<'] = {}
 	requirements = dungeon['requirements']
-	print(dungeon_json.get('require'))
 	if dungeon_json.get('require') is not None:
 		require = dungeon_json.get('require')
 		if isinstance(require, list):
@@ -111,8 +110,6 @@ def dungeon_info(dungeon_json):
 					requirements['<'][s[0]] = int(s[1])
 				else:
 					requirements['>'][e] = 1
-	print(requirements)
-	print()
 	
 	dungeon['mod'] = {}
 
