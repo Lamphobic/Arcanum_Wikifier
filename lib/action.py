@@ -6,7 +6,19 @@ Purpose: Produce all pages directly related to actions.
 """
 
 import os, json, sys, datetime, re
+
 import lib.extractlib as lib
+import lib.action as action
+import lib.dungeon as dungeon
+import lib.furniture as furniture
+import lib.home as home
+import lib.monster as monster
+import lib.potion as potion
+import lib.resource as resource
+import lib.skill as skill
+import lib.spell as spell
+import lib.tom_class as tom_class
+import lib.upgrade as upgrade
 import lib.wikilib as wiki
 
 
@@ -23,8 +35,6 @@ def get_effect_info(effect_json):
 				if not isinstance(effect_json[effect_key][effect_name], dict):
 					return_txt += str(effect_name) + ": " + str(effect_json[effect_key][effect_name]) + "<br/>"
 				else:
-					print('asdalskdfjhglaskj')
-					print(effect_json)
 					for mod_entry in effect_json[effect_key][effect_name]:
 						return_txt += str(effect_name) + '.' + str(mod_entry) + ": " + str(effect_json[effect_key][effect_name][mod_entry]) + "<br/>"
 	return return_txt
@@ -196,13 +206,28 @@ def get_full_action_list():
 	return action_list
 
 	
-def generate_wiki():
-	table_keys = ['Name', 'Description', 'Cost', 'Length', 'Repeatable', 'Effect', 'Upgrade', 'Requirement'] 
+def generate_wiki(main_only=False):
+	global lists
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
+	ret = list()
+	
 	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrade', 'Unlock Requirements'] 
 	table_lines = []
 	school_set = set()
 	result_list = lib.get_json("data/", "actions")
-	result_list = sorted(result_list, key=lambda act: act.get('id').title() if act.get('name') is None else act.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
 	for json_value in result_list:
 		action_json = action_info(json_value)
 		table_line = []
@@ -280,7 +305,12 @@ def generate_wiki():
 		# Requirement part
 		table_line.append(lib.recurs_json_to_str(action_json['require']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
 		
+		# Add line to lines
 		table_lines.append(table_line)
+		
+		if not main_only:
+			generate_individual_act_page(action_json)
+			ret.append(action_json['name'])
 
 	with open("actions.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
@@ -297,4 +327,4 @@ def generate_wiki():
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))
 
-	return "actions.txt"
+	return ret

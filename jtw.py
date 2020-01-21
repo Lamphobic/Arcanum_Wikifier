@@ -156,8 +156,11 @@ def main(argv):
 						wiki.bot_update(page_names[i], file_names[i])
 
 def gen_actions():
-	file_names.append(action.generate_wiki())
+	act = action.generate_wiki(main_only=only_generate_main_pages)
+	file_names.append("actions.txt")
 	page_names.append("Actions")
+	file_names.extend([(e + '.txt') for e in act])
+	page_names.extend(['_'.join(e.split(' ')) for e in act])
 
 def gen_dungeons():
 	file_names.append(dungeon.generate_wiki())

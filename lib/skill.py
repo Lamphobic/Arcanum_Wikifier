@@ -330,7 +330,7 @@ def generate_wiki(main_only=False):
 	table_keys = ['Name', 'Description', 'tags', 'Purchase Cost', 'Training Cost', 'Rank Bonus', 'Reward', 'Unlock Requirements', 'Training Requirements', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
-	result_list = sorted(result_list, key=lambda skl: skl.get('id').title() if skl.get('name') is None else skl.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
 	for json_value in result_list:
 		skill_json = skill_info(json_value)
 		table_line = []

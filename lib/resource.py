@@ -176,7 +176,7 @@ def generate_wiki(main_only=False):
 	table_keys = ['Name','Description','Tags','Base Maximum','Bonus']
 	table_lines = []
 	result_list = lib.get_json("data/", "resources")
-	result_list = sorted(result_list, key=lambda res: res.get('id').title() if res.get('name') is None else res.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
 	for json_value in result_list:
 		resource_json = resource_info(json_value)
 		
