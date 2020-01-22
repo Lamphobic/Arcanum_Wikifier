@@ -86,7 +86,7 @@ def generate_individual_res_page(res):
 		affected_by = list()
 		sources = list()
 		unlock = {}
-		matchid = res['id'].lower()
+		match_id = res['id'].lower()
 		
 		#Build Sources
 		for l in lists: #for each list of entries
@@ -95,8 +95,8 @@ def generate_individual_res_page(res):
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
 						match_mod = str(mod_key).lower().split('.')
-						if matchid in match_mod: #if this mod references this resource by id
-							if matchid == str(mod_key).lower():
+						if match_id in match_mod: #if this mod references this resource by id
+							if match_id == str(mod_key).lower():
 								sources.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + res['name'] + ": " + str(e['mod'][mod_key]))
 			sources = list(set(sources))
 			sources.sort()
@@ -115,9 +115,9 @@ def generate_individual_res_page(res):
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
 						match_mod = str(mod_key).lower().split('.')
-						if matchid in match_mod: #if this mod references this resource by id
-							match_mod = [x if x != matchid else res['name'] for x in match_mod]
-							if matchid != str(mod_key).lower():
+						if match_id in match_mod: #if this mod references this resource by id
+							match_mod = [x if x != match_id else res['name'] for x in match_mod]
+							if match_id != str(mod_key).lower():
 								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
 			affected_by = list(set(affected_by))
 			affected_by.sort()
@@ -139,12 +139,12 @@ def generate_individual_res_page(res):
 					if e['requirements']['<'] or e['requirements']['>']:
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
-							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+							if match_id in match_req.split('.'):
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != match_id else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
-							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+							if match_id in match_req.split('.'):
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != match_id else res['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
@@ -156,7 +156,7 @@ def generate_individual_res_page(res):
 		
 
 
-def generate_wiki(main_only=False):
+def generate_wiki(id_name_map, main_only=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),

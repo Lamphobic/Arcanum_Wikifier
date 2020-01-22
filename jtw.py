@@ -58,6 +58,25 @@ def main(argv):
 	file_names = []
 	page_names = []
 	
+	global id_name_map
+	id_name_map = {}
+	lists = {
+		"action": action.get_full_action_list(),
+		"dungeon": dungeon.get_full_dungeon_list(),
+		"furniture": furniture.get_full_furniture_list(),
+		"home": home.get_full_home_list(),
+		"monster": monster.get_full_monster_list(),
+		"potion": potion.get_full_potion_list(),
+		"resource": resource.get_full_resource_list(),
+		"skill": skill.get_full_skill_list(),
+		"spell": spell.get_full_spell_list(),
+		"class": tom_class.get_full_tom_class_list(),
+		"upgrade": upgrade.get_full_upgrade_list()
+		}
+	for l in lists:
+		for e in lists[l]:
+			id_name_map[e['id']] = e['name']
+	
 	
 	help_switch = {
 		"actions": None,
@@ -156,7 +175,7 @@ def main(argv):
 						wiki.bot_update(page_names[i], file_names[i])
 
 def gen_actions():
-	act = action.generate_wiki(main_only=only_generate_main_pages)
+	act = action.generate_wiki(id_name_map, main_only=only_generate_main_pages)
 	file_names.append("actions.txt")
 	page_names.append("Actions")
 	file_names.extend([(e + '.txt') for e in act])
@@ -183,7 +202,7 @@ def gen_potions():
 	page_names.append("Potions")
 
 def gen_skills():
-	skl = skill.generate_wiki(main_only=only_generate_main_pages)
+	skl = skill.generate_wiki(id_name_map, main_only=only_generate_main_pages)
 	file_names.append("skills.txt")
 	page_names.append("Skills")
 	file_names.extend([(e + '.txt') for e in skl])
@@ -194,14 +213,14 @@ def gen_spells():
 	page_names.append("Spells")
 
 def gen_resources():
-	res = resource.generate_wiki(main_only=only_generate_main_pages)
+	res = resource.generate_wiki(id_name_map, main_only=only_generate_main_pages)
 	file_names.append("resources.txt")
 	page_names.append("Resources")
 	file_names.extend([(e + '.txt') for e in res])
 	page_names.extend(['_'.join(e.split(' ')) for e in res])
 
 def gen_classes():
-	cls = tom_class.generate_wiki(main_only=only_generate_main_pages, no_graph_gen=no_graph)
+	cls = tom_class.generate_wiki(id_name_map, main_only=only_generate_main_pages, no_graph_gen=no_graph)
 	file_names.append("classes.txt")
 	page_names.append("Classes")
 	file_names.extend([(e + '.txt') for e in cls])

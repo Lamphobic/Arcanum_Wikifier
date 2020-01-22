@@ -27,9 +27,9 @@ def get_effect_info(effect_json):
 	is_treated = False
 	for effect_key in effect_json:
 		if isinstance(effect_json[effect_key], str):
-			return_txt += str(effect_json[effect_key])
+			return_txt += str(effect_json[effect_key] + '<br/>')
 		elif isinstance(effect_json[effect_key], list):
-			return_txt += ', '.join(effect_json[effect_key])
+			return_txt += str(', '.join(effect_json[effect_key])) + '<br/>'
 		else:
 			for effect_name in effect_json[effect_key]:
 				if not isinstance(effect_json[effect_key][effect_name], dict):
@@ -37,7 +37,7 @@ def get_effect_info(effect_json):
 				else:
 					for mod_entry in effect_json[effect_key][effect_name]:
 						return_txt += str(effect_name) + '.' + str(mod_entry) + ": " + str(effect_json[effect_key][effect_name][mod_entry]) + "<br/>"
-	return return_txt
+	return return_txt[:-5]
 
 	
 def action_info(action_json):
@@ -114,7 +114,7 @@ def action_info(action_json):
 		is_done = True
 		action['upgrade']['every'] = action_json.get('every')
 	if is_done is False:
-		action['upgrade'] = "No"
+		action['upgrade'] = "Doesn't Upgrade"
 	
 	action['requirements'] = {}
 	action['requirements']['>'] = {}
@@ -189,11 +189,16 @@ def action_info(action_json):
 					requirements['<'][s[0]] = int(s[1]) - 1
 				else:
 					requirements['>'][e] = 1
-					
+	
 	if action_json.get('require') is not None:
 		action['require'] = action_json.get('require')
 	else: 
 		action['require'] = "Nothing"
+	
+	if action_json.get('need') is not None:
+		action['need'] = action_json.get('need')
+	else: 
+		action['need'] = "Nothing"
 	
 	return action
 
@@ -205,8 +210,137 @@ def get_full_action_list():
 		action_list.append(action_info(json_value))
 	return action_list
 
+
+def generate_individual_act_page(action_json, id_name_map):
+	with open(action_json['name']+".txt", "w", encoding="UTF-8") as page:
+		page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
+		page.write(action_json['name'] + ' is part of [[' + action_json['type'].title() + '|\"' + action_json['type'].title() + '\"]]\n')
+		#Desc
+		if action_json['desc']:
+			page.write('==Description==\n' + action_json['desc'] + '\n')
+		#Start Cost
+		tmp_cell = ""
+		if bool(action_json['cost']) is not False:
+			page.write('==Cost to Start==\n')
+			if isinstance(action_json['cost'],str):
+				tmp_cell += ('*' + str(action_json['cost'])+ '\n')
+			elif isinstance(action_json['cost'], int):
+				tmp_cell += ("*Gold: " + str(action_json['cost'])+ '\n')
+			else:
+				for mod_key in action_json['cost']:
+					tmp_cell += ('*' + str(mod_key) + ": " + str(action_json['cost'][mod_key]) + '\n')
+		page.write(str(tmp_cell))
+		
+		#Ongoing Cost
+		tmp_cell = ""
+		if bool(action_json['run']) is not False:
+			page.write('==Ongoing Cost==\n')
+			if isinstance(action_json['run'],str):
+				tmp_cell += ('*' + str(action_json['run'])+ '\n')
+			elif isinstance(action_json['run'], int):
+				tmp_cell += ("*Gold: " + str(action_json['run'])+ '\n')
+			else:
+				for mod_key in action_json['run']:
+					tmp_cell += ('*' + str(mod_key) + ": " + str(action_json['run'][mod_key]) + '\n')
+		page.write(str(tmp_cell))
+		
+		#Length
+		page.write('==Time Length==\n')
+		page.write(str(action_json['length']) + '\n')
+		
+		#Repeatable
+		page.write('==Repeatable==\n')
+		page.write(str(action_json['repeat']) + '\n')
+		
+		#Ongoing Effect
+		tmp_cell = ""
+		if bool(action_json['effect']) is not False:
+			page.write('==Ongoing Effect==\n')
+			tmp_cell += str(get_effect_info(action_json['effect']))
+			tmp_cell = '*' + tmp_cell.replace('<br/>', '\n*') + '\n'
+		page.write(str(tmp_cell))
+		
+		#Result
+		tmp_cell = ""
+		if bool(action_json['result']) is not False:
+			page.write('==Result==\n')
+			tmp_cell += str(get_effect_info(action_json['result']))
+			tmp_cell = '*' + tmp_cell.replace('<br/>', '\n*') + '\n'
+		page.write(tmp_cell)
+		
+		#Upgrade
+		tmp_cell = ""
+		if action_json['upgrade'] != 'Doesn\'t Upgrade':
+			page.write('==Upgrades==\n')
+			if isinstance(action_json['upgrade'],str):
+				tmp_cell += (str(action_json['upgrade']))
+			else:
+				if action_json['upgrade'].get('at') is not None:
+					for level_key in action_json['upgrade'].get('at'):
+						tmp_cell += ("After " + str(level_key) + " uses:<br/>")
+						level_json = action_json['upgrade']['at'].get(level_key)
+						for result_key in level_json:
+							tmp_cell += "*" + str(result_key) + ": " + str(level_json[result_key]) + "<br/>"
+				if action_json['upgrade'].get('every') is not None:
+					for level_key in action_json['upgrade'].get('every'):
+						tmp_cell += ("Every " + str(level_key) + " uses:<br/>")
+						level_json = action_json['upgrade']['every'].get(level_key)
+						for result_key in level_json:
+							tmp_cell += "*" + str(result_key) + ": " + str(level_json[result_key]) + "<br/>"
+			tmp_cell = tmp_cell[:-5].replace('<br/>', '\n') + '\n'
+			page.write(str(tmp_cell))
+		
+		#Unlock Requirements
+		if action_json['require'] != "Nothing" and action_json['need'] != "Nothing":
+			page.write('==Unlock Requirements==\n')
+		if action_json['require'] != "Nothing":
+			if isinstance(action_json['require'], str):
+				page.write('*' + str(action_json['require'].replace("&&", "\n*").replace("||", "OR")) + '\n')
+			else:
+				for e in action_json['require']:
+					page.write('*' + str(e.replace("&&", "\n*").replace("||", "OR")) + '\n')
+		if action_json['need'] != 'Nothing':
+			if isinstance(action_json['need'], list):
+				for e in action_json['need']:
+					page.write('*' + str(e) + '\n')
+			else:
+				page.write('*' + str(action_json['need']) + '\n')
+				
+		#Need
+		if action_json['need'] != 'Nothing':
+			page.write('==Action Requirements==\n')
+			if isinstance(action_json['need'], list):
+				for e in action_json['need']:
+					page.write('*' + str(e) + '\n')
+			else:
+				page.write('*' + str(action_json['need']) + '\n')
+		
+		baffected = False
+		affected_by = list()
+		match_id = action_json['id'].lower()
+		
+		#Affected By
+		for l in lists:
+			affected_by = list()
+			for e in lists[l]:
+				if e['mod']:
+					for mod_key in e['mod']:
+						match_mod = str(mod_key).lower().split('.')
+						if match_id in match_mod:
+							if match_id != str(mod_key).lower():
+								match_mod = [x if x != match_id else action_json['name'] for x in match_mod]
+								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
+			affected_by = list(set(affected_by))
+			affected_by.sort()
+			if affected_by:
+				if not baffected:
+					page.write('==Affected By==\n')
+					baffected = True
+				page.write(('===' + l + '===\n').title())
+				for e in affected_by:
+					page.write('* ' + e + '\n')
 	
-def generate_wiki(main_only=False):
+def generate_wiki(id_name_map, main_only=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),
@@ -223,7 +357,7 @@ def generate_wiki(main_only=False):
 		}
 	ret = list()
 	
-	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrade', 'Unlock Requirements'] 
+	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrades', 'Unlock Requirements', 'Action Requirements'] 
 	table_lines = []
 	school_set = set()
 	result_list = lib.get_json("data/", "actions")
@@ -299,17 +433,19 @@ def generate_wiki(main_only=False):
 					level_json = action_json['upgrade']['every'].get(level_key)
 					for result_key in level_json:
 						tmp_cell += "-" + str(result_key) + ": " + str(level_json[result_key]) + "<br/>"
-
 		table_line.append(str(tmp_cell))
 
 		# Requirement part
 		table_line.append(lib.recurs_json_to_str(action_json['require']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
+
+		# Need part
+		table_line.append(lib.recurs_json_to_str(action_json['need']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
 		
 		# Add line to lines
 		table_lines.append(table_line)
 		
 		if not main_only:
-			generate_individual_act_page(action_json)
+			generate_individual_act_page(action_json, id_name_map)
 			ret.append(action_json['name'])
 
 	with open("actions.txt", "w", encoding="UTF-8") as wiki_dump:
