@@ -38,12 +38,23 @@ def gen_dict_extract(key, var):
                         yield result
 
 def get_json(path_to_json, target_name):
-    json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+    
+    with open(path_to_json + "/modules.json", "r", encoding="UTF-8") as module_file:
+        module_json = json.load(module_file)
+        json_files = []
+
+        for key, value in module_json.items():
+            if key == "core":
+                for module_name in value:
+                    json_files.append(module_name)
+            elif key == "modules":
+                for module_name in value:
+                    json_files.append("modules/" + module_name)
+
     json_dict = {}
 
-    # we need both the json and an index number so use enumerate()
-    for index, js in enumerate(json_files):
-        with open(os.path.join(path_to_json, js), 'r', encoding='utf8', errors='ignore') as json_file:
+    for js in json_files:
+        with open(os.path.join(path_to_json, js + ".json"), 'r', encoding='utf8', errors='ignore') as json_file:
             json_dict[js] = json.load(json_file)
 
     tmp_json = []
@@ -65,6 +76,6 @@ def get_json(path_to_json, target_name):
         result_list += json_found 
     #tmp_json = [result for result in gen_dict_extract(target_name, json_dict)][0]
 
-    main_json = json_dict[target_name + ".json"]
-
+    main_json = json_dict[target_name]
+    
     return result_list + main_json

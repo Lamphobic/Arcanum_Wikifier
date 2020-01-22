@@ -2,7 +2,7 @@
 """
 Original Author: Harrygiel
 Contributors: Lamphobic
-Purpose: Produce all pages directly related to actions.
+Purpose: Produce all pages directly related to tasks.
 """
 
 import os, json, sys, datetime

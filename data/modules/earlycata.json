@@ -1,0 +1,53 @@
+{
+	"module": "test",
+	"data": {
+		"events":[
+            	{
+                	"id":"evt_hole",
+                	"name":"Public Commotion",
+                	"desc":"A large hole opened up closeby, quite a few are testing their luck, you better hurry if you want to be ahead",
+                	"require":["mtgorborung", "tier3"]
+        	    },
+        	    {
+                    "id":"evt_hole2",
+                    "name":"The First One",
+                    "desc":"You're the first one to the bottom, you find some books unlike many you've seen",
+                    "require":"g.tier3>0&&g.easycrypts>0&&g.tier4==0"
+             	},
+            	{
+                "id":"evt_hole3",
+                "name":"The Bottom",
+                "desc":"You've reached the bottom, but it seems others have already taken what was here",
+                "require":"g.tier4>0&&g.easycrypts&&g.evt_hole2<0"
+            }
+		],
+		"dungeons":[
+			{
+    	   		"id":"easycrypts",
+   		    	"name":"The Deep Hole",
+   		    	"desc":"A large hole that opened up closeby",
+   	     		"require":"evt_hole",
+        		"level":15,
+                "dist":"50",
+        		"run":{
+        		    "stamina":2
+        		},
+        		"length":10000,
+        		"result":{
+       			    "fame":1,
+            		"gems":"10~20",
+            		"gold":"100~200"
+        			},
+        		"biome":["cave","mountain"],
+        		"spawns":{
+            		"level":"4~15",
+           			"scale":true,
+            		"range":2
+        		},"flavor":"I'll add flavor to it later -Evil Tyrant"
+  			}
+		]
+
+
+
+	}
+}
