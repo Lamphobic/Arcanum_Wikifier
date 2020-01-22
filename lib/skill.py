@@ -201,7 +201,7 @@ def generate_individual_skl_page(skl, diff_only=False):
 		name = 'test' + name
 		exist = True
 	with open(name, "w", encoding="UTF-8") as skl_page:
-		skl_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
+		skl_page.write("This page has been automatically generated.<br>\n<br>\n")
 		skl_page.write(skl['name'] + ' is part of [[' + skl['type'].title() + '|\"' + skl['type'].title() + '\"]]\n')
 		if skl['desc']:
 			skl_page.write('==Description==\n' + skl['desc'] + '\n')

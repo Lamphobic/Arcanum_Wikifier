@@ -33,11 +33,13 @@ def main(argv):
 	global only_generate_main_pages
 	global test_update
 	global no_graph
+	global diff_only_up
 	
 	online_update = False
 	only_generate_main_pages = False
 	test_update = False
 	no_graph = True
+	diff_only_up = False
 	
 	mains = [
 		"tasks",

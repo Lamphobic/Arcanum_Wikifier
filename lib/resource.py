@@ -72,7 +72,7 @@ def generate_individual_res_page(res, diff_only=False):
 		name = 'test' + name
 		exist = True
 	with open(name, "w", encoding="UTF-8") as res_page:
-		res_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
+		res_page.write("This page has been automatically generated.<br>\n<br>\n")
 		res_page.write(res['name'] + ' is part of [[' + res['type'].title() + '|\"' + res['type'].title() + '\"]]\n')
 		if res['desc'] is not None:
 			res_page.write('==Description==\n' + res['desc'] + '\n')
@@ -226,7 +226,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		table_lines.append(table_line)
 		
 		if not main_only:
-			if generate_individual_res_page(resource_json):
+			if generate_individual_res_page(resource_json, diff_only):
 				ret.append(resource_json['name'])
 			
 	with open("resources.txt", "w", encoding="UTF-8") as wiki_dump:
