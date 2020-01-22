@@ -104,7 +104,7 @@ def main(argv):
 	}
 	
 	for arg in argv[1:]:
-		func = help_switch.get(arg.lower(), help)
+		func = help_switch.get(arg.lower(), flg_help)
 		if func is not None:
 			func()
 	
@@ -114,11 +114,11 @@ def main(argv):
 		"-main": flg_main_only,
 		"-nograph": flg_no_graph,
 		"-diff": flg_differences_only,
-		"-help": flg_help,
-		"-h": flg_help,
-		"-?": flg_help,
-		"help": flg_help,
-		"?": flg_help
+		"-help": None,
+		"-h": None,
+		"-?": None,
+		"help": None,
+		"?": None
 	}
 	
 	for arg in argv[1:]:
@@ -155,7 +155,7 @@ def main(argv):
 		flg_help()
 	
 	for arg in argv[1:]:
-		func = switch.get(arg.lower(), help)
+		func = switch.get(arg.lower(), flg_help)
 		if func is not None:
 			func()
 		
@@ -177,7 +177,7 @@ def main(argv):
 def gen_tasks():
 	act = task.generate_wiki(id_name_map, main_only=only_generate_main_pages)
 	file_names.append("tasks.txt")
-	page_names.append("tasks")
+	page_names.append("Tasks")
 	file_names.extend([(e + '.txt') for e in act])
 	page_names.extend(['_'.join(e.split(' ')) for e in act])
 
