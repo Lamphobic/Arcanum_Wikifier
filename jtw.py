@@ -8,7 +8,7 @@ Purpose: Main driver of the Arcanium Wikifier
 
 import os, json, sys
 import lib.wikilib as wiki
-import lib.action as action
+import lib.task as task
 import lib.dungeon as dungeon
 import lib.furniture as furniture
 import lib.home as home
@@ -40,7 +40,7 @@ def main(argv):
 	no_graph = True
 	
 	mains = [
-		"actions",
+		"tasks",
 		"dungeons",
 		"furnitures",
 		"homes",
@@ -61,7 +61,7 @@ def main(argv):
 	global id_name_map
 	id_name_map = {}
 	lists = {
-		"action": action.get_full_action_list(),
+		"task": task.get_full_task_list(),
 		"dungeon": dungeon.get_full_dungeon_list(),
 		"furniture": furniture.get_full_furniture_list(),
 		"home": home.get_full_home_list(),
@@ -79,7 +79,7 @@ def main(argv):
 	
 	
 	help_switch = {
-		"actions": None,
+		"tasks": None,
 		"dungeons": None,
 		"furnitures": None,
 		"homes": None,
@@ -96,11 +96,11 @@ def main(argv):
 		"-main": None,
 		"-diff": None,
 		"-nograph": None,
-		"-help": help,
-		"-h": help,
-		"-?": help,
-		"help": help,
-		"?": help
+		"-help": flg_help,
+		"-h": flg_help,
+		"-?": flg_help,
+		"help": flg_help,
+		"?": flg_help
 	}
 	
 	for arg in argv[1:]:
@@ -127,7 +127,7 @@ def main(argv):
 			func()
 	
 	switch = {
-		"actions": gen_actions,
+		"tasks": gen_tasks,
 		"dungeons": gen_dungeons,
 		"furnitures": gen_furnitures,
 		"homes": gen_homes,
@@ -174,10 +174,10 @@ def main(argv):
 					else:
 						wiki.bot_update(page_names[i], file_names[i])
 
-def gen_actions():
-	act = action.generate_wiki(id_name_map, main_only=only_generate_main_pages)
-	file_names.append("actions.txt")
-	page_names.append("Actions")
+def gen_tasks():
+	act = task.generate_wiki(id_name_map, main_only=only_generate_main_pages)
+	file_names.append("tasks.txt")
+	page_names.append("tasks")
 	file_names.extend([(e + '.txt') for e in act])
 	page_names.extend(['_'.join(e.split(' ')) for e in act])
 
@@ -241,7 +241,7 @@ def gen_all():
 	gen_homes()
 	gen_furnitures()
 	gen_dungeons()
-	gen_actions()
+	gen_tasks()
 	
 def flg_on(): #Fully working
 	global online_update
@@ -267,7 +267,7 @@ def flg_differences_only(): #not working
 	pass #TODO: Later
 	
 def flg_help():
-	print("python (3.8) jtw.py [OPTIONS] actions|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|upgrades|all")
+	print("python (3.8) jtw.py [OPTIONS] tasks|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|upgrades|all")
 	print("Options")
 	print("-on")
 	print("\tSets the bot to upload the newly generated pages online.")

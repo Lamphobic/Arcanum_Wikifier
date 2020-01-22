@@ -8,7 +8,7 @@ Purpose: Produce all pages directly related to skills.
 import os, json, sys, datetime, re
 
 import lib.extractlib as lib
-import lib.action as action
+import lib.task as task
 import lib.dungeon as dungeon
 import lib.furniture as furniture
 import lib.home as home
@@ -313,7 +313,7 @@ def generate_individual_skl_page(skl):
 def generate_wiki(id_name_map, main_only=False):
 	global lists
 	lists = {
-		"action": action.get_full_action_list(),
+		"task": task.get_full_task_list(),
 		"dungeon": dungeon.get_full_dungeon_list(),
 		"furniture": furniture.get_full_furniture_list(),
 		"home": home.get_full_home_list(),
