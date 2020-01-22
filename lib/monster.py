@@ -121,19 +121,21 @@ def monster_info(monster_json):
 	monster['loot'] = []
 	if monster_json.get('loot') is not None:
 		loot_json = monster_json.get('loot')
-		if isinstance(loot_json,str):
+		if isinstance(loot_json, str):
 			monster['loot'].append(loot_json)
 		else:
-			if isinstance(loot_json,dict):
-				for loot_key in loot_json:
-					if loot_key is"max":
-						monster['loot'].append("max item level: " + str(loot_json[loot_key]))
-					elif isinstance(loot_json[loot_key],dict):
-
-						monster['loot'].append("special loot: " + loot_key.get("name"))
-					else:
-						monster['loot'].append(str(loot_key) + ": " + str(loot_json[loot_key]))
-			elif isinstance(loot_json,list):
+			if isinstance(loot_json, dict):
+				if 'name' in loot_json:
+					monster['loot'].append("special loot: " + loot_json['name'])
+				else:
+					for loot_key in loot_json:
+						if loot_key == "max":
+							monster['loot'].append("max item level: " + str(loot_json[loot_key]))
+						elif isinstance(loot_json[loot_key], dict):
+							monster['loot'].append("special loot: " + loot_json[loot_key]["name"])
+						else:
+							monster['loot'].append(str(loot_key) + ": " + str(loot_json[loot_key]))
+			elif isinstance(loot_json, list):
 				for loot_object in loot_json:
 					if isinstance(loot_object,dict):
 						monster['loot'].append("special loot: " + loot_object.get("pct") + " chance of getting " + loot_object.get("name"))
