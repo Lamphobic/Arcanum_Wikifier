@@ -224,8 +224,8 @@ def generate_individual_skl_page(skl):
 			skl_page.write('*' + str(skl['require'].replace("&&", "\n*").replace("||", "OR")) + '\n')
 		if skl['need']:
 			if isinstance(skl['need'], list):
-					for e in skl['need']:
-						skl_page.write(str(e) + '\n')
+				for e in skl['need']:
+					skl_page.write(str(e) + '\n')
 			else:
 				skl_page.write(str(skl['need']) + '\n')
 		if skl['need']:
@@ -243,7 +243,7 @@ def generate_individual_skl_page(skl):
 		affected_by = list()
 		sources = list()
 		unlock = {}
-		matchid = skl['id'].lower()
+		match_id = skl['id'].lower()
 		
 		#Build Unlocks
 		for l in lists:
@@ -253,12 +253,12 @@ def generate_individual_skl_page(skl):
 					if e['requirements']['<'] or e['requirements']['>']:
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
-							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+							if match_id in match_req.split('.'):
+								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != match_id else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
-							if matchid in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != matchid else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+							if match_id in match_req.split('.'):
+								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != match_id else skl['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
@@ -275,9 +275,9 @@ def generate_individual_skl_page(skl):
 				if e['mod']:
 					for mod_key in e['mod']:
 						match_mod = str(mod_key).lower().split('.')
-						if matchid in match_mod:
-							if matchid != str(mod_key).lower():
-								match_mod = [x if x != matchid else skl['name'] for x in match_mod]
+						if match_id in match_mod:
+							if match_id != str(mod_key).lower():
+								match_mod = [x if x != match_id else skl['name'] for x in match_mod]
 								affected_by.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + '.'.join(match_mod) + ": " + str(e['mod'][mod_key]))
 			affected_by = list(set(affected_by))
 			affected_by.sort()
@@ -296,8 +296,8 @@ def generate_individual_skl_page(skl):
 				if e['mod']: #if this entry has any mods
 					for mod_key in e['mod']: #for each mod in the mods of this entry
 						match_mod = str(mod_key).lower().split('.')
-						if matchid in str(mod_key): #if this mod references this resource by id
-							if matchid + '.exp' == str(mod_key).lower():
+						if match_id in str(mod_key): #if this mod references this resource by id
+							if match_id + '.exp' == str(mod_key).lower():
 								sources.append('[[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]: ' + skl['name'] + ": " + str(e['mod'][mod_key]))
 			sources = list(set(sources))
 			sources.sort()
@@ -310,7 +310,7 @@ def generate_individual_skl_page(skl):
 					skl_page.write('* ' + e + '\n')
 		
 
-def generate_wiki(main_only=False):
+def generate_wiki(id_name_map, main_only=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),
@@ -330,6 +330,7 @@ def generate_wiki(main_only=False):
 	table_keys = ['Name', 'Description', 'tags', 'Purchase Cost', 'Training Cost', 'Rank Bonus', 'Reward', 'Unlock Requirements', 'Training Requirements', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
+	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
 	for json_value in result_list:
 		skill_json = skill_info(json_value)
 		table_line = []

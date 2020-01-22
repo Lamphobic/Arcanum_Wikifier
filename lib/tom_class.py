@@ -340,7 +340,7 @@ def get_full_tom_class_list():
 def generate_individual_cls_page(cls):
 	pass
 
-def generate_wiki(main_only=False, no_graph_gen=False):
+def generate_wiki(id_name_map, main_only=False, no_graph_gen=False):
 	global lists
 	lists = {
 		"action": action.get_full_action_list(),
