@@ -291,7 +291,7 @@ def generate_individual_act_page(action_json, id_name_map):
 			page.write(str(tmp_cell))
 		
 		#Unlock Requirements
-		if action_json['require'] != "Nothing" and action_json['need'] != "Nothing":
+		if action_json['require'] != "Nothing" or action_json['need'] != "Nothing":
 			page.write('==Unlock Requirements==\n')
 		if action_json['require'] != "Nothing":
 			if isinstance(action_json['require'], str):
