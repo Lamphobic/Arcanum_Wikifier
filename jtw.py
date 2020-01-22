@@ -96,11 +96,11 @@ def main(argv):
 		"-main": None,
 		"-diff": None,
 		"-nograph": None,
-		"-help": help,
-		"-h": help,
-		"-?": help,
-		"help": help,
-		"?": help
+		"-help": flg_help,
+		"-h": flg_help,
+		"-?": flg_help,
+		"help": flg_help,
+		"?": flg_help
 	}
 	
 	for arg in argv[1:]:
@@ -152,7 +152,7 @@ def main(argv):
 	}
 	
 	if len(argv) == 1:
-		help()
+		flg_help()
 	
 	for arg in argv[1:]:
 		func = switch.get(arg.lower(), help)
