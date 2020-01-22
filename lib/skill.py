@@ -5,7 +5,7 @@ Contributors: Lamphobic
 Purpose: Produce all pages directly related to skills.
 """
 
-import os, json, sys, datetime, re
+import os, json, sys, datetime, re, filecmp
 
 import lib.extractlib as lib
 import lib.task as task
@@ -194,8 +194,13 @@ def get_full_skill_list():
 	return skill_list
 
 
-def generate_individual_skl_page(skl):
-	with open(skl['name']+".txt", "w", encoding="UTF-8") as skl_page:
+def generate_individual_skl_page(skl, diff_only=False):
+	name = skl['name'] + ".txt"
+	exist = False
+	if diff_only and os.path.exists(name):
+		name = 'test' + name
+		exist = True
+	with open(name, "w", encoding="UTF-8") as skl_page:
 		skl_page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
 		skl_page.write(skl['name'] + ' is part of [[' + skl['type'].title() + '|\"' + skl['type'].title() + '\"]]\n')
 		if skl['desc']:
@@ -308,9 +313,22 @@ def generate_individual_skl_page(skl):
 				skl_page.write(('===' + l + '===\n').title())
 				for e in sources:
 					skl_page.write('* ' + e + '\n')
+	if diff_only and exist:
+		if not filecmp.cmp(name, name[4:], shallow=False): #are they the same
+			#they are not the same
+			#remove old file
+			os.remove(name[4:])
+			#rename new file
+			os.rename(name, name[4:])
+		else:
+			#they are the same
+			#remove new file
+			os.remove(name)
+			return False
+	return True
 		
 
-def generate_wiki(id_name_map, main_only=False):
+def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	global lists
 	lists = {
 		"task": task.get_full_task_list(),
@@ -392,8 +410,8 @@ def generate_wiki(id_name_map, main_only=False):
 		table_lines.append(table_line)
 		
 		if not main_only:
-			generate_individual_skl_page(skill_json)
-			ret.append(skill_json['name'])
+			if generate_individual_skl_page(skill_json, diff_only):
+				ret.append(skill_json['name'])
 
 	with open("skills.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "\n")

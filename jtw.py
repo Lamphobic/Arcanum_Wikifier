@@ -202,7 +202,7 @@ def gen_potions():
 	page_names.append("Potions")
 
 def gen_skills():
-	skl = skill.generate_wiki(id_name_map, main_only=only_generate_main_pages)
+	skl = skill.generate_wiki(id_name_map, main_only=only_generate_main_pages, diff_only=diff_only_up)
 	file_names.append("skills.txt")
 	page_names.append("Skills")
 	file_names.extend([(e + '.txt') for e in skl])
@@ -213,7 +213,7 @@ def gen_spells():
 	page_names.append("Spells")
 
 def gen_resources():
-	res = resource.generate_wiki(id_name_map, main_only=only_generate_main_pages)
+	res = resource.generate_wiki(id_name_map, main_only=only_generate_main_pages, diff_only=diff_only_up)
 	file_names.append("resources.txt")
 	page_names.append("Resources")
 	file_names.extend([(e + '.txt') for e in res])
@@ -264,7 +264,9 @@ def flg_no_graph(): #Fully working
 	print("Not generating class graph.")
 	
 def flg_differences_only(): #not working
-	pass #TODO: Later
+	global diff_only_up
+	diff_only_up = True
+	print("Not uploading unchanged files.")
 	
 def flg_help():
 	print("python (3.8) jtw.py [OPTIONS] tasks|dungeons|furnitures|homes|monsters|potions|skills|spells|resources|classes|upgrades|all")
