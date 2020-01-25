@@ -164,6 +164,8 @@ def main(argv):
 	print(file_names)
 	print(page_names)
 
+	print('Estimated upload time: '  + str((2*len(file_names))/60) + ' minutes.')
+	
 	if online_update:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
