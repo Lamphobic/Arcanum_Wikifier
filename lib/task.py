@@ -456,7 +456,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		table_line.append(str(tmp_cell))
 
 		# Requirement part
-		table_line.append(lib.recurs_json_to_str(task_json['require']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))
+		table_line.append(lib.recurs_json_to_str(task_json['require']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>").replace("+"," + "))
 
 		# Need part
 		table_line.append(lib.recurs_json_to_str(task_json['need']).replace("&&", "<br/>").replace("||", "<br/>OR<br/>"))

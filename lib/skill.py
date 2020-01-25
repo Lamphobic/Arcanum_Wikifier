@@ -394,7 +394,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		table_line.append(str(tmp_cell))
 
 		# Requirement part
-		table_line.append(str(skill_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
+		table_line.append(str(skill_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>").replace("+"," + ")))
 
 		# need part
 		if isinstance(skill_json['need'], str):
@@ -426,11 +426,11 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[2, "'elemental' in cell"]]))
 
 		wiki_dump.write("\n==Evil only==\n")
-		wiki_dump.write("List of skill who need you to be evil\n")
+		wiki_dump.write("List of skill which need you to be evil\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil>0' in cell and not('OR' in cell)"]]))
 
 		wiki_dump.write("\n==Good only==\n")
-		wiki_dump.write("List of skill who need you to be good\n")
+		wiki_dump.write("List of skill which need you to be good\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[7, "'g.evil<=0' in cell and not('OR' in cell)"]]))
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))

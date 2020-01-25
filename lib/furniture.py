@@ -285,7 +285,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 				tmp_cell += str(requirement) + '<br/>'
 			table_line.append(str(tmp_cell))
 		else:
-			table_line.append(str(furniture_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>")))
+			table_line.append(str(furniture_json['require'].replace("&&", "<br/>").replace("||", "<br/>OR<br/>").replace("+"," + ")))
 
 		# Add line to lines
 		table_lines.append(table_line)
