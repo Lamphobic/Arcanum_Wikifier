@@ -92,7 +92,8 @@ def main(argv):
 		else:
 			tmp[name] = e
 	for e in sorted(col.keys(), key=lambda id: str(id_name_map[id]['name'])):
-		print(e + ': ' + id_name_map[e]['name'] + ', ' + id_name_map[e]['type'])
+		#print(e + ': ' + id_name_map[e]['name'] + ', ' + id_name_map[e]['type'])
+		print("'" + e + "': '" + id_name_map[e]['name'] + "',")
 	
 	with open('id map.txt', "w", encoding="UTF-8") as page:
 		sorted_l = sorted(id_name_map.keys())
