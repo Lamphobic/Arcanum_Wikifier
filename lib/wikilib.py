@@ -8,6 +8,7 @@ def make_table(table_keys, table_lines, table_filter=None):
 		[5, "'gold.max' in cell"],
 		[2, "'naturesource' in cell or 'plantesource' in cell"],...
 	]
+	Multiple filters are effectively boolean OR
 	"""
 	table_return = ""
 	table_return += '{| class="wikitable sortable"\n'
