@@ -350,15 +350,15 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	table_keys = ['Name', 'Description', 'tags', 'Purchase Cost', 'Training Cost', 'Rank Bonus', 'Reward', 'Unlock Requirements', 'Training Requirements', 'Level Scaling'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "skills")
-	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: skill_info(srt).get('name')) #Presorts results by name.
 	for json_value in result_list:
 		skill_json = skill_info(json_value)
 		table_line = []
 		# NAME part
 		if skill_json.get('sym') is not None:
-			table_line.append('| <span id="' + str(skill_json['id']) + '">' + skill_json['sym'] + '[[' +  str(skill_json['name']).capitalize() + ']]</span>')
+			table_line.append('| <span id="' + str(skill_json['id']) + '">' + skill_json['sym'] + '[[' +  str(skill_json['name']) + ']]</span>')
 		else:
-			table_line.append('| <span id="' + str(skill_json['id']) + '">[[' +  str(skill_json['name']).capitalize() + ']]</span>')
+			table_line.append('| <span id="' + str(skill_json['id']) + '">[[' +  str(skill_json['name']) + ']]</span>')
 
 		# Description part
 		table_line.append(str(skill_json['desc']))

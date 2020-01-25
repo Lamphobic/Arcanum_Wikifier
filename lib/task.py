@@ -381,7 +381,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrades', 'Unlock Requirements', 'task Requirements'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "tasks")
-	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: task_info(srt).get('name')) #Presorts results by name.
 	for json_value in result_list:
 		task_json = task_info(json_value)
 		table_line = []

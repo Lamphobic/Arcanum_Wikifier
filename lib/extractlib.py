@@ -69,7 +69,8 @@ def name_exceptions(map):
 		's_travel': 'Travel(Skill)',
 		'a_travel': 'Travel(Task)',
 		'good_sacrifice': 'Winter Fog(Good)',
-		'evil_sacrifice': 'Winter Fog(Evil)'
+		'evil_sacrifice': 'Winter Fog(Evil)',
+		'potions': 'Potions(Skill)'
 		}
 	if map['id'] in exceptions:
 		map['name'] = exceptions[map['id']]

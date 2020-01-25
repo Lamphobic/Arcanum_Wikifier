@@ -63,7 +63,7 @@ def furniture_info(furniture_json):
 
 	if furniture_json.get('require') is not None:
 		furniture['require'] = furniture_json.get('require')
-	if furniture_json.get('need') is not None:
+	elif furniture_json.get('need') is not None:
 		furniture['require'] = furniture_json.get('need')
 	else: 
 		furniture['require'] = "Nothing"
@@ -245,7 +245,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	table_keys = ['Name', 'Description', 'Tags', 'Base maximum', 'Cost', 'Bonus', 'Unlock Requirements'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "furniture")
-	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
+	result_list = sorted(result_list, key=lambda srt: furniture_info(srt).get('name')) #Presorts results by name.
 	for json_value in result_list:
 		furniture_json = furniture_info(json_value)
 		table_line = []
