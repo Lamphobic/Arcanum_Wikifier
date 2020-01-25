@@ -111,7 +111,6 @@ def furniture_info(furniture_json):
 	return furniture
 
 
-
 def get_full_furniture_list():
 	result_list = lib.get_json("data/", "furniture")
 	furniture_list = list()
