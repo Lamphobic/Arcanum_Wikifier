@@ -173,7 +173,7 @@ def get_full_upgrade_list():
 	return upgrade_list
 
 def generate_wiki():
-	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Max', 'Effect', 'Requirement', 'Need to have'] 
+	table_keys = ['Name', 'Description', 'Tags', 'Cost', 'Max', 'Effect', 'Unlock Requirement', 'Need'] 
 	table_lines = []
 	school_set = set()
 	result_list = lib.get_json("data/", "upgrades")

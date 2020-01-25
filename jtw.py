@@ -44,7 +44,7 @@ def main(argv):
 	mains = [
 		"tasks",
 		"dungeons",
-		"furnitures",
+		"furniture",
 		"homes",
 		"monsters",
 		"potions",
@@ -103,23 +103,6 @@ def main(argv):
 	
 	
 	help_switch = {
-		"tasks": None,
-		"dungeons": None,
-		"furnitures": None,
-		"homes": None,
-		"monsters": None,
-		"potions": None,
-		"skills": None,
-		"spells": None,
-		"resources": None,
-		"classes": None,
-		"upgrades": None,
-		"all": None,
-		"-on": None,
-		"-test": None,
-		"-main": None,
-		"-diff": None,
-		"-nograph": None,
 		"-help": flg_help,
 		"-h": flg_help,
 		"-?": flg_help,
@@ -128,7 +111,7 @@ def main(argv):
 	}
 	
 	for arg in argv[1:]:
-		func = help_switch.get(arg.lower(), flg_help)
+		func = help_switch.get(arg.lower())
 		if func is not None:
 			func()
 	
@@ -138,11 +121,6 @@ def main(argv):
 		"-main": flg_main_only,
 		"-nograph": flg_no_graph,
 		"-diff": flg_differences_only,
-		"-help": None,
-		"-h": None,
-		"-?": None,
-		"help": None,
-		"?": None
 	}
 	
 	for arg in argv[1:]:
@@ -153,7 +131,7 @@ def main(argv):
 	switch = {
 		"tasks": gen_tasks,
 		"dungeons": gen_dungeons,
-		"furnitures": gen_furnitures,
+		"furniture": gen_furniture,
 		"homes": gen_homes,
 		"monsters": gen_monsters,
 		"potions": gen_potions,
@@ -186,17 +164,17 @@ def main(argv):
 	print(file_names)
 	print(page_names)
 
-	if online_update == True:
+	if online_update:
 		print("Automatically uploading:")
 		for i in range(0,len(file_names)):
-			if not test_update or page_names[i].lower() in mains:
-				if page_names[i] is "Classes":
-					print("can't upload classes yet: the manual page is better")
-				else:
-					if test_update:
-						wiki.bot_update("Test"+page_names[i], file_names[i])
-					else:
-						wiki.bot_update(page_names[i], file_names[i])
+			if page_names[i] is "Classes":
+				print("can't upload classes yet: the manual page is better")
+				continue
+			if test_update:
+				if page_names[i].lower() in mains:
+					wiki.bot_update("Test"+page_names[i], file_names[i])
+			else:
+				wiki.bot_update(page_names[i], file_names[i])
 
 def gen_tasks():
 	act = task.generate_wiki(id_name_map, main_only=only_generate_main_pages)
@@ -209,9 +187,10 @@ def gen_dungeons():
 	file_names.append(dungeon.generate_wiki())
 	page_names.append("Dungeons")
 
-def gen_furnitures():
-	file_names.append(furniture.generate_wiki())
-	page_names.append("Furnitures")
+def gen_furniture():
+	frn = furniture.generate_wiki(id_name_map, main_only=only_generate_main_pages, diff_only=diff_only_up)
+	file_names.extend([(e + '.txt') for e in frn])
+	page_names.extend(['_'.join(e.split(' ')) for e in frn])
 
 def gen_homes():
 	file_names.append(home.generate_wiki())

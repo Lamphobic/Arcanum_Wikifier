@@ -273,7 +273,7 @@ def generate_individual_skl_page(skl, diff_only=False):
 					bunlock = True
 				skl_page.write(('===' + l + '===\n').title())
 				for e in sorted_l:
-					skl_page.write('* ' + e + '\n')
+					skl_page.write('*' + e + '\n')
 		
 		#Build Affected By
 		for l in lists:

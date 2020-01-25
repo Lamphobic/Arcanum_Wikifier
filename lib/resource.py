@@ -174,6 +174,7 @@ def generate_individual_res_page(res, diff_only=False):
 			return False
 	return True
 
+
 def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	global lists
 	lists = {

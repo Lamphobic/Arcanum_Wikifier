@@ -214,7 +214,12 @@ def get_full_task_list():
 
 
 def generate_individual_act_page(task_json, id_name_map):
-	with open(task_json['name']+".txt", "w", encoding="UTF-8") as page:
+	name = res['name'] + ".txt"
+	exist = False
+	if diff_only and os.path.exists(name):
+		name = 'test' + name
+		exist = True
+	with open(name, "w", encoding="UTF-8") as page:
 		page.write('This page has been automatically updated at ' + str(datetime.datetime.now()) + "<br>\n<br>\n")
 		page.write(task_json['name'] + ' is part of [[' + task_json['type'].title() + '|\"' + task_json['type'].title() + '\"]]\n')
 		#Desc
@@ -341,8 +346,22 @@ def generate_individual_act_page(task_json, id_name_map):
 				page.write(('===' + l + '===\n').title())
 				for e in affected_by:
 					page.write('* ' + e + '\n')
+	if diff_only and exist:
+		if not filecmp.cmp(name, name[4:], shallow=False): #are they the same
+			#they are not the same
+			#remove old file
+			os.remove(name[4:])
+			#rename new file
+			os.rename(name, name[4:])
+		else:
+			#they are the same
+			#remove new file
+			os.remove(name)
+			return False
+	return True
+
 	
-def generate_wiki(id_name_map, main_only=False):
+def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	global lists
 	lists = {
 		"task": task.get_full_task_list(),
@@ -361,7 +380,6 @@ def generate_wiki(id_name_map, main_only=False):
 	
 	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrades', 'Unlock Requirements', 'task Requirements'] 
 	table_lines = []
-	school_set = set()
 	result_list = lib.get_json("data/", "tasks")
 	result_list = sorted(result_list, key=lambda srt: srt.get('id').title() if srt.get('name') is None else srt.get('name').title()) #Presorts results by name.
 	for json_value in result_list:
@@ -447,8 +465,8 @@ def generate_wiki(id_name_map, main_only=False):
 		table_lines.append(table_line)
 		
 		if not main_only:
-			generate_individual_act_page(task_json, id_name_map)
-			ret.append(task_json['name'])
+			if generate_individual_res_page(resource_json, diff_only):
+				ret.append(resource_json['name'])
 
 	with open("tasks.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
