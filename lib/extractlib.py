@@ -64,7 +64,7 @@ def name_exceptions(map):
 		'poisonward': 'Poison Ward(Spell)',
 		'smchest': 'Small Chest(Furniture)',
 		'smbox': 'Small Chest(Monster)',
-		'studyroom': 'Study(Skill)',
+		'studyroom': 'Study(Furniture)',
 		'study': 'Study(Task)',
 		's_travel': 'Travel(Skill)',
 		'a_travel': 'Travel(Task)',
