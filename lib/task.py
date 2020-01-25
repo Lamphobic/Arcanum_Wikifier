@@ -213,8 +213,8 @@ def get_full_task_list():
 	return task_list
 
 
-def generate_individual_act_page(task_json, id_name_map):
-	name = res['name'] + ".txt"
+def generate_individual_act_page(task_json, id_name_map, diff_only=False):
+	name = task_json['name'] + ".txt"
 	exist = False
 	if diff_only and os.path.exists(name):
 		name = 'test' + name
@@ -298,7 +298,7 @@ def generate_individual_act_page(task_json, id_name_map):
 			page.write(str(tmp_cell))
 		
 		#Unlock Requirements
-		if task_json['require'] != "Nothing" and task_json['need'] != "Nothing":
+		if task_json['require'] != "Nothing" or task_json['need'] != "Nothing":
 			page.write('==Unlock Requirements==\n')
 		if task_json['require'] != "Nothing":
 			if isinstance(task_json['require'], str):
@@ -315,7 +315,7 @@ def generate_individual_act_page(task_json, id_name_map):
 				
 		#Need
 		if task_json['need'] != 'Nothing':
-			page.write('==task Requirements==\n')
+			page.write('==Task Requirements==\n')
 			if isinstance(task_json['need'], list):
 				for e in task_json['need']:
 					page.write('*' + str(e) + '\n')
@@ -378,7 +378,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		}
 	ret = list()
 	
-	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrades', 'Unlock Requirements', 'task Requirements'] 
+	table_keys = ['Name', 'Description', 'Start Cost', 'Ongoing Cost', 'Length', 'Repeatable', 'Ongoing Effect', 'Result', 'Upgrades', 'Unlock Requirements', 'Task Requirements'] 
 	table_lines = []
 	result_list = lib.get_json("data/", "tasks")
 	result_list = sorted(result_list, key=lambda srt: task_info(srt).get('name')) #Presorts results by name.
@@ -465,8 +465,8 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		table_lines.append(table_line)
 		
 		if not main_only:
-			if generate_individual_res_page(resource_json, diff_only):
-				ret.append(resource_json['name'])
+			if generate_individual_act_page(task_json, diff_only):
+				ret.append(task_json['name'])
 
 	with open("tasks.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")

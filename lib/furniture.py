@@ -61,10 +61,14 @@ def furniture_info(furniture_json):
 	else:
 		furniture['mod'] = {}
 
-	if furniture_json.get('require') is not None:
-		furniture['require'] = furniture_json.get('require')
-	elif furniture_json.get('need') is not None:
-		furniture['require'] = furniture_json.get('need')
+	furniture['require'] = ""
+	if furniture_json.get('require') is not None and furniture_json.get('need') is not None:
+		if furniture_json.get('require') is not None:
+			furniture['require'] = furniture_json.get('require')
+			if furniture_json.get('need') is not None:
+				furniture['require'] = furniture['require'] + '&&' + furniture_json.get('need')
+		else:
+			furniture['require'] = furniture_json.get('need')
 	else: 
 		furniture['require'] = "Nothing"
 	
@@ -135,7 +139,7 @@ def generate_individual_frn_page(furniture_json, diff_only=False):
 		if furniture_json['tags']:
 			page.write('==Tags==\n' + ' '.join(furniture_json['tags']) + '\n')
 		#Base Max
-		if str(furniture_json['base_max']) == None:
+		if str(furniture_json['base_max']) != None:
 			page.write('==Base Max==\n' + str(furniture_json['base_max']) + '\n')
 		#Cost
 		page.write('==Cost==\n')

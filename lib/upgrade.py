@@ -204,8 +204,7 @@ def generate_individual_upg_page(upgrade_json, diff_only=False):
 			page.write('==Tags==\n' + ' '.join(upgrade_json['tags']) + '\n')
 			
 		#Base Max
-		if str(upgrade_json['max']) == None:
-			page.write('==Base Max==\n' + str(upgrade_json['max']) + '\n')
+		page.write('==Base Max==\n' + str(upgrade_json['max']) + '\n')
 			
 		#Cost
 		page.write('==Cost==\n')
@@ -221,7 +220,7 @@ def generate_individual_upg_page(upgrade_json, diff_only=False):
 				page.write('*' + str(mod_key) + ": " + str(upgrade_json['mod'][mod_key]) + '\n')
 		
 		#Unlock Requirements
-		if upgrade_json['require'] != "Nothing" and upgrade_json['need'] != "Nothing":
+		if upgrade_json['require'] != "Nothing" or upgrade_json['need'] != "Nothing":
 			page.write('==Unlock Requirements==\n')
 		if upgrade_json['require'] != "Nothing":
 			if isinstance(upgrade_json['require'], str):
@@ -260,11 +259,11 @@ def generate_individual_upg_page(upgrade_json, diff_only=False):
 						for req_key in e['requirements']['<']:
 							match_req = str(req_key).lower()
 							if match_id in match_req.split('.'):
-								unlock[str(e['requirements']['<'][match_req]) + ' or less ' + '.'.join([x if x != match_id else upgrade_json['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
+								unlock[str(e['requirements']['<'][match_req]) + ' ' + '.'.join([x if x != match_id else upgrade_json['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['<'][match_req]
 						for req_key in e['requirements']['>']:
 							match_req = str(req_key)
 							if match_id in match_req.split('.'):
-								unlock[str(e['requirements']['>'][match_req]) + ' or more ' + '.'.join([x if x != match_id else upgrade_json['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
+								unlock[str(e['requirements']['>'][match_req]) + ' ' + '.'.join([x if x != match_id else upgrade_json['name'] for x in match_req.split('.')]) + ': [[' + e['type'].title() + '#' + e['id'] + '|' + e['name'] + ']]'] = e['requirements']['>'][match_req]
 			sorted_l = sorted(unlock, key=unlock.get)
 			if unlock:
 				if not bunlock:
@@ -384,13 +383,14 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 	with open("upgrades.txt", "w", encoding="UTF-8") as wiki_dump:
 		wiki_dump.write('This page has been automatically updated the ' + str(datetime.datetime.now()) + "<br/>\n__FORCETOC__\n")
 
-		wiki_dump.write("\n==Distance Upgrades==\n")
+		wiki_dump.write("\n==Distance and Mount Upgrades==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[5, "'dist' in cell"]]))
 
 		wiki_dump.write("\n==Space Upgrades==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[5, "'space' in cell"]]))
 
-		wiki_dump.write("\n==Another Group?==\n")
+		wiki_dump.write("\n==Winter Upgrades==\n")
+		wiki_dump.write(wiki.make_table(table_keys, table_lines, table_filter=[[0, "'❄️' in cell"]]))
 
 		wiki_dump.write("\n==Full List==\n")
 		wiki_dump.write(wiki.make_table(table_keys, table_lines))

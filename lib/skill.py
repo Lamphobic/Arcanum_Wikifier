@@ -225,7 +225,7 @@ def generate_individual_skl_page(skl, diff_only=False):
 			skl_page.write('==Rewards==\n')
 			for entry_key in skl['reward']:
 				skl_page.write('*' + entry_key + ': ' + str(skl['reward'][entry_key]) + '\n')
-		if skl['require'] != "Nothing" and not skl['need']:
+		if skl['require'] != "Nothing" or not skl['need']:
 			skl_page.write('==Unlock Requirements==\n')
 		if skl['require'] != "Nothing":
 			skl_page.write('*' + str(skl['require'].replace("&&", "\n*").replace("||", "OR")) + '\n')
