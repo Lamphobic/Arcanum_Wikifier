@@ -77,7 +77,28 @@ def main(argv):
 		}
 	for l in lists:
 		for e in lists[l]:
-			id_name_map[e['id']] = e['name']
+			id_name_map[e['id']] = e
+	
+	
+	"""
+	col = {}
+	tmp = {}
+	sorted_l = sorted(id_name_map.keys())
+	for e in sorted_l:
+		name = str(id_name_map[e]['name'])
+		if tmp.get(name):
+			col[e] = name
+			col[tmp[name]] = name
+		else:
+			tmp[name] = e
+	for e in sorted(col.keys(), key=lambda id: str(id_name_map[id]['name'])):
+		print(e + ': ' + id_name_map[e]['name'] + ', ' + id_name_map[e]['type'])
+	
+	with open('id map.txt', "w", encoding="UTF-8") as page:
+		sorted_l = sorted(id_name_map.keys())
+		for e in sorted_l:
+			page.write(e + ': ' + id_name_map[e]['name'] + ', ' + id_name_map[e]['type'] + '\n')
+	"""
 	
 	
 	help_switch = {
