@@ -52,7 +52,7 @@ def main(argv):
 		"spells",
 		"resources",
 		"classes",
-		"upgrade"
+		"upgrades"
 		]
 			
 	global file_names

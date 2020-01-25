@@ -251,7 +251,7 @@ def generate_wiki(id_name_map, main_only=False, diff_only=False):
 		table_line = []
 		# NAME part
 		if furniture_json.get('sym') is not None:
-			table_line.append('| <span id="' + str(furniture_json['id']) + '">' + furniture_json['sym'] + '[[' +  str(furniture_json['name']).capitalize() + ']]</span>')
+			table_line.append('| <span id="' + str(furniture_json['id']) + '">' + furniture_json['sym'] + '[[' +  str(furniture_json['name']) + ']]</span>')
 		else:
 			table_line.append('| <span id="' + str(furniture_json['id']) + '">[[' +  str(furniture_json['name']).capitalize() + ']]</span>')
 
