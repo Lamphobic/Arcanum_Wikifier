@@ -184,7 +184,7 @@ def generate_wiki():
 		if upgrade_json.get('sym') is not None:
 			table_line.append('| <span id="' + str(upgrade_json['id']) + '">' + upgrade_json['sym'] + '[[' +  str(upgrade_json['name']) + ']]</span>')
 		else:
-			table_line.append('| <span id="' + str(upgrade_json['id']) + '">[[' +  str(upgrade_json['name']).capitalize() + ']]</span>')
+			table_line.append('| <span id="' + str(upgrade_json['id']) + '">[[' +  str(upgrade_json['name']) + ']]</span>')
 
 		# Description part
 		table_line.append(str(upgrade_json['desc']))
