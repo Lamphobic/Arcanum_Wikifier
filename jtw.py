@@ -231,8 +231,8 @@ def gen_classes():
 
 def gen_upgrades():
 	upg = upgrade.generate_wiki(id_name_map, main_only=only_generate_main_pages, diff_only=diff_only_up)
-	file_names.append([(e + '.txt') for e in upg])
-	page_names.append(['_'.join(e.split(' ')) for e in upg])
+	file_names.extend([(e + '.txt') for e in upg])
+	page_names.extend(['_'.join(e.split(' ')) for e in upg])
 
 def gen_all():
 	gen_upgrades()
