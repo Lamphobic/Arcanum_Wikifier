@@ -5,6 +5,7 @@ class Any(object):
         return True
 ANYTHING = Any()
 
+
 def recurs_json_to_str(json_value):
     return_txt = ""
 
@@ -37,6 +38,43 @@ def gen_dict_extract(key, var):
                     for result in gen_dict_extract(key, d):
                         yield result
 
+						
+def name_exceptions(map):
+	exceptions = {
+		'up_apprentice': 'Apprentice(Upgrade)',
+		'apprentice': 'Apprentice(Class)',
+		'm_avatar': 'Avatar(Monster)',
+		'c_avatar': 'Avatar(Class)',
+		'clockworkexpansion2': 'Clockwork Expansion 2',
+		'clockworkexpansion': 'Clockwork Expansion 1',
+		'clockworkexpansion3': 'Clockwork Expansion 3',
+		'm_druid': 'Druid(Monster)',
+		'druid': 'Druid(Class)',
+		'garden': 'Garden(Furniture)',
+		'act_garden': 'Garden(Task)',
+		'gryffonmount': 'Gryffon(Upgrade)',
+		'gryffon': 'Gryffon(Monster)',
+		'up_lich': 'Lich(Upgrade)',
+		'm_lich': 'Lich(Monster)',
+		'mana3': 'Mana(Spell)',
+		'mana': 'Mana(Resource)',
+		'pegasusmount': 'Pegasus(Upgrade)',
+		'pegasus': 'Pegasus(Monster)',
+		'pot_poisonward': 'Poison Ward(Potion)',
+		'poisonward': 'Poison Ward(Spell)',
+		'smchest': 'Small Chest(Monster)',
+		'smbox': 'Small Chest(Furniture)',
+		'studyroom': 'Study(Skill)',
+		'study': 'Study(Task)',
+		's_travel': 'Travel(Skill)',
+		'a_travel': 'Travel(Task)',
+		'good_sacrifice': 'Winter Fog(Good)',
+		'evil_sacrifice': 'Winter Fog(Evil)'
+		}
+	if map['id'] in exceptions:
+		map['name'] = exceptions[map['id']]
+
+						
 def get_json(path_to_json, target_name):
     
     with open(path_to_json + "/modules.json", "r", encoding="UTF-8") as module_file:
