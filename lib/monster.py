@@ -151,6 +151,8 @@ def monster_info(monster_json):
 	if monster_json.get('loot') is not None:
 		if isinstance(monster_json.get('loot'), dict):
 			monster['mod'] = monster_json.get('loot')
+		
+	lib.name_exceptions(monster)
 
 	return monster
 

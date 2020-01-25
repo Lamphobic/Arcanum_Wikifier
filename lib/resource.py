@@ -53,6 +53,8 @@ def resource_info(resource_json):
 		resource['mod'] = resource_json.get('mod')
 	else:
 		resource['mod'] = {}
+		
+	lib.name_exceptions(resource)
 
 	return resource
 

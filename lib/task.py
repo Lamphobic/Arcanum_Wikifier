@@ -199,6 +199,8 @@ def task_info(task_json):
 		task['need'] = task_json.get('need')
 	else: 
 		task['need'] = "Nothing"
+		
+	lib.name_exceptions(task)
 	
 	return task
 

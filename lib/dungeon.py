@@ -134,6 +134,8 @@ def dungeon_info(dungeon_json):
 		dungeon['boss'] = parse_encounter(dungeon_json.get('boss'))
 	else:
 		dungeon['boss'] = "None"
+		
+	lib.name_exceptions(dungeon)
 
 	return dungeon
 

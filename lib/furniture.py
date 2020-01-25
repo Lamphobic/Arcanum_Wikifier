@@ -93,6 +93,8 @@ def furniture_info(furniture_json):
 					requirements['<'][s[0]] = int(s[1])
 				else:
 					requirements['>'][e] = 1
+		
+	lib.name_exceptions(furniture)
 
 	return furniture
 

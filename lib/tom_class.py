@@ -325,9 +325,10 @@ def tom_class_info(tom_class_json):
 					requirements['<'][s[0]] = int(s[1])
 				else:
 					requirements['>'][e] = 1
+		
+	lib.name_exceptions(tom_class)
 
 	return tom_class
-
 
 
 def get_full_tom_class_list():
@@ -336,10 +337,12 @@ def get_full_tom_class_list():
 	for json_value in result_list:
 		tom_class_list.append(tom_class_info(json_value))
 	return tom_class_list
+
 	
 def generate_individual_cls_page(cls):
 	pass
 
+	
 def generate_wiki(id_name_map, main_only=False, no_graph_gen=False):
 	global lists
 	lists = {

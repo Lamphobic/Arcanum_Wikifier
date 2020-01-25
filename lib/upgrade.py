@@ -159,9 +159,10 @@ def upgrade_info(upgrade_json):
 		upgrade['need'] = upgrade_json.get('need')
 	else: 
 		upgrade['need'] = "Nothing"
+		
+	lib.name_exceptions(upgrade)
 
 	return upgrade
-
 
 
 def get_full_upgrade_list():

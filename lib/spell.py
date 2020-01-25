@@ -168,8 +168,10 @@ def spell_info(spell_json):
 	if spell_json.get('effect') is not None:
 		if isinstance(spell_json.get('effect'), dict):
 			spell['mod'].update(spell_json.get('effect'))
+		
+	lib.name_exceptions(spell)
+	
 	return spell
-
 
 
 def get_full_spell_list():

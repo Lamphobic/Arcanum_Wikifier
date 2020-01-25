@@ -57,6 +57,8 @@ def potion_info(potion_json):
 			if isinstance(potion_json.get('use'), dict):
 				potion['mod'] = potion_json.get('use')
 		
+	lib.name_exceptions(potion)
+		
 	return potion
 
 
